@@ -1,0 +1,236 @@
+
+{% extends 'navbar.html' %}
+
+{% load static %}
+
+<!doctype html>
+
+
+
+{% block content %}
+<head>
+    <style>
+ 
+ .form-check-input {
+    margin-top: 5px !important;
+    margin-left: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+
+.form-control{
+	height: 25px;
+	font-size: 14px;
+	padding: 0px;
+	max-width: 110px;
+	
+}
+.btn{
+	height: 35px;
+	
+}
+}
+  </style>
+</head>
+
+
+
+<link href="{% static 'css/receiptpaymentpopup.css' %}" rel="stylesheet" />
+<link href="{% static 'css/transaction.css' %}" rel="stylesheet" />
+<body style="width:100%;margin-bottom: 100px;" onload="Loaddata()">
+<form  id="invoice-form"  method="post"   >
+
+	<table class="table table-bordered">
+		<thead>
+			<tr style="text-align:center;">
+				<th class="table-active" scope="col"  colspan="4" style="font-size:25px;"><input value="P" id="vtype" hidden="hidden" />Payment</th>
+			</tr>
+		</thead>
+
+		<tbody class="voucher-body">
+			<tr>
+				<th scope="row">Voucher Number</th>
+				<td  class="vouchertd"><input name="invoice-number"  id="vno"   type="number" class="form-control vno-input" placeholder="Invoice Number" value="{{rid}}" >
+					<a  onclick="previousdata()"  class="btnpre" ><</a>
+					 <a  onclick="nextdata()"  class="btnnxt" >></a>
+					<a  onclick="jumpdata()" class="btnjmp" >Jump</a>
+				</td>
+				<th scope="row">Date</th>
+				<td class="form-input-td"><input name="date" id="sdate" value="{{date}}" min="2023-01-01" type="datetime-local"  class="form-control"  ></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-bordered">
+		
+
+		<tbody class="two-col-form">
+			<tr>
+				<th scope="row">Debit Ledger</th>
+				<td class="form-input-td customer_search_area">
+
+					<select name="payment" id="payment"  onselect="" style="width:180px;height:30px;border-radius:5px;  text-align: center;items-align:center">
+
+
+                                            <option value="1">Cash</option>
+                                            
+											<option value="28">Bank</option>
+
+                                        </select>
+
+										</td>
+										<td  scope="row">
+											Printwhilesave
+											 <input  class="form-check-input" checked="true" name="printssave" type="checkbox" id="printssave" >
+					
+										</td>
+				<!-- <th scope="row">Customer</th>
+				<td class="form-input-td"><input  name="customer" type="text" class="form-control"  id="searchInput" oninput="searchCustomer()"placeholder="Customer " ></td>
+				<input type="text" id="customerid" name="customerid" hidden="hidden" /> -->
+    <div class="overlay" id="overlay">
+    <div class="popup">
+
+      <ul id="searchResults" onclick="closePopup()" style=" list-style-type: none; "></ul>
+    </div>
+  </div>
+			</tr>
+			
+
+		</tbody>
+	</table>
+	<div class="table-responsive">
+		<table class="table table-bordered" id="invoice-form-items-table">
+			<thead>
+				<tr>
+					<th class="table-active" colspan="6">Items</th>
+				</tr>
+				<tr>
+					<th scope="col" class="fixed-column">Sl No.</th>
+					<th >Ledgername</th>
+					<th >Note</th>
+					<th >Tax%</th>
+					<th >TaxAmt</th>
+					<th >Total amount</th>
+				</tr>
+			</thead>
+			<tbody id="invoice-form-items-table-body">
+				<tr>
+					<td class="fixed-column">1</td>
+					<td class="form-input-td"><input name="ledname" style="min-width:14rem;" onclick="getrow(1,event)"  onkeydown="handleKeyDown(event,1);getrow(1,event)"  oninput="search(1) ;getrow(1,event)" onblur="checkundef(1)" id="ledname1" class="form-control"  type="text" ></td>
+			
+				  <td><input type="text" name="note" style="min-width:13rem;" id="note1"  class="form-control"  ></td>
+				  <td><input type="number" name="taxperc" style="min-width:12rem;" placeholder="0.00" id="taxperc1" oninput="calculateTotal(1)" onclick="getrow(1,event)" class="form-control"  ></td>
+				  <td><input type="number" name="taxamt" style="min-width:12rem;" placeholder='0.00' id="taxamt1"  class="form-control" onclick="getrow(1,event)" readonly ></td>
+				  <td><input type="number" name="amt" style="min-width:12rem;" id="amt1" placeholder="0.00" oninput="calculateTotal(1)" onclick="getrow(1,event)" class="form-control"  onkeydown="nextrowkey(event)">
+						 <input type="text" name="ledid" style="min-width:12rem;" id="ledid1" hidden="true" class="form-control"  >
+					</td>
+							</tr>
+							<input id="cmp" hidden="hidden" value="{{user}}"/>
+							<input name="cmp" id="area" value="{{area}}" hidden="hidden"/>
+							<input name="cmp" id="user" value="{{cuser}}" hidden="hidden"/>
+							<input name="type" id="type" value="{{type}}" hidden="hidden"/>
+							<input name="prevno" id="prevno" value="{{prevno}}" hidden="hidden"/>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3" style="text-align:center;">
+						<strong>Discount</strong>
+						<input name="discount" style="width: 70px; border-radius: 10px; height: 35px; text-align:center; border: 0px solid;" value="00.0" id="discount" readonly>
+						<strong>Total Amount</strong>
+						<input style="width: 120px; border-radius: 10px;border: 0px; height: 35px; text-align:center; font-size: 20px;" name="amttotal" value="00.00" id="totalamt" readonly>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<div class="overlay2" id="overlay2">
+		<div class="popup2">
+			<table class="table-item" >
+				<thead>
+					<tr>
+						<th>Itemname</th>
+						<th>aliasname</th>
+						
+						
+					
+					</tr>
+				</thead>
+				<tbody id="item-tbl-body">
+					
+	
+				</tbody>
+			</table>
+		</div>
+	  </div>
+
+
+	{% csrf_token %}
+<!--	<a href="searchitem"><p class="btn btn-primary">+</p></a>-->
+<div class="container mb-5 mt-5">
+	<div class="row justify-content-center">
+		<div class="col-auto">
+			<button id="subtmit" class="btn btn-primary" type="submit" style="background-color: green;">Save </button>
+		</div>
+		<div class="col-auto">
+			<a onclick="deleterow()" class="btn btn-primary" type="button" style="background-color: rgb(206, 19, 19);">Delete</a>
+		</div>
+		<div class="col-auto">
+			<a onclick="closewindow()" class="btn btn-primary" type="button">Close</a>
+		</div>
+		<div class="col-auto">
+			<div class="btndesktop">
+				<a onclick="additem()" class="btn btn-primary" style="border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+
+			</div>
+			<div class="btnmobile">
+				<a onclick="addRow()" class="btn btn-primary" style="border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+</form>
+
+</body>
+<script>
+	function closewindow(){
+		let company=document.getElementById('cmp').value;
+		const area=document.getElementById('area').value
+    const user=document.getElementById('user').value
+	const type=document.getElementById('type').value;
+	if(type=='report'){
+window.close();
+	}else{
+		window.location.href ='/home/?comp='+company+'&area='+area+'&user='+user+'';
+
+	}}
+
+</script>
+
+<!--   <input type="text" id="dataname" oninput="searchitem()" >-->
+
+<!--<script src="{% static 'js/fuse-3.4.6.min.js' %}"></script>-->
+
+
+<script src="{% static 'js/recieptpaymentgid.js' %}"></script>
+
+
+{% endblock %}
+{% block includejs %}
+	{% endblock %}
+
+</div>
+
+<div id="customer_search_bar"></div>
+<div id="product_search_bar"></div>
+
+
+
+
+
+
+<!-- -->
+
+
+

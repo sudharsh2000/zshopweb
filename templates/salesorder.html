@@ -1,0 +1,336 @@
+
+{% extends 'navbar.html' %}
+
+{% load static %}
+
+<!doctype html>
+
+<head>
+	{% block content %}
+   <style>
+	
+   </style> 
+
+</head>
+
+
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+<!--<link rel="stylesheet" href="{% static 'js/main.css' %}">-->
+<!-- <link href="{% static 'css/searchcss.css' %}" rel="stylesheet" />-->
+
+<link href="{% static 'css/popup.css' %}" rel="stylesheet" />
+<link href="{% static 'css/itempopup.css' %}" rel="stylesheet" />
+<link href="{% static 'css/transaction.css' %}" rel="stylesheet" />
+<body style=" height:100%;margin-left:0px;" onload="Loaddata()">
+<form  id="invoice-form"  method="post"   >
+
+	<table class="table table-bordered">
+		<thead>
+			<tr style="text-align:center;font-size: 20px;">
+				<th class="table-active" scope="col" colspan="4" style="color: rgb(92, 99, 15);">Sales Order</th>
+				<input id="hvtype" value="SO" hidden="hidden"/>
+				<input id="curtype" value="{{type}}" hidden="hidden"/>
+			</tr>
+		</thead>
+
+		<tbody class="voucher-body">
+			<tr>
+				<th scope="row">Voucher Number</th>
+				<td class="vouchertd" >
+				
+
+					<input name="invoice-number" id="vno"   type="number" class="vno-input" placeholder="Invoice Number" value="{{vno}}" >  
+					
+				
+					<a  onclick="previousdata()"  class="btnpre" ><</a>
+					 <a  onclick="nextdata()"  class="btnnxt" >></a>
+					<a  onclick="jumpdata()" class="btnjmp" >Jump</a>
+				</td>
+				<th scope="row">Date</th>
+				<td class="form-input-td"><input name="date" id="sdate" value="{{date}}" min="2023-01-01" type="datetime"  class="form-control"  >
+				
+				</td>
+		
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th class="table-active" style="text-align: center;font-weight: normal;" scope="col" colspan="4">Customer Details</th>
+			</tr>
+		</thead>
+
+		<tbody class="custbl" class="two-col-form">
+			<tr>
+				<th scope="row">Payment</th>
+				<td class="paymenthead_td" >
+
+					<select name="payment" id="payment" class="payment-td"  onchange="selectboxclick()"  >
+
+
+                                            <option   value="1">Cash</option>
+                                            <option  value="0">Credit</option>
+											<option    value="28">Card</option>
+
+                                        </select>
+				</td>
+				<th scope="row" id="ltype">Customer</th>
+				<td class="cus_td">
+					<div class="input-container">
+					  <input name="customer" type="text" class="form-control" id="searchInput" oninput="searchCustomer()" placeholder="Customer">
+					  <button type="button" onclick="addcustomer()" class="cusaddbtn">+</button>
+					</div>
+				  </td>
+				<input type="text" id="customerid" name="customerid" hidden="hidden" />
+    <div class="overlay" id="overlay">
+    <div class="popup">
+
+      <ul id="searchResults" onclick="closePopup()" style=" list-style-type: none; "></ul>
+    </div>
+  </div>
+			</tr>
+			<tr>
+				<th scope="row">Tax </th>
+				<td class="form-input-td">
+					<select name="taxtype" class="payment-td"  >
+
+
+                                            <option value="9">VAT</option>
+                                            <option value="1">CST</option>
+											<option value="1">TAX ON MRP</option>
+
+                                        </select>
+				</td>
+				<th scope="row">Mobile number</th>
+				<td class="form-input-td"><input autocomplete="off"  name="mobile" type="text" class="form-control" id="mobile" placeholder="mobile number" maxlength="10"></td>
+				
+
+			</tr>
+			<td ><input  name="previous" type="text" class="form-control" id="previous" value="no" hidden="hidden"></td>
+		</tbody>
+	</table>
+
+	<table class="table table-bordered">
+		<tbody class="area-tbboy">
+			<tr>
+				<th scope="row">Area</th>
+				<td class="area-td"><select disabled="disabled" name="obtype" >
+
+
+                                            <option value="0">Default</option>
+                                            <option value="1">CST</option>
+											<option value="1">TAX ON MRP</option>
+
+                                        </select></td>
+										<th  scope="row">
+											<div class="Print-contain">
+
+												<label style="font-weight: bold;"  scope="row">Printwhilesave</label> <input  checked="true" name="printssave" type="checkbox" id="printssave" onclick="printchange('thermal')">
+	
+												<label > A4</label>	<input    type="checkbox" id="a4" onclick="thermalprintchange('thermalprint')">
+												<label class="a4-td"> Thermal</label>	<input    type="checkbox" id="thermalprint" onclick="thermalprintchange('a4')">
+												</div>
+											</th>
+										</th>
+									
+				
+			</tr>
+			
+		</tbody>
+	</table>
+
+
+	<div class="table-responsive">
+		<table class="table table-bordered" id="invoice-form-items-table">
+			<thead>
+				<!-- <tr>
+					<th class="table-active" scope="col" colspan="13">Items</th>
+				</tr> -->
+				<tr>
+					<th scope="col" class="fixed-column">Sl No.</th>
+					<th scope="col">Barcode</th>
+					<th scope="col">Itemcode</th>
+					<th scope="col">Item name</th>
+					<th scope="col">Second Language</th>
+					<th scope="col">Qty</th>
+					<th scope="col">Srate</th>
+					<th scope="col">Amount</th>
+					<th scope="col">Tax</th>
+					<th scope="col">Total amount</th>
+				</tr>
+			</thead>
+			<tbody id="invoice-form-items-table-body">
+				<tr>
+					<td class="fixed-column" >1</td>
+					<td class="form-input-td"><input name="barcode" style="min-width:230px;" id="barcode1" type="text" class="form-control" onblur="getbarcodeitem(1)" onclick="getrow(1,event)" oninput="search(1);getrow(1,event)" onkeydown="handleKeyDown(event,1);getrow(1,event)" placeholder="Barcode"></td>
+					<td class="form-input-td"><input name="itemcode" style="min-width:150px;" id="itemcode1" type="text" class="form-control" onclick="getrow(1,event)" placeholder="Itemcode" readonly></td>
+					<td class="form-input-td"><input name="itemname" style="min-width:250px;" id="itemname1" class="form-control" type="text" onclick="getrow(1,event)" placeholder="Itemname" readonly></td>
+					<td class="form-input-td"><input name="ilang" id="ilang1" style="min-width:150px;" type="text" class="form-control" onclick="getrow(1,event)" placeholder="Second lang" readonly></td>
+					<td class="form-input-td"><input type="number" name="qty" style="min-width:100px;" class="form-control" id="qty1" placeholder="0.00" ondblclick="itemedit(1)" onkeydown="qtykeydown(event,1)" oninput="calculateTotal(1)" onclick="getrow(1,event)" required></td>
+					<td class="form-input-td"><input type="number" name="srate" id="srate1" style="min-width:100px;" placeholder="0.00" oninput="calculateTotal(1)" class="form-control" onclick="getrow(1,event)" onkeydown="nextrowkey(event,1)" required></td>
+					<td class="form-input-td"><input type="text" name="amt" style="min-width:100px;" class="form-control" placeholder="0.00" id="total1" onclick="getrow(1,event)" readonly></td>
+					<td class="form-input-td"><input type="text" name="tax" style="min-width:100px;" id="tax1" placeholder="0.00" class="form-control" oninput="calculateTotal(1)" onclick="getrow(1,event)" required></td>
+					<td><input type="text" name="netamt" style="min-width:100px;" id="net-amt1" class="form-control" placeholder="0.00" readonly>
+						<input type="text" name="itemid" style="min-width:100px;" id="itemid1" hidden="true" class="form-control">
+						<input type="text" name="vat" style="min-width:100px;" id="vat1" hidden="true" class="form-control">
+						<input type="text" name="validate" style="min-width:100px;" id="validate1" hidden="true" class="form-control">
+						<input type="number" name="incl" style="min-width:100px;" id="incltax1" hidden="true" class="form-control">
+						<input id="cmp" hidden="hidden" value="{{user}}"/>
+						<input name="cmp" id="area" value="{{area}}" hidden="hidden"/>
+						<input name="cmp" id="user" value="{{cuser}}" hidden="hidden"/>
+						<input name="type" id="type" value="{{type}}" hidden="hidden"/>
+						<input name="prevno" id="prevno" value="{{prevno}}" hidden="hidden"/>
+					</td>
+			
+				</tr>
+				
+				<!-- Other table rows here -->
+			</tbody>
+			<tfoot>
+				<tr>	
+					<td  colspan="2" class="gross-mob-td" >
+						<strong>Amount</strong>
+						<input placeholder="0.00"   id="amttotal2" readonly/>
+					</td>
+
+					<td  colspan="4" class="discount-td" >
+						<strong>Discount</strong> 
+						<input placeholder="0.00" oninput="discountamount()"  type="number" step="0.01"   name="discountperc"  id="discperc" /> %
+						<input placeholder="0.00" oninput="discountpercent()" type="number" step="0.01"    name="discountamt"  id="discamt" />
+					</td>
+
+					<td  colspan="4" class="gross-td" >
+							<strong>Gross Amount</strong>
+							<input placeholder="0.00"   name="totalgross"  id="amttotal" readonly/>
+					</td>
+		
+				</tr>
+				
+				<tr>
+					<td  colspan="2" class="gross-mob-td" >
+						<strong>Net Amount</strong> 
+						<input placeholder="0.00"   id="nettotal2" readonly/>
+					</td>
+					
+					<td  colspan="4" class="gross-td" >
+						<strong>Tax Amount</strong> 
+						<input placeholder="0.00"   name="totaltax"  id="taxamt" readonly/>
+					</td>
+					<td  colspan="4" class="gross-td" >
+						<strong>Net Amount</strong> 
+						<input placeholder="0.00"  name="totalnet"  id="nettotal" readonly/>
+					</td>
+
+			</tr>
+				
+	
+				
+				
+			</tfoot>
+		</table>
+	</div>
+	
+
+	<div class="overlay2" id="overlay2">
+	<div class="popup2">
+		
+		<table class="table-item" >
+			<thead>
+				<tr>
+					<th>Itemname</th>
+					<th>Barcode</th>
+					<th>Itemcode</th>
+					<th>Second language</th>
+					<th>Prate</th>
+					<th>Srate</th>
+				
+				</tr>
+			</thead>
+			<tbody id="item-tbl-body">
+				
+
+			</tbody>
+		</table>
+		
+			</div>
+			</div>
+	{% csrf_token %}
+<!--	<a href="searchitem"><p class="btn btn-primary">+</p></a>-->
+<div class="container mb-5 mt-5">
+	<div class="row justify-content-center">
+		<div class="col-auto">
+			<button id="subtmit" onclick="SAvefn()" class="btn btn-primary" type="button" style="background-color: green;">Save (F5)</button>
+		</div>
+		<div class="col-auto">
+			<a onclick="deleterow()" class="btn btn-primary" type="button" style="background-color: rgb(206, 19, 19);">Delete</a>
+		</div>
+		<div class="col-auto">
+			<a onclick="closewindow()" class="btn btn-primary" type="button">Close</a>
+		</div>
+		<div class="col-auto">
+			<div class="btndesktop">
+				<a onclick="additem()" class="btn btn-primary" style="border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+
+			</div>
+			<div class="btnmobile">
+				<a onclick="addRow()" class="btn btn-primary" style="border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+
+			</div>
+		</div>
+	</div>
+	</div>
+</form>
+
+
+</body>
+
+<script>
+	function addcustomer(){
+		
+window.open('/cus')
+}	
+function thermalprintchange(printval){
+
+	
+let a4print=document.getElementById(''+printval+'')
+
+a4print.checked=false;
+
+}
+function additem(){
+
+	window.open('/itemad')
+}
+function closewindow(){
+	
+	window.location.href ='/home';
+}
+
+</script>
+
+<script src="{% static 'js/customersearch.js' %}"></script>
+
+<script src="{% static 'js/additemrow.js' %}"></script>
+
+
+{% endblock %}
+{% block includejs %}
+	{% endblock %}
+
+</div>
+
+<div id="customer_search_bar"></div>
+<div id="product_search_bar"></div>
+
+
+
+
+
+
+<!-- -->
+
+
+

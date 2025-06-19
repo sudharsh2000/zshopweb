@@ -1,0 +1,609 @@
+{% load static %}
+{% block content %}
+
+
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>zunico</title>
+
+        <style>
+           
+  
+
+    .overlay {
+        position: fixed; 
+  display: block; 
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-left: 400px;
+  margin-top: 400px;
+  background-color: rgba(0,0,0,0.5); 
+  z-index: 2; 
+  cursor: pointer;
+    }
+
+    .popup {
+    width:100%;
+      background: #fff;
+      height: 1400px;
+      
+      
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .close-btn {
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+
+        </style>
+
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+        <link href="{% static 'css/bootstrap.min.css' % }" rel="stylesheet">
+
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/templatemo-kind-heart-charity.css' %}" rel="stylesheet">
+
+
+    </head>
+    
+    <body id="section_1" onload="openForm()">
+
+        <header class="site-header">
+            <div class="container">
+                <div class="row">
+                    
+                    <div class="col-lg-8 col-12 d-flex flex-wrap">
+                        <p class="d-flex me-4 mb-0">
+                            <i class="bi-geo-alt me-2"></i>
+                            Manjeri,Malappuram,Kerala
+                        </p>
+
+                        <p class="d-flex mb-0">
+                            <i class="bi-envelope me-2"></i>
+
+                            <a href="mailto:wisedecoreitsolution@gmail.com?">
+                                wisedecoreitsolution@gmail.com
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="col-lg-3 col-12 ms-auto d-lg-block d-none">
+                        <ul class="social-icon">
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-twitter"></a>
+                            </li>
+
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-facebook"></a>
+                            </li>
+
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-instagram"></a>
+                            </li>
+
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-youtube"></a>
+                            </li>
+
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-whatsapp"></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+        <nav class="navbar navbar-expand-lg bg-light shadow-lg">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                 <img src="{% static 'images/12.png' %}" class="logo img-fluid" alt="Kind Heart Charity">
+                    <span>
+                        Wise Decore
+                        <small> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT solution</small>
+                    </span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="#top">Home</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link click-scroll dropdown-toggle" href="#section_5" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Create</a>
+
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                <li><a class="dropdown-item" href="/itemad">Item create</a></li>
+
+                                <li><a class="dropdown-item" href="/itemcateg">Item Category</a></li>
+                                 <li><a class="dropdown-item" href="ledgergroup">Ledger Group</a></li>
+                                <li><a class="dropdown-item" href="/cus">Customer</a></li>
+                                <li><a class="dropdown-item" href="/sup">Supplier</a></li>
+                                 <li><a class="dropdown-item" href="/ledgeradd">Ledger</a></li>
+                            </ul>
+                        </li>
+
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link click-scroll dropdown-toggle" href="#section_5" id="navbarLightDropdownMenuLink2" role="button" data-bs-toggle="dropdown" aria-expanded="false">Transactions</a>
+
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                <li><a class="dropdown-item" href="/sale">Sales</a></li>
+
+                                <li><a class="dropdown-item" href="/purchase">Purchase</a></li>
+                                <li><a class="dropdown-item" href="/salereturn">Sale  Return</a></li>
+                                <li><a class="dropdown-item" href="/purchasereturn">Purchase Return</a></li>
+
+                                <li><a class="dropdown-item" href="/receipt">Receipt</a></li>
+                                <li><a class="dropdown-item" href="/payment">Payment</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="#section_6">Contact</a>
+                        </li>
+ <li class="nav-item">
+                            <a class="nav-link click-scroll" href="#footer_about">About</a>
+                        </li>
+                        <li class="nav-item ms-3">
+                            <a class="nav-link custom-btn custom-border-btn btn" href="donate.html">Account</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+
+            <section class="hero-section hero-section-full-height">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="col-lg-12 col-12 p-0">
+                            <div id="hero-slide" class="carousel carousel-fade slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img src="{% static 'images/slide/wal1.jpg' %}" class="carousel-image img-fluid" alt="...">
+                                        
+                                        <div class="carousel-caption d-flex flex-column justify-content-end">
+                                            <h1>Fast Payment </h1>
+                                            
+                                            <p>Fast and easy payment system</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="carousel-item">
+                                        <img src="{% static 'images/slide/wal2.png' %}" class="carousel-image img-fluid" alt="...">
+                                        
+                                        <div class="carousel-caption d-flex flex-column justify-content-end">
+                                            <h1>All in one</h1>
+                                            
+                                            <p>All Creation and transactions are Available </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="carousel-item">
+                                        <img src="{% static 'images/12.png' %}" class="carousel-image img-fluid" alt="...">
+                                        
+                                        <div class="carousel-caption d-flex flex-column justify-content-end">
+                                            <h1>Secure system</h1>
+                                            
+                                            <p>Complete protected transactions</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="carousel-control-prev" type="button" data-bs-target="#hero-slide" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+
+                                <button class="carousel-control-next" type="button" data-bs-target="#hero-slide" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <div id="popupForm" class="overlay">
+
+                <div class="popup">
+                    <span class="close-btn" onclick="closeForm()">&times;</span>
+                    <h2>Popup Form</h2>
+                    <form>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required><br><br>
+                        <label for="email">Password:</label>
+                        <input type="email" id="email" name="email" required><br><br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+
+            <section class="section-padding">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-10 col-12 text-center mx-auto">
+                            <h2 class="mb-5">Welcome to Services</h2>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
+                            <div class="featured-block d-flex justify-content-center align-items-center">
+                                <a href="/itemad" class="d-block">
+                                    <img src="{% static 'images/icons/item.png' %}" class="featured-block-image img-fluid" alt="">
+
+                                    <p class="featured-block-text" >Add <strong>Items</strong></p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0 mb-md-4">
+                            <div class="featured-block d-flex justify-content-center align-items-center">
+                                <a href="/cus" class="d-block">
+                                    <img src="{% static 'images/icons/cus.png' %}" class="featured-block-image img-fluid" alt="">
+
+                                    <p class="featured-block-text">Create <strong>Customer</strong> </p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0 mb-md-4">
+                            <div class="featured-block d-flex justify-content-center align-items-center">
+                                <a href="/sup" class="d-block">
+                                    <img src="{% static 'images/icons/supplier.png' %}" class="featured-block-image img-fluid" alt="">
+
+                                    <p class="featured-block-text">Create <strong>Supplier</strong></p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
+                            <div class="featured-block d-flex justify-content-center align-items-center">
+                                <a href="/ledgeradd" class="d-block">
+                                    <img src="{% static 'images/icons/ledger.png' %}" class="featured-block-image img-fluid" alt="">
+
+                                    <p class="featured-block-text">Create <strong>Ledger</strong> </p>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+    <section class="section-padding">
+                <div class="container">
+                    <div class="row">
+
+
+
+                        <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
+                            <div class="featured-block d-flex justify-content-center align-items-center">
+                                <a href="/sale" class="d-block">
+                                    <img src="{% static 'images/icons/sales.png' %}" class="featured-block-image img-fluid" alt="">
+
+                                    <p class="featured-block-text" ><strong>Sales</strong></p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0 mb-md-4">
+                            <div class="featured-block d-flex justify-content-center align-items-center">
+                                <a href="/purchase" class="d-block">
+                                    <img src="{% static 'images/icons/purchase.png' %}" class="featured-block-image img-fluid" alt="">
+
+                                    <p class="featured-block-text"><strong>Purchase</strong> </p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0 mb-md-4">
+                            <div class="featured-block d-flex justify-content-center align-items-center">
+                                <a href="/receipt" class="d-block">
+                                    <img src="{% static 'images/icons/receipt.png' %}" class="featured-block-image img-fluid" alt="">
+
+                                    <p class="featured-block-text"> <strong>Receipt</strong></p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
+                            <div class="featured-block d-flex justify-content-center align-items-center">
+                                <a href="/payment" class="d-block">
+                                    <img src="{% static 'images/icons/payment.png' %}" class="featured-block-image img-fluid" alt="">
+
+                                    <p class="featured-block-text"><strong> Payment</strong></p>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <section class="testimonial-section section-padding section-bg">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-8 col-12 mx-auto">
+                            <h2 class="mb-lg-3">Happy Customers</h2>
+                            
+                                <div id="testimonial-carousel" class="carousel carousel-fade slide" data-bs-ride="carousel">
+
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                           <div class="carousel-caption">
+                                                <h4 class="carousel-title">Fast and Secure Billing software environment</h4>
+
+                                                <small class="carousel-name"><span class="carousel-name-title">Jafer</span>, Boss</small>
+                                           </div>
+                                        </div>
+
+                                        <div class="carousel-item">
+                                            <div class="carousel-caption">
+                                                <h4 class="carousel-title">Sed leo nisl, posuere at molestie ac, suscipit auctor mauris quis metus tempor orci</h4>
+
+                                                <small class="carousel-name"><span class="carousel-name-title">Thomas</span>, Partner</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="carousel-item">
+                                            <div class="carousel-caption">
+                                                <h4 class="carousel-title">Lorem Ipsum dolor sit amet, consectetur adipsicing kengan omeg kohm tokito charity theme</h4>
+
+                                                <small class="carousel-name"><span class="carousel-name-title">Jane</span>, Advisor</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="carousel-item">
+                                            <div class="carousel-caption">
+                                                <h4 class="carousel-title">Sed leo nisl, posuere at molestie ac, suscipit auctor mauris quis metus tempor orci</h4>
+
+                                                <small class="carousel-name"><span class="carousel-name-title">Bob</span>, Entreprenuer</small>
+                                           </div>
+                                        </div>
+
+                                          <ol class="carousel-indicators">
+                                               <li data-bs-target="#testimonial-carousel" data-bs-slide-to="0" class="active">
+                                                    <img src="{% static 'images/avatar/portrait-beautiful-young-woman-standing-grey-wall.jpg' %}" class="img-fluid rounded-circle avatar-image" alt="avatar">
+                                               </li>
+
+                                               <li data-bs-target="#testimonial-carousel" data-bs-slide-to="1" class="">
+                                                    <img src="{% static 'images/avatar/portrait-young-redhead-bearded-male.jpg' %}" class="img-fluid rounded-circle avatar-image" alt="avatar">
+                                               </li>
+
+                                               <li data-bs-target="#testimonial-carousel" data-bs-slide-to="2" class="">
+                                                    <img src="{% static 'images/avatar/pretty-blonde-woman-wearing-white-t-shirt.jpg' %}" class="img-fluid rounded-circle avatar-image" alt="avatar">
+                                               </li>
+
+                                               <li data-bs-target="#testimonial-carousel" data-bs-slide-to="3" class="">
+                                                    <img src="{% static 'images/avatar/studio-portrait-emotional-happy-funny.jpg' %}" class="img-fluid rounded-circle avatar-image" alt="avatar">
+                                               </li>
+                                          </ol>
+
+                                 </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="contact-section section-padding" id="section_6">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-4 col-12 ms-auto mb-5 mb-lg-0">
+                            <div class="contact-info-wrap">
+                                <h2>Get in touch</h2>
+
+                                <div class="contact-image-wrap d-flex flex-wrap">
+                                    <img src="{% static 'images/avatar/pretty-blonde-woman-wearing-white-t-shirt.jpg' %}" class="img-fluid avatar-image" alt="">
+
+                                    <div class="d-flex flex-column justify-content-center ms-3">
+                                        <p class="mb-0">Jafar T</p>
+                                        <p class="mb-0"><strong>HR & Office Manager</strong></p>
+                                    </div>
+                                </div>
+
+                                <div class="contact-info">
+                                    <h5 class="mb-3">Contact Infomation</h5>
+
+                                    <p class="d-flex mb-2">
+                                        <i class="bi-geo-alt me-2"></i>
+                                        manjeri,near new busttand,malappuram
+                                    </p>
+
+                                    <p class="d-flex mb-2">
+                                        <i class="bi-telephone me-2"></i>
+
+                                        <a href="tel:9645254148">
+                                            9645254148
+                                        </a>
+                                    </p>
+
+                                    <p class="d-flex">
+                                        <i class="bi-envelope me-2"></i>
+
+                                        <a href="mailto:wisedecoreitsolution@gmail.com?">
+                                            wisedecoreitsolution@gmail.com
+                                        </a>
+                                    </p>
+
+                                    <a href="https://maps.app.goo.gl/edpSnvGpKBqJQGXKA" class="custom-btn btn mt-3">Get Direction</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5 col-12 mx-auto">
+                            <form class="custom-form contact-form" action="#" method="post" role="form">
+                                <h2>Contact form</h2>
+
+                                <p class="mb-4">Or, you can just send an email:
+                                    <a href="#">info@charity.org</a>
+                                </p>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <input type="text" name="first-name" id="first-name" class="form-control" placeholder="Jack" required>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Doe" required>
+                                    </div>
+                                </div>
+
+                                <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Jackdoe@gmail.com" required>
+
+                                <textarea name="message" rows="5" class="form-control" id="message" placeholder="What can we help you?"></textarea>
+
+                                <button type="submit" class="form-control">Send Message</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer" id="footer_about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-12 mb-4">
+                        <img src="{% static 'images/logo.png' %}" class="logo img-fluid" alt="">
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-12 mb-4">
+                        <h5 class="site-footer-title mb-3">Quick Links</h5>
+
+                        <ul class="footer-menu">
+                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Home</a></li>
+
+                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Services</a></li>
+
+                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Contact</a></li>
+    </ul>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-12 mx-auto">
+                        <h5 class="site-footer-title mb-3">Contact Infomation</h5>
+
+                        <p class="text-white d-flex mb-2">
+                            <i class="bi-telephone me-2"></i>
+
+                            <a href="tel: 9645254148" class="site-footer-link">
+                               9645254148
+                            </a>
+                        </p>
+
+                        <p class="text-white d-flex">
+                            <i class="bi-envelope me-2"></i>
+
+                            <a href="mailto:wisedecoreitsolution@gmail.com?" class="site-footer-link">
+                                wisedecoreitsolution@gmail.com
+                            </a>
+                        </p>
+
+                        <p class="text-white d-flex mt-3">
+                            <i class="bi-geo-alt me-2"></i>
+                            Manjeri,Near new busttand ,Malappuram,Kerala
+                        </p>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-footer-bottom">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-7 col-12">
+                            <p class="copyright-text mb-0">Copyright © 2036 <a href="#">Kind Heart</a> Charity Org.
+                        	Design: <a href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+                        </div>
+                        
+                        <div class="col-lg-6 col-md-5 col-12 d-flex justify-content-center align-items-center mx-auto">
+                            <ul class="social-icon">
+                                <li class="social-icon-item">
+                                    <a href="#" class="social-icon-link bi-twitter"></a>
+                                </li>
+
+                                <li class="social-icon-item">
+                                    <a href="#" class="social-icon-link bi-facebook"></a>
+                                </li>
+
+                                <li class="social-icon-item">
+                                    <a href="#" class="social-icon-link bi-instagram"></a>
+                                </li>
+
+                                <li class="social-icon-item">
+                                    <a href="#" class="social-icon-link bi-linkedin"></a>
+                                </li>
+
+                                <li class="social-icon-item">
+                                    <a href="https://youtube.com/templatemo" class="social-icon-link bi-youtube"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <button onclick="openForm()">Open Form</button>
+        {% endblock%}
+        <script>
+            function openForm() {
+                
+                document.getElementById("popupForm").style.display = "overlay";
+             
+            }
+        
+            function closeForm() {
+                document.getElementById("popupForm").style.display = "none";
+            }
+        </script>
+        <!-- JAVASCRIPT FILES -->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/jquery.sticky.js' %}"></script>
+        <script src="{% static 'js/click-scroll.js' %}"></script>
+        <script src="{% static 'js/counter.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+        
+
+    </body>
+</html>

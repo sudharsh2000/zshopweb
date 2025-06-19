@@ -1,0 +1,52 @@
+{% extends 'navbar.html' %}
+{% block content %}
+{% load static %}
+<html>
+<head>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/cardview.css' %}" type="text/css">
+</head>
+
+<body style="background-color:grey;">
+
+<div class="card ">
+            <div class="container">
+                <div class="row">
+
+                <div class="col-md-4">
+                 <div class="brand_box">
+                         <a  href="{{i.get_url2}}"> <img class="ii" src="{{mm.img.url}}"  /></a>  <br><br>
+
+
+                 </div><br>
+                        </div>
+
+                    <div class="col-md-8">
+                        <div class="abc">
+                        <a><h3>{{mm.mobname}}</h3></a>
+                      <b>  Desc  :</b>&nbsp;&nbsp;<a>{{mm.desc}}</a><br><br><br>
+                            Price  :  <b><a class="h">₹{{mm.price}}</a></b><br>
+                            <b>Stock:</b>&nbsp;&nbsp;<b><a class="stock">{{mm.stock}}</a></b>left<br><br>
+                            {% if user.is_authenticated %}
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{% url 'add' mm.id %}" class="btn btn-success">Add to Cart</a>
+                            {% endif %}
+
+                    </div>
+                        {% for i in messages %}
+                        <a>{{i}}</a>
+                            {% endfor %}
+                </div>
+
+</div>
+
+
+
+
+</div>
+  </div>
+
+
+
+</body>
+</html>
+{% endblock %}

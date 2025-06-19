@@ -1,0 +1,111 @@
+{% extends 'navbar.html' %}
+
+{% load static %}
+
+<!doctype html>
+
+{% block content %}
+
+
+
+ <link href="{% static 'css/searchcss.css' %}" rel="stylesheet" />
+<link href="{% static 'css/container.css' %}" rel="stylesheet" />
+
+            <section   style="margin-top:50px;" class="contact-section section-padding" id="section_6">
+
+
+					 <div class="s130" style="">
+      <form  action="searchitem">
+        <div class="inner-form" style="margin-left:20px;">
+          <div class="input-field first-wrap">
+            <div class="svg-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+              </svg>
+            </div>
+            <input  type="text" name="search" placeholder="Search item" />
+          </div>
+          <div class="input-field second-wrap">
+			  {% csrf_token %}
+            <button class="btn-search" type="submit">SEARCH</button>
+          </div>
+        </div>
+		   </form>
+					 </div>
+		  <div class="2000">
+			  <form method="post" action="addsaleitem" >
+
+
+
+{% for i in result %}
+				   <div class="row">
+					     <div class="flex-container" style="width:850px;height:200px; border-radius:10px;box-shadow: 2px 2px  #888888;background-color:skyblue;display:flex;flex-direction:row;padding: 20px 20px 20px 20px;">
+							<div style="padding:10px;">
+                            <div class="name" >
+                                <input class="input--style-5" style="margin-left:0px;text-align: center;height:30px;width:90px;border-radius:5px;" hidden="true" type="text" value="{{i.itemid}}" placeholder="srate" name="itemid"  >
+                            <input class="input--style-5" style="margin-left:0px;text-align: center;height:30px;width:90px;border-radius:5px;" type="text" value="{{i.bcode}}" placeholder="srate" name="barcode"  >
+
+
+                            </div>
+								</div>
+							<div style="padding:10px;margin-left:50px">
+                            <div class="name"  >
+                               <input class="input--style-5" style="margin-left:0px;text-align: center;height:30px;width:90px;border-radius:5px;" type="text" value="{{i.itemname}}" placeholder="srate" name="itemname"  >
+
+                            </div>
+								</div>
+                            <div class="value" style="padding:10px 50px 10px 10px;">
+                                <div class="input-group" >
+                                    <input class="input--style-5" style="margin-left:40px;height:40px;width:70px;border-radius:5px;" type="text" value="{{i.srate}}" placeholder="srate" name="srate"  >
+                                </div>
+                            </div>
+							  <div class="value" style="padding:10px 50px 10px 10px;">
+                                <div class="input-group" >
+                                    <input class="input--style-5" style="margin-left:20px;height:40px;width:70px;border-radius:5px;" type="text" placeholder="qty" name="qty" >
+                                </div>
+                            </div>
+							  <div class="value" style="padding:10px 50px 10px 10px;">
+                                <div class="input-group" >
+                                    <input class="input--style-5" style="margin-left:20px;height:40px;width:70px;border-radius:5px;" type="text" placeholder="tax" name="tax" >
+                                </div>
+                            </div>
+							<div class="value" style="margin-top:10px;">
+									  {% csrf_token %}
+                            <button class="button" style="color:white;background-color:green;height:40px;width:70px; border-radius:30px;">Add</button>
+                            </div>
+					  </div>
+
+					   </div>
+
+{% endfor %}
+
+
+
+			</form>
+		  </div>
+
+
+
+
+            </section>
+<script src="{% static 'js/fuse-3.4.6.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{% endblock %}
+{% block includejs %}
+	{% endblock %}
+</div>
+
+<div id="customer_search_bar"></div>
+<div id="product_search_bar"></div>
+
+
+
+
+
+
+<!-- -->
+
+
+

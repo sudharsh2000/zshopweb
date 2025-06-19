@@ -1,0 +1,144 @@
+
+{% extends 'navbar.html' %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Barcode Print</title>
+
+    <!-- Icons font CSS
+    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+     Font special for pages-->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> -->
+
+    {% block content %}
+
+    <!-- Main CSS-->
+    <link href=" {% static 'css/bcode.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'css/itempopup.css' %}" rel="stylesheet" />
+    
+</head>
+
+<body>
+    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins" >
+        <div class="wrapper wrapper--w680"  >
+            <div class="card card-4" >
+                <div class="card-body">
+                    <h3 style="text-align: center;margin-top: 0px;font-weight: bold; color: darkcyan;">Barcode Printing</h3>
+                    <form method="POST" style="margin-bottom: 100px;">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Itemcode</label>
+                                    <input class="input--style-4" type="text" oninput="search(itemcode)" onkeydown="handleKeyDown(event)" id="itemcode" name="first_name">
+                                </div>
+                            </div>
+                            <!-- <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">last name</label>
+                                    <input class="input--style-4" type="text" name="last_name">
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Itemname</label>
+                                    
+                                        <input class="input--style-4" type="text" oninput="searchitemname()" onkeydown="handleKeyDown(event)" id="itemname" name="birthday">
+                                        
+                                    
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="row row-space">
+
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Batchcode</label>
+                                    <input class="input--style-4" type="text" oninput="searchbarcode()" onkeydown="handleKeyDown(event)" id="bcode" name="bcode">
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-5">
+                                <div class="input-group" style=" border-radius: 10px;">
+                                    <label class="label">Qty</label>
+                                    <input class="input--style-4" type="number" id="qty" name="qty" placeholder="0.00">
+                                </div>
+                            </div>
+                            <div class="col-7" >
+                                <div class="input-group" style="border-radius: 10px;">
+                                    <label class="label">Mrp</label>
+                                    <input class="input--style-4" type="number" id="mrp" name="email" placeholder="0.00">
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-5">
+                                <div class="input-group" style="">
+                                    <label class="label">SRate</label>
+                                    <input class="input--style-4" type="number" id="srate" name="email" placeholder="0.00">
+                                </div>
+                            </div>
+
+                            <div class="col-7" >
+                                <div class="input-group" style="">
+                                    <label class="label">Prate</label>
+                                    <input class="input--style-4" type="number" id="prate" name="email" placeholder="0.00">
+                                </div>
+                            </div>
+                           
+                        </div>
+                      
+                       
+                        <input id="cmp" value="{{user}}" hidden="true"/>
+                        <div class="p-l-20 p-t-15" style="margin-top: 0px;">
+                            <button class="btn btn--radius-2 btn--blue" onclick="printbarcodeviewdisplay()" type="button">Print</button>
+                        </div>
+                    </form>
+                    <div class="overlay2" id="overlay2">
+                        <div class="popup2">
+                    <div class="row" style=" clear: both; display: table;width:1120px;background-color:#ffffcc;margin-bottom:20px; ">
+                            <div class="column" style="width: 20%;  float: left;">Itemname</div>
+                      <div class="column" style="width: 10%;  float: left;">Barcode</div>
+                         <div class="column" style="width: 15%;  float: left;">Itemcode</div>
+                      <div class="column" style="width: 20%;  float: left;">Second language</div>
+                      <div class="column" style="width: 15%;  float: left;">Prate</div>
+                          <div class="column" style="width: 15%;  float: left;">Srate</div>
+                        </div>
+                    
+                        <ul id="itemresults"   style=" list-style-type: none;"></ul>
+                    
+                    
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+
+    <!-- Main JS-->
+    <script src="{% static 'js/barcodeprint.js' %} "></script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+{% endblock %}
+</html>
+<!-- end document-->

@@ -1,0 +1,589 @@
+
+{% extends 'navbar.html' %}
+
+{% load static %}
+
+<!doctype html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{% block content %}
+	<style>
+		body{
+			background: beige;
+		}
+	.setproduct-btn{
+        padding: 0.5rem;
+    background-color: rgb(117, 33, 117);
+    color: rgb(244, 250, 250);
+    margin-left: 2rem;
+    border-radius: 0.5rem;
+    
+    }
+    .fill-btn{
+        width: 16%;
+    height: 3rem;
+    background-color: rgb(14, 95, 105);
+    color: rgb(255 255 255);
+    border-radius: 1rem;
+    }
+	#rowcost,#packedcost{
+		border: 1px solid rgb(131 127 127 / 45%);
+    min-width: 18rem;
+    border-radius: 0.4rem;
+    color: rgb(50 76 77);
+    font-size: 18px;
+	}
+	#costfactor,#labourcharge{
+		border: 1px solid rgb(131 127 127 / 45%);
+    min-width: 10rem;
+    border-radius: 0.4rem;
+    color: rgb(50 76 77);
+    font-size: 18px;
+	}
+	.overlaypro {
+		display: none;
+    position: absolute;
+    overflow: auto;
+    top: 0;
+    left: 0;
+    /* position: fixed; */
+    width: 100%;
+    height: 236px;
+    background: #d4e3e3;
+    margin-left:  741px;
+    margin-top:  276px;
+    margin-bottom: 280px;
+    width: 320px;
+    border: 1px #a99f9f solid;
+    }
+	.product_td{
+		display: flex;
+    align-content: flex-start;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 26px;
+	}
+	.narration_td{
+		max-width: 40%;
+	}
+	.product_td input{
+		max-width: 100%;
+	}
+	.narration_td input{
+		max-width: 81%;
+	}
+	.input-container {
+    width: 25rem;
+    position: relative;
+    display: flex
+;
+    align-items: flex-end;
+    flex-direction: column-reverse;
+    align-content: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+	@media screen and (max-width:600px) {
+	    .voucherttbltd {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        vertical-align: middle;
+        width: 7rem;
+        padding: 1px;
+        margin: 4px;
+        border: none;
+    }
+		.setproduct-btn{
+			padding: .5rem 0rem;
+        max-width: 3rem;
+        background-color: rgb(117, 33, 117);
+        color: rgb(244, 250, 250);
+        margin-left: 0rem;
+        border-radius: 0.2rem;
+        max-height: 2rem;
+        font-size: 11px;
+    
+    }
+    .fill-btn{
+		font-size: 11px;
+        width: 2.5rem;
+        height: 2rem;
+        background-color: rgb(14, 95, 105);
+        color: rgb(255 255 255);
+        border-radius: .2rem;
+    }
+	#rowcost,#packedcost{
+		border: 1px solid rgb(131 127 127 / 45%);
+    min-width: 18rem;
+    border-radius: 0.4rem;
+    color: rgb(50 76 77);
+    font-size: 18px;
+	}
+	#costfactor,#labourcharge{
+		border: 1px solid rgb(131 127 127 / 45%);
+    min-width: 10rem;
+    border-radius: 0.4rem;
+    color: rgb(50 76 77);
+    font-size: 18px;
+	}
+	.overlaypro {
+		display: none;
+    position: absolute;
+    overflow: auto;
+    top: 0;
+    left: 0;
+    /* position: fixed; */
+    width: 100%;
+    height: 236px;
+    background: #d4e3e3;
+    margin-left:  741px;
+    margin-top:  276px;
+    margin-bottom: 280px;
+    width: 320px;
+    border: 1px #a99f9f solid;
+    }
+	.product_td{
+		display: flex;
+    align-content: flex-start;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+	}
+	
+	.product_td input{
+		max-width: 100%;
+        border: 1px solid grey;
+    
+	}
+	.narration_td input{
+		min-width: 7rem;
+        max-width: 100%;
+        border: 1px solid lightgrey;
+	}
+	.input-container {
+		max-width: 7.5rem;
+        margin-left: -1rem;
+        /* position: absolute; */
+        /* display: block; */
+        /* align-items: flex-end; */
+        flex-wrap: nowrap;
+        flex-direction: row-reverse;
+        /* align-content: center; */
+        justify-content: space-between;
+}
+		.narration_td{
+			max-width: 7rem;
+		}
+		#sdate , #pdate{
+			font-size: 10px;
+    margin: 0px;
+    padding: 3px;
+    height: 100%;
+	border: none;
+
+		}
+		
+		.date_td{
+			max-width: 5rem;
+		}
+		
+		#ltype {
+            visibility: hidden; /* Hide the original text */
+            display: inline-block; /* Ensure label is a block */
+            position: relative; /* Needed for absolute positioning */
+        }
+
+        #ltype::after {
+            content: "Finished product"; /* New text */
+           font-size: 11px;
+            visibility: visible; /* Ensure new text is visible */
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+	}
+		  </style>
+</head>
+
+
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+
+<link href="{% static 'css/popup.css' %}" rel="stylesheet" />
+<link href="{% static 'css/itempopup.css' %}" rel="stylesheet" />
+<link href="{% static 'css/transaction.css' %}" rel="stylesheet" />
+<body style=" height:100%;margin-left:00px;" >
+<form  id="invoice-form"  method="post"   >
+
+	<table class="table table-bordered">
+		<thead>
+			<tr style="text-align:center;font-size: 20px;">
+				<th class="table-active" scope="col" colspan="6" style="color: rgb(7, 114, 68);">Repacking</th>
+				<input type="text" id="type" value="finished"  hidden="hidden" />
+
+			</tr>
+		</thead>
+
+		<tbody class="voucher-body">
+			<tr>
+				<th scope="row">Voucher Number</th>
+				<td class="voucherttbltd" >
+				
+
+					<input name="invoice-number" id="vno"   type="number" class="vno-input" placeholder="Invoice Number" value="{{pid}}" >  
+					
+				
+					<a  onclick="previousdata()"  class="btnpre" ><</a>
+					 <a  onclick="nextdata()"  class="btnnxt" >></a>
+					
+				</td>
+				<th scope="row">Date</th>
+				<td class="form-input-td date_td"><input name="date" id="sdate" value="{{curdate}}" min="2023-01-01" type="datetime-local"  class="form-control"  >
+				
+				</td>
+                <th scope="row">Packing Date</th>
+				<td class="form-input-td date_td"><input name="packdate" id="pdate" value="{{curdate}}" min="2023-01-01" type="datetime-local"  class="form-control sdate"  >
+				
+				</td>
+		
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-bordered">
+		
+
+		<tbody class="custbl" class="two-col-form">
+			<tr>
+				
+				<td class="narration_td" >
+					<label scope="row">Narration</label>
+                    <input name="narration" type="text" class="form-control" id="narration"  placeholder="Narration">
+
+				</td>
+				
+				<td class="product_td">
+					<label scope="row" id="ltype">Fill from Sett Product</label>
+					<div class="input-container">
+					  <input name="customer" type="text" class="form-control" id="searchInput" oninput="searchCustomer()" placeholder="Productset">
+					  
+					</div>
+					<Button class="fill-btn" type="button" onclick="Fill_table()">FILL</Button>
+					<a class="setproduct-btn" onclick="opensetproduct()">Setproduct</a>
+				  </td>
+                 
+				<input type="text" id="productid" name="productid" hidden="hidden" />
+				<input type="text" id="voucherid" name="voucherid" hidden="hidden" />
+    <div class="overlaypro" id="overlay">
+    <div class="popup">
+
+      <ul id="searchResults" onclick="closePopup()" style=" list-style-type: none; "></ul>
+    </div>
+  </div>
+			</tr>
+	
+		</tbody>
+	</table>
+	<div class="table-responsive">
+	<table class="table table-bordered" id="invoice-form-items-table-pset">
+        <thead>
+            <tr>
+                <th class="table-active" scope="col" colspan="13">Finished Materials</th>
+            </tr>
+            <tr>
+                <th scope="col" class="fixed-column">Sl No.</th>
+                
+                <th scope="col">Itemcode</th>
+                <th scope="col">Item name</th>
+    
+                <th scope="col">Qty</th>
+                <th scope="col">CRate</th>
+                <th scope="col">PRate</th>
+                <th scope="col">SRate</th>
+                <th scope="col">MRP</th>
+                <th scope="col">Amount</th>
+                
+                
+            </tr>
+        </thead>
+        <tbody id="invoice-form-items-table-body-pset">
+            <tr>
+                <td class="fixed-column" >1</td>
+                <td class="form-input-td"><input name="itemcodepset" style="min-width:300px;" id="itemcodepset1" type="text" class="form-control"  placeholder="Itemcode" readonly></td>
+                <td class="form-input-td"><input name="itemnamepset" style="min-width:350px;" id="itemnamepset1" class="form-control" type="text"  placeholder="Itemname" readonly></td>
+                <td class="form-input-td"><input type="number" name="qtypset" style="min-width:100px;" class="form-control" id="qtypset1" placeholder="0.00"  oninput="calculateTotal_pset(1)"  required/></td>
+
+                <td class="form-input-td"><input type="number" name="cratepset" id="cratepset1" style="min-width:100px;" placeholder="0.00"  class="form-control"  readonly></td>
+                <td class="form-input-td"><input type="number" name="pratepset" id="pratepset1" style="min-width:100px;" placeholder="0.00"  class="form-control" oninput="calculateTotal_pset(1)" required /></td>
+                <td class="form-input-td"><input type="number" name="sratepset" id="sratepset1" style="min-width:100px;" placeholder="0.00"  class="form-control"  required></td>
+                <td class="form-input-td"><input type="text" name="mrppset" style="min-width:100px;" id="mrppset1" placeholder="0.00" class="form-control"  readonly></td>
+
+                <td class="form-input-td"><input type="text" name="amtpset" style="min-width:100px;" class="form-control" placeholder="0.00" id="amtpset1" onclick="getrow(1,event)" readonly>
+                    <input type="text" name="itemidpset" style="min-width:100px;" id="itemidpset1" hidden="true" class="form-control">
+					<input type="number" name="inclpset" style="min-width:100px;" id="incltaxpset1" hidden="true" class="form-control">
+					<input type="text" name="vatpset" style="min-width:100px;" id="vatpset1" hidden="true" class="form-control">
+
+				</td>
+        
+            </tr>
+            
+            <!-- Other table rows here -->
+        </tbody>
+  
+    </table>
+</div>
+
+	<div class="table-responsive">
+		<table class="table table-bordered" id="invoice-form-items-table">
+			<thead>
+				<tr>
+					<th class="table-active" scope="col" colspan="13">Raw Materials</th>
+				</tr>
+				<tr>
+					<th scope="col" class="fixed-column">Sl No.</th>
+					
+					<th scope="col">Itemcode</th>
+					<th scope="col">Item name</th>
+		
+					<th scope="col">Qty</th>
+                    <th scope="col">CRate</th>
+                    <th scope="col">PRate</th>
+					<th scope="col">SRate</th>
+                    <th scope="col">MRP</th>
+					<th scope="col">Amount</th>
+					
+					
+				</tr>
+			</thead>
+			<tbody id="invoice-form-items-table-body">
+				<tr>
+					<td class="fixed-column" >1</td>
+					<td class="form-input-td"><input name="itemcode" style="min-width:300px;" id="itemcode1" type="text" class="form-control" placeholder="Itemcode" readonly></td>
+					<td class="form-input-td"><input name="itemname" style="min-width:350px;" id="itemname1" class="form-control" type="text"  placeholder="Itemname" readonly></td>
+					<td class="form-input-td"><input type="number" name="qty" style="min-width:100px;" class="form-control" id="qty1" placeholder="0.00" readonly></td>
+                    <td class="form-input-td"><input type="number" name="prate" id="prate1" style="min-width:100px;" placeholder="0.00"  class="form-control" required ></td>
+					<td class="form-input-td"><input type="number" name="crate" id="crate1" style="min-width:100px;" placeholder="0.00"  class="form-control"  ></td>
+
+                    <td class="form-input-td"><input type="number" name="srate" id="srate1" style="min-width:100px;" placeholder="0.00" class="form-control"  readonly></td>
+                    <td class="form-input-td"><input type="text" name="mrp" style="min-width:100px;" id="mrp1" placeholder="0.00" class="form-control"  readonly></td>
+
+                    <td class="form-input-td"><input type="text" name="amt" style="min-width:100px;" class="form-control" placeholder="0.00" id="total1"  readonly>
+						<input type="text" name="itemid" style="min-width:100px;" id="itemid1" hidden="true" class="form-control">
+						<input type="number" name="incl" style="min-width:100px;" id="incltax1" hidden="true" class="form-control">
+						<input type="text" name="vat" style="min-width:100px;" id="vat1" hidden="true" class="form-control">
+
+					</td>
+			
+				</tr>
+				
+				<!-- Other table rows here -->
+			</tbody>
+			<tfoot>
+				<tr>	
+					
+
+					<td  colspan="3" class="discount-td" >
+						<strong>Labour Charge</strong> 
+						<input placeholder="0.00" type="number" step="0.01"    name="labourcharge"  id="labourcharge" />
+				</td>
+
+					<td  colspan="5" class="gross-td" >
+							<strong>Packed Material Cost</strong>
+							<input placeholder="0.00"   name="packedcost"  id="packedcost" />
+					</td>
+		
+				</tr>
+				
+				<tr>
+					
+					<td  colspan="3" class="gross-td" >
+						<strong>Cost Factor</strong> 
+						<input placeholder="0.00"   name="costfactor"  id="costfactor" />
+					</td>
+					<td  colspan="5" class="gross-td" >
+						<strong>Row Material Cost</strong> 
+						<input placeholder="0.00"  name="rowcost"  id="rowcost" />
+					</td>
+
+			</tr>
+				
+	
+				
+				
+			</tfoot>
+		</table>
+	</div>
+	
+
+	<div class="overlay2" id="overlay2">
+	<div class="popup2">
+		
+		<table class="table-item" >
+			<thead>
+				<tr>
+					<th>Itemname</th>
+					<th>Barcode</th>
+					<th>Itemcode</th>
+					<th>Second language</th>
+					<th>Prate</th>
+					<th>Srate</th>
+				
+				</tr>
+			</thead>
+			<tbody id="item-tbl-body">
+				
+
+			</tbody>
+		</table>
+		
+			</div>
+			</div>
+	{% csrf_token %}
+<!--	<a href="searchitem"><p class="btn btn-primary">+</p></a>-->
+<div class="container mb-5 mt-5">
+	<div class="row justify-content-center">
+		<div class="col-auto">
+			<button id="subtmit" onclick="SAvefn()" class="btn btn-primary" type="button" style="background-color: green;">Save (F5)</button>
+		</div>
+		<!-- 
+		 -->
+		<div class="col-auto">
+			<a onclick="closewindow()" class="btn btn-primary" type="button">Close</a>
+		</div>
+		<div class="col-auto">
+			<div class="btndesktop">
+				<a onclick="additem()" class="btn btn-primary" style="border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+
+			</div>
+			<div class="btnmobile">
+				<a onclick="addRow()" class="btn btn-primary" style="border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- <button id="subtmit" type="button" onclick="SAvefn()" class="btn btn-primary" style="margin-left:50px;margin-bottom: 30px;background-color: green;">Save(F5)</button>
+
+<a  onclick="deleterow()"  class="btn btn-primary"  style="margin-left:40px;margin-bottom:30px;background-color: rgb(206, 19, 19);">Delete</a>
+<a  onclick="closewindow()"  class="btn btn-primary" style="margin-left:40px;margin-bottom:30px">Close</a>
+<a  onclick="additem()"  class="btn btn-primary" style="margin-left:40px;margin-bottom:30px;border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+ -->
+
+
+</form>
+
+
+</body>
+
+<script>function thermalprintchange(printval){ 
+	let printsave=document.getElementById('printssave')
+	let thermalprint=document.getElementById('thermalprint')
+	let a4print=document.getElementById('a4')
+if(printsave.checked==true){
+	
+	
+		
+
+		document.getElementById(''+printval+'').checked=false;
+	
+}
+	else{
+		thermalprint.checked=false;
+		a4print.checked=false;
+	}
+
+
+}
+function printchange(printval){ 
+	let printsave=document.getElementById('printssave')
+	let thermalprint=document.getElementById('thermalprint')
+	let a4print=document.getElementById('a4')
+if(printsave.checked==true){
+	
+	a4print.checked=true;
+	thermalprint.checked=false;
+	
+}
+	else{
+		thermalprint.checked=false;
+		a4print.checked=false;
+	}
+
+
+}
+function opensetproduct(){
+	
+window.open('/setproduct')
+}
+
+function additem(){
+	
+	window.open('/itemad')
+}
+	function closewindow(){
+		
+	const type=document.getElementById('type').value;
+	if(type=='report'){
+window.close();
+	}else{
+		window.location.href ='/home';
+
+	}
+}
+function getDate(){
+    var today = new Date();
+    alert("success");
+
+document.getElementById("datetoday").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+
+
+}
+function printchange(printval){ 
+	let printsave=document.getElementById('printssave')
+	let thermalprint=document.getElementById('thermalprint')
+	let a4print=document.getElementById('a4')
+if(printsave.checked==true){
+	
+	a4print.checked=true;
+	thermalprint.checked=false;
+	
+}
+	else{
+		thermalprint.checked=false;
+		a4print.checked=false;
+	}
+
+
+}
+</script>
+
+<!--   <input type="text" id="dataname" oninput="searchitem()" >-->
+
+<!--<script src="{% static 'js/fuse-3.4.6.min.js' %}"></script>-->
+<script src="{% static 'js/setproduct.js' %}"></script>
+<script src="{% static 'js/productsearch.js' %}"></script>
+
+{% endblock %}
+{% block includejs %}
+	{% endblock %}
+
+</div>
+
+<div id="customer_search_bar"></div>
+<div id="product_search_bar"></div>
+
+
+
+
+
+
+<!-- -->
+
+
+

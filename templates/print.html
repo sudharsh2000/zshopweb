@@ -1,0 +1,549 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>
+		A4 PRINT
+	</title>
+
+<style>
+	.container {
+            display: flex;
+            align-items: center;
+
+        }
+
+        .square {
+            width: 150px;
+            height: 80px;
+            background-color:whilte;
+            border:1px solid;
+            margin-right: 10px;
+        }
+        #qrcode{
+            width: 5.5rem;
+            height: 4rem;
+        }
+      
+        #tablemain tr td{
+            width: 50px;
+    border: 1px solid black;
+    /* text-align: -webkit-center; */
+    vertical-align: text-top;
+    padding: 10px 0px;
+}
+
+
+#tablemain tr {
+  height: 20px; /* Set row height to 20px */
+  /* Ensure each row takes a fixed height */
+}
+table tfoot tr{
+    height: 20px;
+}
+  
+</style>
+</head>
+
+<body>
+    <div>
+
+        {% if header_img and headerchk == '1' %}
+        <img src="{{ header_img.url }}" style="margin-bottom: .5rem;" alt="Header Image" width="95%" height="100px" />
+    {% endif %}
+    </div>
+	<table style="width:95%; border-collapse: collapse;">
+		<tr style="border: 1px solid black;width:40px;">
+            {% if vtype == 'SI'%}
+		<th>{{title}}</th>
+        {% elif vtype == 'SR' %}
+        <th>Sale Return</th>
+        {% elif vtype == 'PI' %}
+        <th>Purchase Invoice</th>
+        {% elif vtype == 'SO' %}
+        <th>Sales Order</th>
+        {% elif vtype == 'PO' %}
+        <th>Purchase Order</th>
+        {% elif vtype == 'SS' %}
+        <th>Mbile Service</th>
+        {% else %}
+        <th>Purchase Return</th>
+        {% endif %}
+
+		</tr>
+	</table>
+	<table style="width:95%;margin-top:10px; border-collapse: collapse;">
+		<tr>
+			<th style="border: 1px solid black;">Invoice No</th>
+			<td  style="border: 1px solid black;" align="center">{{vno}}</td>
+			<th style="border: 1px solid black;">Mobiles</th>
+			<td style="border: 1px solid black;width:100px;" align="center">{{mobile}}</td>
+		</tr>
+		<tr>
+			<th style="border: 1px solid black;">Date</th>
+			<td  style="border: 1px solid black;width:200px;" align="center" id="printdate" ><input style="border: 0px; font-weight: bold;" value="{{dates}}" type="datetime-local" disabled="true"/></td>
+			<th style="border: 1px solid black;">Customer vat</th>
+			<td style="border: 1px solid black;width:200px;" align="center">{{taxregno}}</td>
+		</tr>
+		
+	</table>
+	<table  style="width:95%;margin-top:10px; border-collapse: collapse;">
+		<tr style="width: 100%;">
+			
+			<th style="border: 1px solid black;">Customer </th>
+			<td style="border: 1px solid black;width:300px;" align="center">{{customer}}</td>
+		</tr>
+		<tr style="width: 100%;">
+			
+			<th style="border: 1px solid black;">Address </th>
+			<td style="border: 1px solid black;width:300px;" align="center">{{address}}</td>
+		</tr>
+	</table>
+
+    {% if vtype == 'SS' %}
+    <table  style="width:95%;margin-top:10px; border-collapse: collapse;">
+		<tr style="width: 100%;">
+			
+			<th style="border: 1px solid black;">Battery </th>
+            {% if battery == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+            <th style="border: 1px solid black;">Back Cover </th>
+			{% if bcid == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+            <th style="border: 1px solid black;">Face Cover </th>
+			{% if fcid == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+            <th style="border: 1px solid black;">Memorycard </th>
+            {% if mmcid == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+            <th style="border: 1px solid black;">Sim </th>
+            {% if sim == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+			{% endif %}
+            
+		</tr>
+		<tr style="width: 100%;">
+			
+            <th style="border: 1px solid black;">Charger </th>
+            {% if charger == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+             <th style="border: 1px solid black;">No Signal </th>
+             {% if ns == '1'  %}
+             <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+             {% else %}
+             <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+             {% endif %}
+             <th style="border: 1px solid black;">No Charging </th>
+			 {% if nc == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+            <th style="border: 1px solid black;">No Power </th>
+            {% if np == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+            <th style="border: 1px solid black;">Memory not Work </th>
+            {% if mnw == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+           
+		</tr>
+        <tr style="width: 100%;">
+			
+            <th style="border: 1px solid black;">Camera not work </th>
+            {% if cnw == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+            <th style="border: 1px solid black;">Flash not work </th>
+            {% if fnw == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+            <th style="border: 1px solid black;">Sim not work</th>
+            {% if snw == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+            <th style="border: 1px solid black;">Keypad not work</th>
+            {% if knw == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+            <th style="border: 1px solid black;">Lcd problem</th>
+            {% if lcd == '1'  %}
+			<td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox" checked="true" /></td>
+            {% else %}
+            <td style="border: 1px solid black;width:30px;" align="center"><input type="checkbox"  /></td>
+            {% endif %}
+           
+		</tr>
+      
+	</table>
+    <table  style="width:95%;margin-top:4px; border-collapse: collapse;">
+        <tr style="width: 100%;">
+			
+            <th style="border: 1px solid black;width: 150px;">Delivery date </th>
+			<td style="border: 1px solid black;width:200px;" align="center">{{apdate}}</td>
+            <th style="border: 1px solid black;">Password</th>
+			<td style="border: 1px solid black;width:200px;" align="center">{{password}}</td>
+            <th style="border: 1px solid black;width: 150px;">Imei No.</th>
+			<td style="border: 1px solid black;width:200px;" align="center">{{imei}}</td>
+		</tr>
+        </table>
+
+    {% endif %}
+
+    {% if vtype == 'SS' %}
+    <table style="height: 550px; width:95%; margin-top:10px; border-collapse: collapse;">
+        {% else %}
+        {% if header_img  and not footer_img or not header_img and  footer_img or  footerchk == '1' and headerchk != '1' or  footerchk != '1' and headerchk == '1'  %}
+        <table id="table-list" style="height: 36rem; width:95%; margin-top:10px; border-collapse: collapse;">
+        
+       
+        {% elif footer_img and headerchk == '1'  and header_img and footerchk == '1' %}
+        <table id="table-list" style="height: 30rem; width:95%; margin-top:10px; border-collapse: collapse;">
+        {% else %}
+	<table id="table-list" style="height: 43rem; width:95%; margin-top:10px; border-collapse: collapse;">
+        {% endif %}
+        {% endif %}
+		<thead>
+
+		
+		<tr style="height: 50px; margin-top: 20px;margin-bottom: 20px;">
+			
+			<th style="width:50px;border: 1px solid black;">Sl no</th>
+			<th style="width:280px;border: 1px solid black;">Item Name</th>
+			<th style="width:100px;border: 1px solid black;">Qty</th>
+			<th style="width:100px;border: 1px solid black;">Unit Price</th>
+			<th style="width:100px;border: 1px solid black;">Gross</th>
+			<th style="width:100px;border: 1px solid black;">Tax 15%</th>
+			<th style="width:100px;border: 1px solid black;">Amount</th>
+			
+		</tr>
+	</thead>
+
+		<tbody style="height: 90%;margin: 0px;border:none" id="tablemain">
+
+		</tbody>
+        <tfoot>
+            <tr style="border: 1px solid black;width:40px;">
+                <td style="width:320px;border: 1px solid black;" align="center" colspan="2"><b> Total :</b></td>
+                <td id="qtytot" style="width:100px;border: 1px solid black;" align="center">0.00</td>
+                <td id="pricetot" style="width:100px;border: 1px solid black;" align="center">0.00</td>
+                <td id="grosstot" style="width:100px;border: 1px solid black;" align="center">0.00</td>
+                <td id="taxtot" style="width:100px;border: 1px solid black;" align="center">0.00</td>
+                <td id="amounttot" style="width:100px;border: 1px solid black;" align="center">0.00</td>
+            </tr>
+        </tfoot>
+		
+		
+	</table>
+	<table style="width:95%;margin-top: 3px; border-collapse: collapse;">
+		
+	</table>
+	<div class="container" style="margin-top: 10px;">
+		<div class="square"> authorized signatory</div>
+		
+		    <img id="qrcode" src="{% url 'generate_zakat_qr' customer dates vno taxamt totalamt %}">
+		
+	
+		<table style="width:60%;height: 80px; margin-top: 2px; border-collapse: collapse;margin-left: 5px;">
+
+            <tr>
+                <th style="width:50px;border: 1px solid black;" align="center">Discount</th>
+                <th style="width:50px;border: 1px solid black;" align="center">00.00</th>
+
+            </tr>
+
+
+            <tr>
+                <th style="width:50px;border: 1px solid black;" align="center">Tot.Amount(exclusive Vat)</th>
+                <td id="exclamnt" style="width:50px;border: 1px solid black;" align="center">00.00</td>
+
+            </tr>
+        <tr>
+                <th style="width:50px;border: 1px solid black;" align="center">Total Vat 15%</th>
+                <td id="vat" style="width:50px;border: 1px solid black;" align="center">00.00</td>
+                
+            </tr>
+        <tr>
+                <th style="width:50px;border: 1px solid black;" align="center">Totalamount</th>
+                <td id="total" style="width:50px;border: 1px solid black;" align="center">00.00</td>
+
+            </tr>
+            <!-- Add more rows as needed -->
+
+    </table>
+	</div>
+	<table style="margin-top: 6px; width:95%; border-collapse: collapse;">
+		<tr style="border: 1px solid black;width:40px;padding: 1rem;">
+			<td style="padding-left
+            : 1rem;">Grand total in words:</td>
+		<th id="amword">hundrd</th>	
+		</tr>
+	</table>
+	<div>
+
+        {% if footer_img and footerchk == '1' %}
+        <img src="{{ footer_img.url }}" alt="Header Image" style="margin-top: .5rem;" width="95%" height="70px" />
+    {% endif %}
+    </div>
+ 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-159304253-1"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.js"></script>
+
+  <script>
+	
+    
+   
+	
+
+// Function to encode text to Base64
+function textToBase64(text) {
+  const encoded = btoa(text);
+  return encoded;
+}
+var sellername = "{{ company|safe }}";
+var vatno = "1234";
+var billno = {{ vno|safe }};
+var billdate = document.getElementById('printdate').value;
+var taxamount = {{ taxamt|safe }};2
+var billamount = {{ totalamt|safe }};
+
+var Ptxt = "Seller's Name=" + sellername + "\n";
+Ptxt = Ptxt +"Name="+"Sale Invoice"+ "\n"+"VAT NO=" + vatno + "\nBill No=" + billno + "\nDate=" + new Date(billdate).toLocaleDateString("en-GB") +"\nVAT Amount=" + taxamount + "\nTotal Amount=" + billamount;
+       
+// Example usage
+// const inputText = Ptxt;
+// const encodedText = textToBase64(inputText);
+
+// fetch('/generate-zakat-qr')  // Assuming this will give the URL or the data for the QR code
+//     .then(response => response.text())  // Get the URL to be encoded in the QR code
+//     .then(qrData => {
+//         var qrcode = new QRCode(document.getElementById("qrcode"), {
+//             text: qrData,   // Use the URL that was fetched
+//             width: 80,
+//             height: 80,
+//         });
+//     })
+
+
+
+
+  let finalqty=0;
+  let finalprice=0;
+  let finalgross=0;
+  let finaltax=0;
+  let finalamount=0;
+ 
+  var itemarray = {{ itemname|safe }};
+  var qtyarray = {{ qty|safe }};
+  var pricearray = {{ price|safe }};
+  var grossarray = {{ gross|safe }};
+  var taxarray = {{ tax|safe }};
+  var amountarray = {{ amount|safe }};
+  
+  const tableBody = document.getElementById('tablemain');
+for(i=0;i<itemarray.length;i++){
+let qty=qtyarray[i];
+let price=pricearray[i];
+let gross=grossarray[i];
+let tax=taxarray[i]
+let amount=amountarray[i]
+
+
+  const newRow = document.createElement('tr');
+  if(i==itemarray.length-1){
+    newRow.style.height='auto';
+  }
+  else{
+    newRow.style.height='20px';
+  }
+ 
+      newRow.innerHTML = `
+      <td  align="center">${i+1}</td>
+	  <td  align="center">${itemarray[i]}</td>
+	  <td align="center">${qty}</td>
+	  <td align="center">${price}</td>
+	  <td align="center">${gross}</td>
+	  <td align="center">${tax}</td>
+	  <td align="center">${amount}</td>
+
+
+   `;
+   
+tableBody.appendChild(newRow);
+
+finalqty+=parseFloat( qty);
+finalprice+=parseFloat(price);
+finalgross+=parseFloat(gross);
+finaltax+=parseFloat(tax);
+finalamount+=parseFloat(amount);
+
+}
+
+let totalqty=document.getElementById('qtytot')
+let totalprice=document.getElementById('pricetot')
+let totalgross=document.getElementById('grosstot')
+let totaltax=document.getElementById('taxtot')
+let totalamount=document.getElementById('amounttot')
+
+
+let exclamt=document.getElementById('exclamnt')
+let vatamt=document.getElementById('vat')
+let totamt=document.getElementById('total')
+
+totalqty.innerHTML=`${finalqty}`
+totalprice.innerHTML=`${finalprice.toFixed(2)}`
+totalgross.innerHTML=`${finalgross.toFixed(2)}`
+totaltax.innerHTML=`${finaltax.toFixed(2)}`
+totalamount.innerHTML=`${ finalamount.toFixed(2)}`
+
+exclamt.innerHTML=`${finalgross.toFixed(2)}`
+
+vatamt.innerHTML=`${finaltax.toFixed(2)}`
+totamt.innerHTML=`${finalamount.toFixed(2)}`
+
+
+
+const amount = finalamount;
+const amountInWords = numberToWords(amount);
+
+let textamount=document.getElementById('amword')
+textamount.innerHTML=`${amountInWords}`
+ 
+function numberToWords(number) {
+    const units = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+    const teens = ["", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+    const tens = ["", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+
+    function convertToWordsLessThanThousand(num) {
+        if (num === 0) return "";
+
+        let words = "";
+
+        if (num >= 100) {
+            words += units[Math.floor(num / 100)] + " hundred";
+            num %= 100;
+            if (num > 0) {
+                words += " and ";
+            }
+        }
+
+        if (num >= 11 && num <= 19) {
+            words += teens[num - 10];
+        } else {
+            words += tens[Math.floor(num / 10)];
+            num %= 10;
+            if (num > 0) {
+                words += " " + units[num];
+            }
+        }
+
+        return words.trim();
+    }
+
+    if (number === 0) {
+        return "zero";
+    }
+
+    const [integerPart, decimalPart] = number.toString().split('.').map(Number);
+    
+    const lakhs = Math.floor(integerPart / 100000);
+    const thousands = Math.floor((integerPart % 100000) / 1000);
+    const remaining = integerPart % 1000;
+
+    let result = "";
+
+    if (lakhs > 0) {
+        result += convertToWordsLessThanThousand(lakhs) + " lakh";
+        if (thousands > 0 || remaining > 0) {
+            result += " ";
+        }
+    }
+
+    if (thousands > 0) {
+        result += convertToWordsLessThanThousand(thousands) + " thousand";
+        if (remaining > 0) {
+            result += " ";
+        }
+    }
+
+    if (remaining > 0) {
+        result += convertToWordsLessThanThousand(remaining);
+    }
+
+    // Handle the decimal part
+    if (decimalPart) {
+        result += " point ";
+        for (const digit of decimalPart.toString()) {
+            result += units[Number(digit)] + " ";
+        }
+    }
+
+    return result.trim();
+}
+
+// Example usage:
+ // "one lakh twenty three thousand four hundred and fifty six point seven eight"
+
+
+
+// Example usage:
+if ('serviceWorker' in navigator) {
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+         print()
+        } else if (window.navigator.standalone) {
+            print();
+           
+        } else {
+            window.onafterprint = function() {
+       window.close();  // Close the window after print
+      };
+      print()
+        }
+    } else {
+        alert('This is a website, not a PWA.');
+    }
+
+ </script>
+
+
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,182 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% block content%}
+<html>
+  <head>
+    <meta charset="utf-8">
+        
+
+                <style>
+                  .containerbox{
+                    height: 400px;
+                    width: 60%;
+                    margin-left: 300px;
+                    background-color :blanchedalmond;
+                    margin-top:  100px;
+                    border-radius: 10px;
+                   
+      box-shadow: 20px slategray;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      justify-items: center;
+                  }
+                  .cname{
+                    margin-left: 100px; width:300px;height: 40px; border-radius: 10px;text-align: center;
+                  }
+                  .pass{
+                    margin-left: 150px; width:300px;height: 40px; border-radius: 10px;text-align: center;
+                  }
+                  .heading{
+                    font-weight: bold;font-size: large;
+                  }
+                  .separatebox{
+                   padding-top: 50px;
+                    
+                  }
+                  .submitbtn{
+                    background-color:rgb(135, 244, 135); width: 100px; border-radius: 10px;    height: 40px;
+                  }
+                  .resetbtn{
+                    background-color:rgb(245, 189, 140); width: 100px; border-radius: 10px; margin-left: 30px;   height: 40px;
+                  }
+                  .clearbtn{
+                    margin-left: 40px; background-color:rgb(235, 103, 103); width: 150px; border-radius: 10px;    height: 40px;
+                  }
+                  @media (max-width:500px){
+                    .containerbox{  
+                    margin-left: 0px;
+                    margin-top:  0px;
+                    width: 100%;
+                    height: 99vh;
+                    
+                    }
+                    .heading{
+                    font-weight: bold;font-size: small;
+                  }
+                  .cname{
+                    margin-left: 10px; width:150px;height: 30px; border-radius: 5px;text-align: center;
+                  }
+                  .pass{
+                    margin-left: 50px; width:150px;height: 30px; border-radius: 5px;text-align: center;
+                  }
+                  .separatebox{
+                   
+                    padding-top: 30px;
+                  }
+                  .submitbtn{
+                    background-color:rgb(21, 59, 21); width: 80px; border-radius: 10px;  font-size: 12px; color: aliceblue; height: 30px;
+                  }
+                  .resetbtn{
+                    background-color:rgb(207, 146, 92); width: 80px; border-radius: 10px; margin-left: 5px; color: aliceblue; font-size: 12px; height: 30px;
+                  }
+                  .clearbtn{
+                   margin-top: 10px; margin-left: 5px; background-color:rgb(235, 103, 103); width: 150px; border-radius: 10px; color: aliceblue;  font-size: 12px; height: 30px;
+                  }
+                  }
+
+                </style>
+  </head>
+  
+  
+     <body onload="getRegistrationCode(true)">
+      <div class="containerbox">
+      <form method="post" >
+        {% csrf_token %}
+        <div class="separatebox">
+        <label class="heading" >Company Name</label>
+        <input name="uname" id="cname" value="{{company}}" class="cname" readonly/>
+      </div>
+      <div class="separatebox">
+        <label class="heading">Password</label>
+        <input name="pass" value="{{password}}" class="pass"/>
+      </div>
+      <div style="padding: 80px;">
+        <button type="submit" class="submitbtn">Save</button>
+        <button type="reset" class="resetbtn">Clear</button>
+        <button type="button" onclick="cleartrn()" class="clearbtn">Clear Transaction</button>
+      </div>
+      </fom>
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+<script>
+  function cleartrn(){
+   const company=document.getElementById('cname').value;
+   fetch(`/cleartrn/?company=${company}`)
+         .then(response => response.json())
+         .then(data => alert(data.msg)
+           
+           );
+         
+  }
+  function getRegistrationCode(IsReg) {
+    var cdKey = "AS-693543535367689";
+  var productId = "8557DACB1D8932F5";
+    var rgx="[^A-Za-z0-9]";
+    // Assuming rgx is defined elsewhere
+    cdKey = cdKey.replace(rgx, "");
+    productId = productId.replace(rgx, "");
+
+    let temp = generateKey(productId);
+
+    return temp;
+}
+
+function generateKey(sourceObject) {
+    let hashString = "";
+
+    // Catch unuseful parameter values
+    if (sourceObject === null || sourceObject === undefined) {
+        throw new Error("Null as parameter is not allowed");
+    } else {
+        try {
+            hashString = computeHash(objectToByteArray(sourceObject));
+            return hashString;
+        } catch (ame) {
+            throw new Error("Could not definitly decide if object is serializable. Message:" + ame.message);
+        }
+    }
+}
+
+function computeHash(objectAsBytes) {
+    try {
+        let result = CryptoJS.MD5(objectAsBytes).toString();
+        let hexString = '';
+    for (let i = 0; i < result.length/2; i++) {
+        // Convert each byte to a two-digit hexadecimal representation
+        let hex = result[i].toString(16);
+        // Ensure each byte is represented by two characters
+        // if (hex.length === 1) {
+        //     hex = '0' + hex;
+        // }
+        // Append the hexadecimal representation to the string
+        hexString += hex;
+    }
+    return hexString;
+
+       
+    } catch (ane) {
+        console.log("Hash has not been generated.");
+        return null;
+    }
+}
+
+function objectToByteArray(objectToSerialize) {
+    let byteArray;
+    try {
+        let serialized = JSON.stringify(objectToSerialize);
+        byteArray = CryptoJS.enc.Utf8.parse(serialized);
+        return byteArray;
+    } catch (se) {
+        console.log("Error occured during serialization. Message: " + se.message);
+        return null;
+    }
+}
+
+</script>
+
+    </body>
+</html>
+{% endblock %}

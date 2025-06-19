@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+  font-family: Arial, sans-serif;
+}
+
+.receipt {
+  width: 300px;
+  
+  padding: 10px;
+  margin-left: 0px;
+}
+
+.header,
+.footer {
+  text-align: center;
+}
+
+.content {
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 10px 0;
+}
+.content2 {
+  
+  border-bottom: 1px dashed #000;
+  padding: 10px 0;
+  
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item span {
+  flex: 1;
+}
+
+.item .price {
+  text-align: right;
+}
+#qrcode{
+            width: 60px;
+            height: 60px;
+            margin-left: 100px;
+            margin-top: 20px;
+            
+        }
+    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+ 
+</head>
+<body>
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  <div  >
+    <div >
+      <table>
+        <label style="font-weight: bold;">Invoice No   : {{vno}}</label>
+        <tr>
+          <th >Date      :<input style="border: 0px;font-weight: bold;font-size: 16px;" value="{{dates}}" id="printdate"  type="date" readonly/></th>
+        </tr>
+        <tr>
+          <th>Customer:{{customer}}</th>
+        </tr>
+      </table>
+    </div>
+    <div >
+<table style="border-bottom:1px solid #000;">
+    <thead style="border-bottom:1px solid #000;border-top:1px solid #000;">
+
+  
+    <tr class="content" id="content" style="height: 40px;border-bottom:1px solid #000;border-top:1px solid #000;">
+        <th style="width: 20px;border-bottom:1px solid #000;border-top:1px solid #000;">Sl</th>
+        <th style="width: 80px;border-bottom:1px solid #000;border-top:1px solid #000;">Itemname</th>
+        <th style="width: 50px;border-bottom:1px solid #000;border-top:1px solid #000;">Qty</th>
+        <th style="width: 50px;border-bottom:1px solid #000;border-top:1px solid #000;">Rate</th>
+        <th style="width: 50px;border-bottom:1px solid #000;border-top:1px solid #000;">Tax</th>
+        <th style="width: 50px;border-bottom:1px solid #000;border-top:1px solid #000;">Amount</th>
+    </tr>
+</thead >
+        <tbody id="tablemain" >
+
+        </tbody>
+    
+</table>
+    </div>
+   
+    <div class="footer">
+    <table style="border-bottom:1px solid #000;margin-top: 20px;">
+<tr>
+  <th >Total (مجموع)  :</th><th style="padding-left:50px;" id="tot"></th>
+</tr>
+<tr>
+  <td>vat 15%  (ضريبة)  :</td><th style="padding-left:50px;" id="tax">{{taxamt}}</th>
+</tr>
+
+  <th>Grand Total  (المجموع الإجمالي)  :</th><th style="padding-left:50px;" id="final">{{totalamt}}</th>
+</tr>
+    </table>
+
+ 
+    </div>
+    <div>
+      <img id="qrcode" src="{% url 'generate_zakat_qr' customer dates vno taxamt totalamt %}">
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.js"></script>
+  <script >
+    function textToBase64(text) {
+  const encoded = btoa(text);
+  return encoded;
+}
+var sellername = "{{ company|safe }}";
+var vatno = "1234";
+var billno = {{ vno|safe }};
+var billdate = document.getElementById('printdate').value;
+var taxamount = {{ taxamt|safe }};2
+var billamount = {{ totalamt|safe }};
+document.getElementById('tot').innerHTML=parseFloat(billamount-taxamount).toFixed(2)
+document.getElementById('tax').innerHTML=parseFloat(taxamount).toFixed(2)
+document.getElementById('final').innerHTML=parseFloat( billamount).toFixed(2)
+
+var Ptxt = "Seller's Name=" + sellername + "\n";
+Ptxt = Ptxt +"Name="+"Sale Invoice"+ "\n"+"VAT NO=" + vatno + "\nBill No=" + billno + "\nDate=" + new Date(billdate).toLocaleDateString("en-GB") + "\nTime="+"10:00:05"+"\nVAT Amount=" + taxamount + "\nTotal Amount=" + billamount;
+       
+// Example usage
+
+
+
+   
+
+  let finalqty=0;
+  let finalprice=0;
+  let finalgross=0;
+  let finaltax=0;
+  let finalamount=0;
+  var itemarray = {{ itemname|safe }};
+  var slangarray = {{ slang|safe }};
+  var qtyarray = {{ qty|safe }};
+  var pricearray = {{ price|safe }};
+  var grossarray = {{ gross|safe }};
+  var taxarray = {{ tax|safe }};
+  var amountarray = {{ amount|safe }};
+  
+  const tableBody = document.getElementById('tablemain');
+for(i=0;i<itemarray.length;i++){
+  let slang=slangarray[i];
+let qty=qtyarray[i];
+let price=pricearray[i];
+let gross=grossarray[i];
+let tax=taxarray[i]
+let amount=amountarray[i]
+
+
+  const newRow = document.createElement('tr');
+  newRow.style.height='40px';
+  newRow.style.border='1px solid #000';
+      newRow.innerHTML = `
+      <td style="width:20px;border-bottom:1px dashed #000;font-size: 14px;" align="center">${i+1}</td>
+	  <td style="width:80px;border-bottom:1px dashed #000;font-size: 14px;" align="center">${itemarray[i]}${slang}</td>
+	  <td style="width:50px;border-bottom:1px dashed #000;font-size: 14px;" align="center">${qty}</td>
+	  <td style="width:50px;border-bottom:1px dashed #000;font-size: 14px;" align="center">${price}</td>
+	  
+	  <td style="width:50px;border-bottom:1px dashed #000;font-size: 14px;" align="center">${tax}</td>
+	  <td style="width:50px;border-bottom:1px dashed #000;font-size: 14px;" align="center">${amount}</td>
+
+
+   `;
+   
+tableBody.appendChild(newRow);
+
+
+finalqty+=parseFloat( qty);
+finalprice+=parseFloat(price);
+finalgross+=parseFloat(gross);
+finaltax+=parseFloat(tax);
+finalamount+=parseFloat(amount);
+var dashelem = document.createElement('span');
+    dashelem.classList.add('content2');
+    tableBody.appendChild(dashelem)
+
+}
+if (isMobile()) {
+   
+   // For mobile, provide a manual "Close Window" button
+   print();
+ }  
+  else {
+print()
+window.onafterprint = function() {
+   window.close();  // Close the window after print
+ };
+
+}
+
+ function isMobile() {
+ return /Mobi|Android/i.test(navigator.userAgent);
+}
+// window.onafterprint = window.close;
+
+// print()
+
+  </script>
+</body>
+</html>

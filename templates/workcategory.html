@@ -1,0 +1,356 @@
+{% extends 'navbar.html' %}
+
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+
+
+    <!-- Icons font CSS-->
+<!--    <link href="{% static 'mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">-->
+<link href="{% static 'css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+
+    <link href="{% static 'font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'css/select2.min.css' %}" rel="stylesheet" media="all">
+    
+ <link href="{% static 'css/main.min.css' %}" rel="stylesheet" media="all">
+    <!-- Main CSS-->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all">
+
+<style>
+    .comboclass{
+height: 50px;
+width:230px;
+border-radius: 5px;
+background-color: #eee;
+justify-content: center;
+text-align: center;
+font-size: 16px;
+
+
+}
+.select option{
+height: 50px;
+width:100%;
+
+
+
+}
+
+.btnclass{
+    display: flex;
+    margin-left: 0px;
+    margin-top: 40px;
+    padding: 20px;
+    justify-content: center;
+    gap: 20px;
+  }
+  .btnregister, .btnclose, .btnclear{
+    width:120px;
+    height: 45px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+  }
+  .btnclear{
+    background-color: rgb(57, 180, 214);
+    
+  }
+  .btnregister{
+    background-color: rgb(57, 214, 122);
+  }
+  .btnclose{
+    background-color: red;
+  }
+.dtfield{
+    margin-left: 30px;background-color: #6a656521;
+    border-radius: 5px;
+    min-width:150px ;
+    min-height: 50px;
+    padding: 10px;
+}
+.obfield{
+    margin-left: 100px;background-color: #6a656521;
+    border-radius: 5px;
+    width: 250px;
+    height: 50px;
+    padding: 10px;
+}
+.input-group{
+    min-width: 430px;
+}
+.taxdiv{
+   
+   
+}
+.taxmaindiv{
+    margin-left: 30px;
+}
+@media only screen and (max-width: 600px) {
+    .taxmaindiv{
+    margin-left: 0px;
+}
+    .obfield{
+    margin-left: 00px;background-color: #6a656521;
+    border-radius: 5px;
+   margin-top: 20px;
+   margin-bottom: 20px;
+    height: 50px;
+    padding: 10px;
+    width: 270px;
+}
+    .dtfield{
+    margin-left: 20px;background-color: #6a656521;
+    border-radius: 10px;
+   min-height: 40px;
+    margin-bottom: 20px;
+    min-width: 170px;
+}
+.btnregister, .btnclose, .btnclear{
+    width:80px;
+    height: 35px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+  }
+  .btnclass{
+    display: flex;
+    margin-left: 0px;
+    margin-top: 40px;
+    padding: 20px;
+    justify-content: center;
+    gap: 20px;
+  }
+
+
+
+  .card {
+    height: 100%;
+    width: 100%;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.card-5 {
+  background: #fff;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+.card-5 .card-heading {
+  padding: 10px;
+  background: #1a1a1a;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card-5 .card-body {
+  padding: 30px 30px;
+  padding-bottom: 73px;
+}
+.page-wrapper{
+    padding-top: 0px;
+    padding: 0px;
+}
+.title {
+  font-size: 17px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+.comboclass{
+  height: 40px;
+  width:130px;
+  border-radius: 5px;
+  background-color: #eee;
+  text-align: center;;
+}
+.input-group{
+    min-width: 300px;
+    
+}
+.page-wrapper{
+  height: 100vh;
+}
+.wrapper{
+  height: 100%;
+}
+}
+        </style>
+</head>
+
+<body>
+
+    <div class="page-wrapper bg-gra-03 ">
+        <div class="wrapper">
+            <div class="card card-5">
+                <div class="card-heading">
+                    <h2 class="title">Add WorkCategory</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="itemform">
+                        {% csrf_token %}
+<div class="itemid-row">
+                    
+                            <div class="value">
+                                <div class="col-4">
+                                    <input class="input--style-5" id="categid" name="categid" type="number" style="background-color: white;" value="{{cid}}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row">
+                            <div class="name">Work Category</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" id="categname" type="text" value="{{cname}}" name="categname">
+                                </div>
+                            </div>
+                        </div>
+                          
+
+                        <div class="btnclass">
+                            {% if type != 'edit' %}
+                            <button class="btnclear" onclick="clearfn()" type="button" >Clear</button>
+                            {% endif %}
+                            <button class="btnregister" type="button" onclick="savefn()">Register</button>
+                            <button class="btnclose" onclick="closefn()" type="button" >Close</button>
+
+                        </div>
+                        <input name="edittype" id="edit" hidden="hidden" value="{{type}}" >
+                        <input name="cm"  hidden="hidden" value="{{cidmain}}" >
+                        <input name="cmp" id="cmp" hidden="hidden" value="{{user}}" >
+                        <input name="cmp" id="area" value="{{area}}" hidden="hidden"/>
+                        <input name="cmp" id="user" value="{{cuser}}" hidden="hidden"/>
+                        {% for i in messages %}
+      <a>{{i}}</a>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+ {% endfor %}
+    <!-- Jquery JS-->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- Vendor JS-->
+    <script src="{% static 'js/select2.min.js' %}"></script>
+  <script src="{% static 'js/global.js' %}"></script>
+
+<script>
+
+function savefn(){
+    const query= cat.value;
+    const company=document.getElementById('cmp').value
+        fetch(`/validate/?query=${query}&type=${'itemcateg'}&company=${company}`)
+            .then(response => response.json())
+            .then(data => saveform(data.data)
+            );
+function saveform(barcodelen){
+    if(barcodelen==0){
+                document.getElementById("itemform").submit();
+            }
+      else{
+       
+        alert("Item Category already exist")
+      }
+}  
+}
+
+    document.addEventListener("keydown", keyDownTextField, false);
+    let cat=document.getElementById('categname')
+function keyDownTextField(e) {
+   
+    
+  if(event.key === 'F5') {
+    event.preventDefault()
+    const query= cat.value;
+    const company=document.getElementById('cmp').value
+        fetch(`/validate/?query=${query}&type=${'itemcateg'}&company=${company}`)
+            .then(response => response.json())
+            .then(data => saveform(data.data)
+            );
+function saveform(barcodelen){
+    if(barcodelen==0){
+                document.getElementById("itemform").submit();
+            }
+      else{
+       
+        alert("Item Category already exist")
+      }
+}
+
+    
+
+  } 
+  if(event.key === 'Enter') {
+
+    event.preventDefault()
+  }
+  if(event.key === 'F12') {
+
+event.preventDefault()
+cat.focus()
+}
+}
+    var catname='';
+const previd={{ preid}};
+ const typed=document.getElementById('edit').value
+
+
+if(typed=='edit'){
+
+document.getElementById('categid').value=previd;
+
+
+}
+
+function clearfn(){
+
+location.reload();
+} 
+function closefn(){
+    
+    const typed=document.getElementById('edit').value
+   
+if(typed=='edit'){
+    
+    window.close();
+}
+else{
+    
+    window.location.href ='/home';
+}
+}
+</script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->
+{% endblock%}

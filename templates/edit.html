@@ -1,0 +1,2526 @@
+
+{% extends 'navbar.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Details</title>
+  {% block content %}
+  <style>
+    .search{margin-left: 300px;
+      margin-top: 10px;
+    border-radius: 10px;
+    border-bottom: 0px;
+    text-align: center;
+    width:250px;
+      height: 35px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 50%;
+      margin: 20px;
+    }
+    th{
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+      background-color: rgb(65, 211, 174);
+    }
+    td{
+      border: 1px solid black;
+      padding: 2px;
+      text-align: center;
+      /*  */
+    }
+    th {
+      /* background-color: #f2f2f2; */
+    }
+    tr{
+      background-color: rgb(166, 225, 210);
+    }
+    td{
+      height: 20px;
+    }
+
+
+    .body22 {
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      margin: 0;
+    }
+.overlaydiv{
+  overflow-y: scroll;margin-left: 200px;
+}
+    #sidebar {
+      width: 200px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      height: 100%;
+      overflow: auto;
+    }
+ 
+    #content {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    .category {
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .category:hover {
+      color: #007bff;
+    }
+   
+    .btn{
+      width:100px;
+      height: 35px;
+      border-radius: 10px;
+      margin-left: 30px;
+      border: 2px solid;
+      margin-top: 10px;
+    }
+    .active {
+            background-color: rgb(162, 230, 162);
+        }
+        .container2{
+          background-color: darkseagreen; height: 60px;width: 100%; padding-left: 50px;padding-right: 50px;
+        }
+        @media only screen and (max-width: 600px) {
+          .search{margin-left: 20px;
+      margin-top: 10px;
+    border-radius: 10px;
+    border-bottom: 0px;
+    text-align: center;
+    width:130px;
+      height: 25px;
+    }
+          .container2{
+          background-color: darkseagreen; height: 60px;width: 100%;padding-left: 0px ;padding-right: 0px;
+        }
+          .btn{
+      width:50px;
+      height: 30px;
+      font-size: 10px;
+      border-radius: 5px;
+      margin-left: 4px;
+      border: 2px solid;
+      margin-top: 0px;
+    }
+
+
+    #sidebar {
+      width: 120px;
+      background-color: #f2f2f2;
+      padding: 5px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      height: 100%;
+      overflow: auto;
+    }
+    .overlaydiv{
+  overflow-y: scroll;margin-left: 100px;
+}
+        }
+  </style>
+ 
+</head>
+<body>
+  <div>
+<div class="container2" style="">
+  <button class="btn" onclick="newwindow()">New</button>
+  <button class="btn" onclick="editdata()">Edit</button>
+  <button class="btn" onclick="deletedata()" >Delete</button>
+  
+<button class="btn" onclick="printfn()">print</button>
+<input class="search" id="search" placeholder="Search" oninput="searcchgrid()" /> 
+<input value="{{user}}" hidden="hidden" id="areaid"/>
+<input value="{{cuser}}" hidden="hidden" id="userid"/>
+<input value="{{area}}" hidden="hidden" id="curarea"/>
+</div>
+  
+  <div class="body22">
+  <div id="sidebar" style="   position: absolute;" >
+    
+    <div class="category" id="itemcateg" onclick="searchitemcateg();selectactive(this)">Item Category</div>
+    <div class="category" id="item" onclick="searchitem();selectactive(this)">Items</div>
+    <div class="category" onclick="searchledgergroup();selectactive(this)" >Ledger group</div>
+    <div class="category" onclick="searchledger('ledger');selectactive(this)">Ledgers</div>
+    <div class="category" onclick="searchledger('customer');selectactive(this)">Customers</div>
+    <div class="category" onclick="searchledger('supplier');selectactive(this)">Suppliers</div>
+    <div class="category" onclick="searcharea();selectactive(this)">Stockarea</div>
+    <div class="category" onclick="searchusers(); selectactive(this)">Users</div>
+    <div class="category" onclick="searchjobcateg(); selectactive(this)">Job Category</div>
+    <div class="category" onclick="searchjob(); selectactive(this)">Jobcard</div>
+    <div class="category" onclick="searchsales(); selectactive(this)">Sales</div>
+    <div class="category" onclick="searchsalesreturn(); selectactive(this)">Sales Return</div>
+    <div class="category" onclick="searchpurchase(); selectactive(this)">Purchase</div>
+    <div class="category" onclick="searchpurchasereturn(); selectactive(this)">Purchase Return</div>
+    
+    <div class="category" onclick="searchpayment(); selectactive(this)">Payment</div>
+    <div class="category" onclick="searchreceipt(); selectactive(this)">Receipt</div>
+    <div class="category" onclick="searchservice(); selectactive(this)">Service</div>
+
+
+    <!-- Add more categories as needed -->
+  </div>
+
+  <div class="overlaydiv" style="">
+    
+    <div id="overlay2">
+  
+  
+  
+     <table id="tablemain" style="width: 100%;">
+
+     </table>
+  
+  
+    </div>
+  </div>
+
+</div>
+</div>
+<script src="{% static 'js/transactionedit.js' %}"> </script>
+  <script>
+
+window.onload = function() {
+  const categ=document.getElementById('itemcateg')
+        searchitemcateg()
+        categ.style.backgroundColor = 'rgb(162, 230, 162)';
+    };
+
+
+
+///
+
+
+
+
+
+    var selectindex=0;
+    var itemidd='';
+    let cuser=document.getElementById('userid').value;
+let curarea=document.getElementById('curarea').value;
+const area=document.getElementById('areaid').value;
+function newwindow(){
+
+  const type='edit';
+if(selectindex==1){
+  var windowop= window.open('/itemcateg/?type=')
+     
+     location.reload();
+
+}
+if(selectindex==2){
+  var windowop= window.open('/itemad/?type=')
+       location.reload();
+
+}
+if(selectindex==3){
+  window.location.href ='/ledgergroup/?type='
+
+}
+if(selectindex==4){
+  window.location.href ='/ledgeradd/?type='
+
+}
+if(selectindex==5){
+  window.location.href ='/cus/?type='
+
+}
+if(selectindex==6){
+  window.location.href ='/sup/?type='
+
+}
+if(selectindex==7){
+  window.location.href ='/Addarea/?type='
+
+}
+if(selectindex==8){
+  window.location.href ='/useradd/?type='
+
+}
+if(selectindex==9){
+  window.location.href ='/jobcard/?type='
+
+}
+if(selectindex==10){
+  window.location.href ='/workcateg/?type='
+
+}
+if(selectindex==11){
+  window.location.href ='/sale/'
+
+}
+if(selectindex==12){
+  window.location.href ='/salereturn/'
+
+}
+if(selectindex==13){
+  window.location.href ='/purchase/'
+
+}
+if(selectindex==14){
+  window.location.href ='/purchasereturn/'
+
+}
+if(selectindex==15){
+  window.location.href ='/payment/'
+
+}
+if(selectindex==16){
+  window.location.href ='/receipt/'
+
+}
+if(selectindex==17){
+  window.location.href ='/service/'
+
+}
+}
+
+
+    function selectactive(element){
+
+      var sidebarItems = document.querySelectorAll('#sidebar div');
+        sidebarItems.forEach(function (item) {
+          item.style.backgroundColor = '#f2f2f2';
+            
+        });
+
+        // Add 'active' class to the clicked item
+        element.style.backgroundColor = 'rgb(162, 230, 162)';
+
+    }
+
+function searcchgrid(){
+  let searchkey=document.getElementById('search').value;
+  if(selectindex==1){
+      
+    var query='itemcateg';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displayitemcategResults(data.data));
+
+    }
+    if(selectindex==2){
+      var query='item';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displayitemResults(data.data));
+
+    }
+
+    if(selectindex==3){
+      
+      var query='accountgroup';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displayledgroupResults(data.data));
+      
+    }
+    if(selectindex==4){
+     
+      var query='ledger';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displayledgerResults(data.data));
+      
+    }
+    if(selectindex==5){
+      var query='customer';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displayledgerResults(data.data));
+
+    }
+    if(selectindex==6){
+      var query='supplier';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displayledgerResults(data.data));
+
+    }
+    
+    if(selectindex==7){
+      var query='area';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displayareaResults(data.data));
+
+    }
+    if(selectindex==8){
+      
+      var query='user';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displayuserResults(data.data));
+
+    }
+
+  if(selectindex==9){
+  var query='job';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displayjobResults(data.data));
+  }
+  if(selectindex==10){
+  var query='jobcateg';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displayjobcategResults(data.data));
+  }
+  if(selectindex==11){
+  var query='SI';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displaytransaction(data.data));
+  }
+  if(selectindex==12){
+  var query='SR';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displaytransactionpurchase(data.data));
+  }
+  if(selectindex==13){
+  var query='PI';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displaytransactionpurchase(data.data));
+  }
+  if(selectindex==14){
+  var query='PR';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displaytransaction(data.data));
+  }
+
+  if(selectindex==15){
+  var query='P';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displaytransaction(data.data));
+  }
+  if(selectindex==16){
+  var query='R';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displaytransaction(data.data));
+  }
+  if(selectindex==17){
+    
+  var query='SS';
+let curarea=document.getElementById('curarea').value;
+
+
+      fetch(`/editsearch/?query=${query}&search=${searchkey}`)
+               .then(response => response.json())
+               .then(data => displaytransaction(data.data));
+  }
+
+}
+
+function deletedata(){
+  
+  var mode='';
+  if(selectindex==1){
+mode='icateg';
+  }
+  if(selectindex==2){
+mode='item';
+  }
+  if(selectindex==3){
+mode='ledgroup';
+  }
+  if(selectindex==4){
+mode='ledger';
+  }
+  if(selectindex==5){
+mode='cus';
+  }
+  if(selectindex==6){
+mode='sup';
+  }
+  if(selectindex==7){
+mode='area';
+  }
+  if(selectindex==8){
+mode='user';
+  }
+  if(selectindex==9){
+mode='job';
+  }
+  if(selectindex==10){
+mode='jobcateg';
+  }
+  if(selectindex==11){
+mode='SI';
+  }
+  if(selectindex==12){
+mode='SR';
+  }
+  if(selectindex==13){
+mode='PI';
+  }
+  if(selectindex==14){
+mode='PR';
+  }
+  if(selectindex==15){
+mode='P';
+  }
+  if(selectindex==16){
+mode='R';
+  }
+  if(selectindex==17){
+mode='SS';
+  }
+  if(itemidd!=''){
+  var windowop= window.open('/deleteedit/?modeid='+itemidd+'&mode='+mode+'')
+     
+     location.reload();
+  
+  }
+}
+
+    function editdata(){
+
+if(itemidd>0){
+      if(selectindex==1){
+      
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+       var windowop= window.open('/itemcateg/?itemid='+itemidd+'&type='+type+'')
+     
+       location.reload();
+
+      }
+      if(selectindex==2){
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+       var windowop= window.open('/itemad/?itemid='+itemidd+'&type='+type+'')
+       location.reload();
+
+      }
+
+      if(selectindex==3){
+        
+        if(itemidd>31){
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+       var windowop= window.open('/ledgergroup/?ledid='+itemidd+'&type='+type+'')
+       location.reload();
+        }
+        
+      }
+      if(selectindex==4){
+       
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+       var windowop= window.open('/ledgeradd/?lid='+itemidd+'&type='+type+'')
+       location.reload();
+        
+      }
+      if(selectindex==5){
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+       var windowop= window.open('/cus/?lid='+itemidd+'&type='+type+'')
+       location.reload();
+
+      }
+      if(selectindex==6){
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+       var windowop= window.open('/sup/?lid='+itemidd+'&type='+type+'')
+       location.reload();
+
+      }
+      
+      if(selectindex==8){
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+       var windowop= window.open('/useradd/?uid='+itemidd+'&type='+type+'')
+       location.reload();
+
+      }
+      if(selectindex==7){
+        
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+       var windowop= window.open('/Addarea/?dcode='+itemidd+'&type='+type+'')
+       location.reload();
+
+      }
+      if(selectindex==9){
+        
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+       var windowop= window.open('/jobcard/?itemid='+itemidd+'&type='+type+'')
+       location.reload();
+
+      }
+      if(selectindex==10){
+        
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+       var windowop= window.open('/workcateg/?itemid='+itemidd+'&type='+type+'')
+       location.reload();
+
+      }
+      if(selectindex==11){
+        
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+        var windowop= window.open('/sale/?type=report&prevno='+itemidd+'')
+       location.reload();
+
+      }
+      if(selectindex==12){
+        
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+        var windowop= window.open('/salereturn/?type=report&prevno='+itemidd+'')
+       location.reload();
+
+      }
+      if(selectindex==13){
+        
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+        var windowop= window.open('/purchase/?type=report&prevno='+itemidd+'')
+       
+       location.reload();
+
+      }
+      if(selectindex==14){
+        
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+        var windowop= window.open('/purchasereturn/?type=report&prevno='+itemidd+'')
+
+      
+       location.reload();
+
+      }
+      if(selectindex==15){
+        alert(itemidd)
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+        var windowop= window.open('/payment/?type=report&prevno='+itemidd+'')
+
+      
+       location.reload();
+
+      }
+      if(selectindex==16){
+        
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+        var windowop= window.open('/receipt/?type=report&prevno='+itemidd+'')
+
+      
+       location.reload();
+
+      }
+      if(selectindex==17){
+        
+        const type='edit'
+        // window.location.href =`/itemedit/${itemidd}/`
+        var windowop= window.open('/service/?type=report&prevno='+itemidd+'')
+
+      
+       location.reload();
+
+      }
+    }
+    }
+    function getid(id,element){
+      itemidd=id
+   
+   
+    }
+//itemcategory
+
+function searchitemcateg() {
+selectindex=1;
+
+var query='itemcateg';
+
+      fetch(`/getedit/?query=${query}&comp=${area}`)
+               .then(response => response.json())
+               .then(data => displayitemcategResults(data.data));
+
+
+
+
+           
+
+       }
+
+       function displayitemcategResults(customers) {
+
+
+
+         
+           itemlen=customers.length;
+           const resulttable = document.getElementById('tablemain');
+
+           resulttable.innerHTML = '';
+           var thead = document.createElement('thead');
+   var headerRow = thead.insertRow();
+   
+   // Add header cells
+ 
+   var headerCell = document.createElement('th');
+     headerCell.textContent = 'Id';
+     headerCell.style.width='50px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Category';
+     headerCell.style.width='300px';
+     headerRow.appendChild(headerCell);
+
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Remarks';
+     headerCell.style.width='300px';
+     headerRow.appendChild(headerCell);
+     
+
+
+
+
+   // Append the header to the table
+   resulttable.appendChild(thead);
+
+   const tbody = document.createElement('tbody');
+  
+if(customers.length==0){
+
+  const mainlist = document.createElement('tr');
+               const listid = document.createElement('td');
+               const listname = document.createElement("td");
+               const listremarks = document.createElement("td");
+               listremarks.textContent='None';
+
+
+               
+               listname.textContent='None'
+               listremarks.textContent='None'
+               mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+mainlist.appendChild(listremarks);
+tbody.appendChild(mainlist);   
+}
+var categrownum=0;
+
+           customers.forEach(customer => {
+
+            
+            categrownum+=1;
+             const mainlist = document.createElement('tr');
+               const listid = document.createElement('td');
+               mainlist.classList.add('result-item2categ');
+
+               listid.id=`categid${categrownum}`;
+
+               listid.textContent = customer.id;
+
+                const listname = document.createElement("td");
+                listname.id=`categname${categrownum}`;
+                if(customer.bcode==''){
+
+                  }
+                  else{
+                       listname.textContent=customer.name;
+                  }
+
+
+                const listremarks = document.createElement("td");
+                listremarks.id=`categremark${categrownum}`;
+                  if(customer.remarks==''){
+                    listremarks.textContent='None';
+                  }
+                  else{
+                    listremarks.textContent=customer.remarks;
+                  }
+
+
+
+
+
+
+mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+mainlist.appendChild(listremarks);
+
+
+
+
+
+
+
+
+
+tbody.appendChild(mainlist);   
+
+mainlist.addEventListener('dblclick', function () {
+  
+  getid(customer.id)
+  editdata();
+});          
+              // mainlist.onclick = () =>getid(customer.id,this)
+              
+                mainlist.addEventListener('click', function () {
+                    // Change color when a row is clicked
+                    var rows = document.querySelectorAll('#tablemain tbody tr');
+                    rows.forEach(function (item) {
+          item.style.backgroundColor = 'rgb(166, 225, 210)';
+            
+        });
+                    this.style.backgroundColor = '#c6ccca';
+                    getid(customer.id)
+                });
+           
+
+           });
+           
+           resulttable.appendChild(tbody)  
+          
+          }
+
+
+
+//item
+function searchitem() {
+
+selectindex=2;
+ var query='item';
+
+       fetch(`/getedit/?query=${query}&comp=${area}`)
+                .then(response => response.json())
+                .then(data => displayitemResults(data.data));
+        }
+
+        function displayitemResults(customers,rowNumber) {
+
+
+          
+            itemlen=customers.length;
+            const resulttable = document.getElementById('tablemain');
+
+            resulttable.innerHTML = '';
+            var thead = document.createElement('thead');
+    var headerRow = thead.insertRow();
+    
+    // Add header cells
+    
+    
+      var headerCell = document.createElement('th');
+      headerCell.textContent = 'Barcode';
+      headerCell.style.width='250px';
+      headerRow.appendChild(headerCell);
+
+      var headerCell = document.createElement('th');
+      headerCell.textContent = 'Itemnote';
+      headerCell.style.width='200px';
+      headerRow.appendChild(headerCell);
+
+
+      var headerCell = document.createElement('th');
+      headerCell.textContent = 'Itemname';
+      headerCell.style.width='250px';
+      headerRow.appendChild(headerCell);
+      var headerCell = document.createElement('th');
+      headerCell.textContent = 'Prate';
+      headerCell.style.width='150px';
+      headerRow.appendChild(headerCell);
+      var headerCell = document.createElement('th');
+      headerCell.textContent = 'Srate';
+      headerCell.style.width='150px';
+      headerRow.appendChild(headerCell);
+      var headerCell = document.createElement('th');
+      headerCell.textContent = 'Category';
+      headerCell.style.width='200px';
+      headerRow.appendChild(headerCell);
+
+    // Append the header to the table
+    resulttable.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+
+
+    if(customers.length==0){
+
+const mainlist = document.createElement('tr');
+             const listid = document.createElement('td');
+             const listname = document.createElement("td");
+             const listremarks = document.createElement("td");
+
+             const listprate = document.createElement('td');
+             const listsrate = document.createElement("td");
+             const listcateg = document.createElement("td");
+             
+             listname.textContent='None'
+             listremarks.textContent='None'
+             mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+mainlist.appendChild(listremarks);
+mainlist.appendChild(listprate);
+mainlist.appendChild(listsrate);
+mainlist.appendChild(listcateg);
+tbody.appendChild(mainlist);   
+}
+  var itemrownum=0;
+
+            customers.forEach(customer => {
+              itemrownum+=1;
+              
+
+
+              const mainlist = document.createElement('tr');
+                const listItem = document.createElement('td');
+                mainlist.classList.add('result-item2');
+
+                listItem.textContent = customer.name;
+                listItem.id=`itemname${itemrownum}`;
+
+                 const listbcode = document.createElement("td");
+                 listbcode.id=`bcode${itemrownum}`;
+                 if(customer.bcode==''){
+
+                   }
+                   else{
+                        listbcode.textContent=customer.bcode;
+                   }
+
+
+                 const listitemnote = document.createElement("td");
+                 listitemnote.id=`itemnote${itemrownum}`;
+                   if(customer.itemnote==''){
+                    listitemnote.textContent='None';
+                   }
+                   else{
+                    listitemnote.textContent=customer.itemnote;
+                   }
+
+
+                 const listsrate = document.createElement("td");
+                 listsrate.id=`srate${itemrownum}`
+                 if(customer.srate==0){
+                   listsrate.textContent='0.0';
+
+                   }
+                   else{
+                   listsrate.textContent=customer.srate;
+                   }
+
+
+                   const listilang = document.createElement("td");
+                   listilang.id=`ilang${itemrownum}`
+                   if(customer.ilang==''){
+                   listilang.textContent='Empty';
+                   }
+                   else{
+
+                   listilang.textContent=customer.ilang;
+                   }
+
+
+                 const listprate = document.createElement("td");
+                 listprate.id=`prate${itemrownum}`
+
+                  if( customer.prate==0){
+
+                   listprate.textContent='00.0';
+                   }
+                   else{
+
+                    listprate.textContent=customer.prate;
+                   }
+
+
+const listcateg=document.createElement("td");
+listcateg.id=`category${itemrownum}`
+var categid=customer.categid;
+
+  if(categid!=0 ){         
+  fetch(`/getitemcateg/?categid=${categid}&comp=${area}`)
+                .then(response => response.json())
+                .then(data => getcateg(data.data));
+                function getcateg(categories){
+
+                  categories.forEach(category => {
+                   
+
+                    listcateg.textContent=category.name;
+                  });
+                }
+              }
+              else {
+                listcateg.textContent='None';
+              }
+
+listItem.style.width = "220px";
+listbcode.style.width = "150px";
+listitemnote.style.width = "150px";
+listilang.style.width = "220px";
+listprate.style.width = "250px";
+listsrate.style.width = "200px";
+
+
+mainlist.appendChild(listbcode);
+mainlist.appendChild(listitemnote);
+mainlist.appendChild(listItem);
+
+
+mainlist.appendChild(listprate);
+mainlist.appendChild(listsrate);
+mainlist.appendChild(listcateg);
+
+tbody.appendChild(mainlist);
+
+
+
+
+mainlist.addEventListener('dblclick', function () {
+  
+  getid(customer.id)
+  editdata();
+});   
+
+                //    const divide = document.createElement('hr');
+
+                // resultsList.appendChild(divide);
+            
+
+                mainlist.addEventListener('click', function () {
+                    // Change color when a row is clicked
+                    var rows = document.querySelectorAll('#tablemain tbody tr');
+                    rows.forEach(function (item) {
+          item.style.backgroundColor = 'rgb(166, 225, 210)';
+            
+        });
+                    this.style.backgroundColor = '#c6ccca';
+                    getid(customer.id)
+                });
+
+
+            });
+
+           
+resulttable.appendChild(tbody)
+        }
+
+
+//ledgergroup
+
+
+function searchledgergroup() {
+selectindex=3;
+
+var query='accountgroup';
+
+      fetch(`/getedit/?query=${query}&comp=${area}`)
+               .then(response => response.json())
+               .then(data => displayledgroupResults(data.data));
+       }
+
+       function displayledgroupResults(customers,rowNumber) {
+
+
+         
+           itemlen=customers.length;
+           const resulttable = document.getElementById('tablemain');
+
+           resulttable.innerHTML = '';
+           var thead = document.createElement('thead');
+   var headerRow = thead.insertRow();
+   
+   // Add header cells
+ 
+   var headerCell = document.createElement('th');
+     headerCell.textContent = 'Id';
+     headerCell.style.width='50px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Agroupname';
+     headerCell.style.width='300px';
+     headerRow.appendChild(headerCell);
+
+     
+     
+
+
+
+
+   // Append the header to the table
+   resulttable.appendChild(thead);
+
+
+   if(customers.length==0){
+
+const mainlist = document.createElement('tr');
+             const listid = document.createElement('td');
+             const listname = document.createElement("td");
+             const listremarks = document.createElement("td");
+
+
+             
+             listname.textContent='None'
+             listremarks.textContent='None'
+             mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+
+tbody.appendChild(mainlist);   
+}
+
+
+
+
+   const tbody = document.createElement('tbody');
+
+   var ledgrprrownum=0;
+
+           customers.forEach(customer => {
+
+            ledgrprrownum+=1;
+             const mainlist = document.createElement('tr');
+               const listid = document.createElement('td');
+               mainlist.classList.add('result-item2');
+
+               listid.textContent = customer.id;
+               listid.id=`ledgrpid${ledgrprrownum}`;
+
+                const listname = document.createElement("td");
+                listname.id=`ledname${ledgrprrownum}`;
+                if(customer.bcode==''){
+
+                  }
+                  else{
+                       listname.textContent=customer.name;
+                  }
+
+
+                
+
+
+
+
+
+
+
+mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+
+
+
+
+
+tbody.appendChild(mainlist);
+
+
+
+
+mainlist.addEventListener('dblclick', function () {
+  
+  getid(customer.id)
+  editdata();
+});   
+
+               //    const divide = document.createElement('hr');
+
+               // resultsList.appendChild(divide);
+               mainlist.addEventListener('click', function () {
+                    // Change color when a row is clicked
+                    var rows = document.querySelectorAll('#tablemain tbody tr');
+                    rows.forEach(function (item) {
+          item.style.backgroundColor = 'rgb(166, 225, 210)';
+            
+        });
+                    this.style.backgroundColor = '#c6ccca';
+                    getid(customer.id)
+                });
+
+
+           });
+                  
+resulttable.appendChild(tbody)   
+          
+          }
+
+
+
+///customer ledger
+
+function searchledger(type) {
+
+  var query=type;
+
+if(type=='ledger'){
+  selectindex=4;
+}
+else if(type=='customer'){
+  selectindex=5;
+}
+else{
+  selectindex=6
+}
+
+
+      fetch(`/getedit/?query=${query}&comp=${area}`)
+               .then(response => response.json())
+               .then(data => displayledgerResults(data.data,type));
+       }
+
+       function displayledgerResults(customers,type) {
+
+
+         
+           itemlen=customers.length;
+           const resulttable = document.getElementById('tablemain');
+
+           resulttable.innerHTML = '';
+           var thead = document.createElement('thead');
+   var headerRow = thead.insertRow();
+   
+   // Add header cells
+   if(type!='ledger')
+   {
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Slno';
+     headerCell.style.width='150px';
+     headerRow.appendChild(headerCell);
+   }
+   if(type!='customer'){
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Id';
+     headerCell.style.width='100px';
+     headerRow.appendChild(headerCell);
+   }
+  
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Name';
+     headerCell.style.width='250px';
+     headerRow.appendChild(headerCell);
+
+
+  
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Address';
+     headerCell.style.width='250px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Phone';
+     headerCell.style.width='150px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Mobile';
+     headerCell.style.width='150px';
+     headerRow.appendChild(headerCell);
+
+     if(type!='ledger'){
+
+      var headerCell = document.createElement('th');
+     headerCell.textContent = 'taxregno';
+     headerCell.style.width='150px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+headerCell.textContent = 'Area';
+headerCell.style.width='180px';
+headerRow.appendChild(headerCell);
+
+     }
+     
+     if(type=='customer'){
+
+
+
+}
+   // Append the header to the table
+   resulttable.appendChild(thead);
+
+   const tbody = document.createElement('tbody');
+
+
+   if(customers.length==0){
+
+const mainlist = document.createElement('tr');
+             const listid = document.createElement('td');
+             const listname = document.createElement("td");
+             const listremarks = document.createElement("td");
+             const listphone = document.createElement('td');
+             const listmobile = document.createElement("td");
+             const listslno = document.createElement("td");
+             const listarea = document.createElement("td");
+
+             
+             listname.textContent='None'
+             listremarks.textContent='None'
+             mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+mainlist.appendChild(listremarks);
+mainlist.appendChild(listphone);
+   mainlist.appendChild(listmobile);
+
+
+if(type!='ledger'){
+  mainlist.appendChild(listslno);
+   mainlist.appendChild(listarea);
+}
+
+tbody.appendChild(mainlist);   
+}
+
+
+   var slno=0;
+
+
+   var ledrownum=0;
+           customers.forEach(customer => {
+            ledrownum+=1;
+            slno+=1
+             const mainlist = document.createElement('tr');
+               const liistslno = document.createElement('td');
+               mainlist.classList.add('result-item2');
+
+               liistslno.textContent =slno;
+
+                const listid = document.createElement("td");
+                listid.id=`lid${ledrownum}`
+                if(customer.lid==''){
+
+                  }
+                  else{
+                       listid.textContent=customer.lid;
+                  }
+
+
+                const listname = document.createElement("td");
+                listname.id=`lname${ledrownum}`
+                  
+                  listname.textContent=customer.lname;
+                  
+
+
+                const listaddress = document.createElement("td");
+                listaddress.id=`address${ledrownum}`
+                if(customer.address==''){
+                  listaddress.textContent='None';
+
+                  }
+                  else{
+                    listaddress.textContent=customer.address;
+                  }
+
+
+                  const listphone = document.createElement("td");
+                  listphone.id=`phone${ledrownum}`
+                  if(customer.phone==''){
+                    listphone.textContent='None';
+                  }
+                  else{
+
+                  listphone.textContent=customer.phone;
+                  }
+
+
+                const listmobile = document.createElement("td");
+                listmobile.id=`mobile${ledrownum}`
+
+                 if( customer.mobile==0){
+
+                  listmobile.textContent='None';
+                  }
+                  else{
+
+                   listmobile.textContent=customer.mobile;
+                  }
+
+                  const listtaxreg = document.createElement("td");
+                  listtaxreg.id=`taxreg${ledrownum}`;
+
+                 if( customer.taxregno==0){
+
+                  listtaxreg.textContent='0.00';
+                  }
+                  else{
+
+                   listtaxreg.textContent=customer.taxregno;
+                  }
+                  const listarea = document.createElement("td");
+                  listarea.id=`area${ledrownum}`
+
+                  if( customer.area==''){
+
+                  listarea.textContent='None';
+                  }
+                  else{
+
+                    listarea.textContent=customer.area;
+                  }
+
+
+
+
+if(type!='ledger')
+   {
+
+mainlist.appendChild(liistslno);
+   }
+
+
+   if(type!='customer')
+   
+   {
+
+mainlist.appendChild(listid);
+   }
+   mainlist.appendChild(listname);
+   mainlist.appendChild(listaddress);
+   mainlist.appendChild(listphone);
+   mainlist.appendChild(listmobile);
+   if(type!='ledger')
+   {
+
+mainlist.appendChild(listtaxreg);
+mainlist.appendChild(listarea);
+   }
+
+   if(type=='customer')
+   {
+
+
+   }
+tbody.appendChild(mainlist);
+
+
+mainlist.addEventListener('dblclick', function () {
+  
+  getid(customer.lid)
+  editdata();
+});   
+
+
+
+               //    const divide = document.createElement('hr');
+
+               // resultsList.appendChild(divide);
+               mainlist.addEventListener('click', function () {
+                    // Change color when a row is clicked
+                    var rows = document.querySelectorAll('#tablemain tbody tr');
+                    rows.forEach(function (item) {
+          item.style.backgroundColor = 'rgb(166, 225, 210)';
+            
+        });
+                    this.style.backgroundColor = '#c6ccca';
+                    getid(customer.lid)
+                });
+
+
+           });
+
+          
+resulttable.appendChild(tbody)
+       }
+
+
+
+
+
+
+       function searcharea() {
+selectindex=7;
+
+var query='area';
+
+      fetch(`/getedit/?query=${query}&comp=${area}`)
+               .then(response => response.json())
+               .then(data => displayareaResults(data.data));
+
+
+
+
+           
+
+       }
+
+       function displayareaResults(customers) {
+
+
+
+         
+           itemlen=customers.length;
+           const resulttable = document.getElementById('tablemain');
+
+           resulttable.innerHTML = '';
+           var thead = document.createElement('thead');
+   var headerRow = thead.insertRow();
+   
+   // Add header cells
+ 
+   var headerCell = document.createElement('th');
+     headerCell.textContent = 'Dcode';
+     headerCell.style.width='80px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Area';
+     headerCell.style.width='300px';
+     headerRow.appendChild(headerCell);
+
+     
+     
+
+
+
+
+   // Append the header to the table
+   resulttable.appendChild(thead);
+
+   const tbody = document.createElement('tbody');
+  
+if(customers.length==0){
+
+  const mainlist = document.createElement('tr');
+               const listid = document.createElement('td');
+               const listname = document.createElement("td");
+               
+               listremarks.textContent='None';
+
+
+               
+               listname.textContent='None'
+               
+               mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+
+tbody.appendChild(mainlist);   
+}
+var categrownum=0;
+
+           customers.forEach(customer => {
+
+            
+            categrownum+=1;
+             const mainlist = document.createElement('tr');
+               const listid = document.createElement('td');
+               mainlist.classList.add('result-item2categ');
+
+               listid.id=`dcode${categrownum}`;
+
+               listid.textContent = customer.dcode;
+
+                const listname = document.createElement("td");
+                listname.id=`name${categrownum}`;
+                if(customer.name==''){
+                  listname.textContent='None'
+                  }
+                  else{
+                       listname.textContent=customer.name;
+                  }
+
+
+                
+
+
+
+
+
+
+mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+
+
+
+
+
+
+
+
+
+
+tbody.appendChild(mainlist);   
+mainlist.addEventListener('dblclick', function () {
+  
+  getid(customer.id)
+  editdata();
+});   
+            
+              // mainlist.onclick = () =>getid(customer.id,this)
+              
+                mainlist.addEventListener('click', function () {
+                    // Change color when a row is clicked
+                    var rows = document.querySelectorAll('#tablemain tbody tr');
+                    rows.forEach(function (item) {
+          item.style.backgroundColor = 'rgb(166, 225, 210)';
+            
+        });
+                    this.style.backgroundColor = '#c6ccca';
+                    getid(customer.dcode)
+                });
+           
+
+           });
+           
+           resulttable.appendChild(tbody)  
+          
+          }
+
+
+
+//item
+
+
+
+
+
+function searchusers() {
+selectindex=8;
+
+var query='user';
+let curarea=document.getElementById('curarea').value;
+
+      fetch(`/getedit/?query=${query}&comp=${area}&area=${curarea}`)
+               .then(response => response.json())
+               .then(data => displayuserResults(data.data));
+
+
+
+
+           
+
+       }
+
+       function displayuserResults(customers) {
+
+
+
+         
+           itemlen=customers.length;
+           const resulttable = document.getElementById('tablemain');
+
+           resulttable.innerHTML = '';
+           var thead = document.createElement('thead');
+   var headerRow = thead.insertRow();
+   
+   // Add header cells
+ 
+   var headerCell = document.createElement('th');
+     headerCell.textContent = 'Id';
+     headerCell.style.width='50px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Name';
+     headerCell.style.width='300px';
+     headerRow.appendChild(headerCell);
+
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Group';
+     headerCell.style.width='300px';
+     headerRow.appendChild(headerCell);
+     
+
+
+
+
+   // Append the header to the table
+   resulttable.appendChild(thead);
+
+   const tbody = document.createElement('tbody');
+  
+if(customers.length==0){
+
+  const mainlist = document.createElement('tr');
+               const listid = document.createElement('td');
+               const listname = document.createElement("td");
+               const listremarks = document.createElement("td");
+               listremarks.textContent='None';
+
+
+               
+               listname.textContent='None'
+               listremarks.textContent='None'
+               mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+mainlist.appendChild(listremarks);
+tbody.appendChild(mainlist);   
+}
+var categrownum=0;
+
+           customers.forEach(customer => {
+
+            
+            categrownum+=1;
+             const mainlist = document.createElement('tr');
+               const listid = document.createElement('td');
+               mainlist.classList.add('result-item2categ');
+
+               listid.id=`uid${categrownum}`;
+
+               listid.textContent = customer.id;
+
+                const listname = document.createElement("td");
+                listname.id=`uname${categrownum}`;
+                if(customer.bcode==''){
+
+                  }
+                  else{
+                       listname.textContent=customer.name;
+                  }
+
+
+                const listremarks = document.createElement("td");
+                listremarks.id=`ugrp${categrownum}`;
+                  if(customer.remarks==''){
+                    listremarks.textContent='None';
+                  }
+                  else{
+                    listremarks.textContent=customer.group;
+                  }
+
+
+
+
+
+
+mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+mainlist.appendChild(listremarks);
+
+
+
+
+
+
+
+
+
+tbody.appendChild(mainlist);   
+
+mainlist.addEventListener('dblclick', function () {
+  
+  getid(customer.id)
+  editdata();
+});   
+              // mainlist.onclick = () =>getid(customer.id,this)
+              
+                mainlist.addEventListener('click', function () {
+                    // Change color when a row is clicked
+                    var rows = document.querySelectorAll('#tablemain tbody tr');
+                    rows.forEach(function (item) {
+          item.style.backgroundColor = 'rgb(166, 225, 210)';
+            
+        });
+                    this.style.backgroundColor = '#c6ccca';
+                    getid(customer.id)
+                });
+           
+
+           });
+           
+           resulttable.appendChild(tbody)  
+          
+          }
+
+
+//jobcard
+
+function searchjob() {
+selectindex=9;
+
+var query='job';
+let curarea=document.getElementById('curarea').value;
+
+      fetch(`/getedit/?query=${query}&comp=${area}&area=${curarea}`)
+               .then(response => response.json())
+               .then(data => displayjobResults(data.data));
+
+
+
+
+           
+
+       }
+
+       function displayjobResults(customers) {
+
+
+
+         
+           itemlen=customers.length;
+           const resulttable = document.getElementById('tablemain');
+
+           resulttable.innerHTML = '';
+           var thead = document.createElement('thead');
+   var headerRow = thead.insertRow();
+   
+   // Add header cells
+ 
+   var headerCell = document.createElement('th');
+     headerCell.textContent = 'Id';
+     headerCell.style.width='50px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Name';
+     headerCell.style.width='150px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Category';
+     headerCell.style.width='150px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Iqama No.';
+     headerCell.style.width='150px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Country';
+     headerCell.style.width='150px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Phone';
+     headerCell.style.width='150px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Whatsapp No.';
+     headerCell.style.width='150px';
+     headerRow.appendChild(headerCell);
+     
+
+
+
+
+   // Append the header to the table
+   resulttable.appendChild(thead);
+
+   const tbody = document.createElement('tbody');
+   tbody.textContent='';
+if(customers.length==0){
+
+  const mainlist = document.createElement('tr');
+               const listid = document.createElement('td');
+               const listname = document.createElement("td");
+               const listiqama = document.createElement("td");
+               const listcateg = document.createElement("td");
+               const listcountry = document.createElement('td');
+               const listphone = document.createElement("td");
+               const listwhatsapp = document.createElement("td");
+               listid.textContent='None';
+
+
+               
+               listname.textContent='None'
+               listiqama.textContent='None'
+               listcateg.textContent='None'
+               listcateg.textContent='None'
+               listcountry.textContent='None'
+               listphone.textContent='None'
+               listwhatsapp.textContent='None'
+               
+               mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+mainlist.appendChild(listcateg);
+mainlist.appendChild(listiqama);
+mainlist.appendChild(listcountry);
+mainlist.appendChild(listphone);
+mainlist.appendChild(listwhatsapp);
+tbody.appendChild(mainlist);   
+}
+var categrownum=0;
+
+           customers.forEach(customer => {
+
+            
+            categrownum+=1;
+             const mainlist = document.createElement('tr');
+               const listid = document.createElement('td');
+               mainlist.classList.add('result-item2categ');
+
+               listid.id=`jid${categrownum}`;
+
+               listid.textContent = customer.id;
+
+                const listname = document.createElement("td");
+                listname.id=`jname${categrownum}`;
+                if(customer.bcode==''){
+
+                  }
+                  else{
+                       listname.textContent=customer.name;
+                  }
+
+
+                const listiqama = document.createElement("td");
+                listiqama.id=`iqama${categrownum}`;
+                  if(customer.iqama==''){
+                    listiqama.textContent='None';
+                  }
+                  else{
+                    listiqama.textContent=customer.iqama;
+                  }
+
+                  const listcountry = document.createElement("td");
+                listcountry.id=`country${categrownum}`;
+                  if(customer.country==''){
+                    listcountry.textContent='None';
+                  }
+                  else{
+                    listcountry.textContent=customer.country;
+                  }
+                  const listphone = document.createElement("td");
+                listphone.id=`phone${categrownum}`;
+                  if(customer.phone==''){
+                    listphone.textContent='None';
+                  }
+                  else{
+                    listphone.textContent=customer.phone;
+                  }
+
+                  const listwhatsapp = document.createElement("td");
+                listwhatsapp.id=`whatsapp${categrownum}`;
+                  if(customer.whatsapp==''){
+                    listwhatsapp.textContent='None';
+                  }
+                  else{
+                    listwhatsapp.textContent=customer.whatsapp;
+                           }
+                           const listcateg = document.createElement("td");
+                           listcateg.id=`categ${categrownum}`; 
+                           
+var cid=customer.category;
+if(cid==0){
+                      listcateg.textContent='None';
+                    }
+                  else{
+                  fetch(`/getworkcateg/?categid=${cid}&comp=${area}`)
+                .then(response => response.json())
+                .then(data => getcateg(data.data));
+                function getcateg(categories){
+
+                  categories.forEach(category => {
+                   
+                    
+                    listcateg.textContent=category.name;
+                  
+                    
+                  });
+                }
+              }
+mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+mainlist.appendChild(listcateg);
+mainlist.appendChild(listiqama);
+mainlist.appendChild(listcountry);
+mainlist.appendChild(listphone);
+mainlist.appendChild(listwhatsapp);
+
+
+
+
+
+
+
+
+tbody.appendChild(mainlist);   
+
+mainlist.addEventListener('dblclick', function () {
+  
+  getid(customer.id)
+  editdata();
+});       
+              // mainlist.onclick = () =>getid(customer.id,this)
+              
+                mainlist.addEventListener('click', function () {
+                    // Change color when a row is clicked
+                    var rows = document.querySelectorAll('#tablemain tbody tr');
+                    rows.forEach(function (item) {
+          item.style.backgroundColor = 'rgb(166, 225, 210)';
+            
+        });
+                    this.style.backgroundColor = '#c6ccca';
+                    getid(customer.id)
+                });
+           
+
+           });
+           
+           resulttable.appendChild(tbody)  
+          
+          }
+
+
+//job category
+
+
+function searchjobcateg() {
+selectindex=10;
+
+var query='jobcateg';
+
+      fetch(`/getedit/?query=${query}&comp=${area}`)
+               .then(response => response.json())
+               .then(data => displayjobcategResults(data.data));
+       }
+
+       function displayjobcategResults(customers,rowNumber) {
+
+
+         
+           itemlen=customers.length;
+           const resulttable = document.getElementById('tablemain');
+
+           resulttable.innerHTML = '';
+           var thead = document.createElement('thead');
+   var headerRow = thead.insertRow();
+   
+   // Add header cells
+ 
+   var headerCell = document.createElement('th');
+     headerCell.textContent = 'Id';
+     headerCell.style.width='50px';
+     headerRow.appendChild(headerCell);
+     var headerCell = document.createElement('th');
+     headerCell.textContent = 'Category';
+     headerCell.style.width='300px';
+     headerRow.appendChild(headerCell);
+
+     
+     
+
+
+
+
+   // Append the header to the table
+   resulttable.appendChild(thead);
+
+   const tbody = document.createElement('tbody');
+   if(customers.length==0){
+
+const mainlist = document.createElement('tr');
+             const listid = document.createElement('td');
+             const listname = document.createElement("td");
+          
+
+
+             
+             listid.textContent='None'
+             listname.textContent='None'
+             mainlist.appendChild(listid);
+mainlist.appendChild(listname);
+
+tbody.appendChild(mainlist);   
+}
+
+
+
+
+   
+
+   var ledgrprrownum=0;
+
+           customers.forEach(customer => {
+
+            ledgrprrownum+=1;
+             const mainlist = document.createElement('tr');
+               const listid = document.createElement('td');
+               mainlist.classList.add('result-item2');
+
+               listid.textContent = customer.id;
+               listid.id=`id${ledgrprrownum}`;
+
+                const listcateg= document.createElement("td");
+                listcateg.id=`categ${ledgrprrownum}`;
+                if(customer.category==''){
+                    listcateg.textContent='None'
+                  }
+                  else{
+                       listcateg.textContent=customer.category;
+                  }
+
+
+                
+
+
+
+
+
+
+
+mainlist.appendChild(listid);
+mainlist.appendChild(listcateg);
+
+
+
+
+
+tbody.appendChild(mainlist);
+
+
+
+
+mainlist.addEventListener('dblclick', function () {
+  
+  getid(customer.id)
+  editdata();
+});   
+
+               //    const divide = document.createElement('hr');
+
+               // resultsList.appendChild(divide);
+               mainlist.addEventListener('click', function () {
+                    // Change color when a row is clicked
+                    var rows = document.querySelectorAll('#tablemain tbody tr');
+                    rows.forEach(function (item) {
+          item.style.backgroundColor = 'rgb(166, 225, 210)';
+            
+        });
+                    this.style.backgroundColor = '#c6ccca';
+                    getid(customer.id)
+                });
+
+
+           });
+                  
+resulttable.appendChild(tbody)   
+          
+          }
+
+
+
+function printfn(){
+var title='';
+if(selectindex==1){
+  title='Item Category'
+}
+if(selectindex==2){
+  title='Items'
+}
+if(selectindex==3){
+  title='Account Groups'
+}
+if(selectindex==4){
+  title='Ledgers'
+}
+if(selectindex==5){
+  title='Customers'
+}
+if(selectindex==6){
+  title='Suppliers'
+}
+if(selectindex==7){
+  title='Areas'
+}
+if(selectindex==8){
+  title='Users'
+}
+if(selectindex==9){
+  title='Jobcards'
+}
+if(selectindex==10){
+  title='Job Categories'
+}
+if(selectindex==11){
+  title='Sales'
+}
+if(selectindex==12){
+  title='Sales Return'
+}
+if(selectindex==13){
+  title='Purchase'
+}
+if(selectindex==14){
+  title='Purchase Return'
+}
+  var newWindow = window.open('', '_blank');
+  
+  // Start writing HTML content to the new window
+  newWindow.document.write('<html><head><title>'+title+'</title></head><body>');
+  
+  // Create a table with 3 columns
+  newWindow.document.write('<table border="1" style="width:95%;height:95%; border-collapse: collapse;">');
+  newWindow.document.write('<tr style="height:30px;" >');
+    var table = document.getElementById("tablemain");
+   var tbodyRowCount = table.tBodies[0].rows.length;
+   if(selectindex==1){ 
+  newWindow.document.write('<th>Id</th>');
+  newWindow.document.write('<th>Category</th>');
+  newWindow.document.write('<th>Remarks</th>');
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+    let id=document.getElementById(`categid${i}`).innerHTML;
+    let name=document.getElementById(`categname${i}`).innerHTML;
+    let remark=document.getElementById(`categremark${i}`).innerHTML;
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  newWindow.document.write('<td>'+id+'</td>');
+  newWindow.document.write('<td>'+name+'</td>');
+  newWindow.document.write('<td>'+remark+'</td>');
+  newWindow.document.write('</tr>');
+   }
+   }
+   if(selectindex==2){ 
+  newWindow.document.write('<th>Barcode</th>');
+  newWindow.document.write('<th>Itemnote</th>');
+  newWindow.document.write('<th>Itemname</th>');
+  newWindow.document.write('<th>Prate</th>');
+  newWindow.document.write('<th>Srate</th>');
+  newWindow.document.write('<th>Category</th>');
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+    let bcode=document.getElementById(`bcode${i}`).innerHTML;
+    let itemname=document.getElementById(`itemname${i}`).innerHTML;
+    let itemnote=document.getElementById(`itemnote${i}`).innerHTML;
+    let prate=document.getElementById(`prate${i}`).innerHTML;
+    let srate=document.getElementById(`srate${i}`).innerHTML;
+    let category=document.getElementById(`category${i}`).innerHTML;
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  newWindow.document.write('<td>'+bcode+'</td>');
+  newWindow.document.write('<td>'+itemnote+'</td>');
+  newWindow.document.write('<td>'+itemname+'</td>');
+  newWindow.document.write('<td>'+prate+'</td>');
+  newWindow.document.write('<td>'+srate+'</td>');
+  newWindow.document.write('<td>'+category+'</td>');
+  newWindow.document.write('</tr>');
+   }
+   }
+   if(selectindex==3){ 
+  newWindow.document.write('<th>Id</th>');
+  newWindow.document.write('<th>Agroupname</th>');
+  
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+    let grpid=document.getElementById(`ledgrpid${i}`).innerHTML;
+    let ledname=document.getElementById(`ledname${i}`).innerHTML;
+  
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  newWindow.document.write('<td>'+grpid+'</td>');
+  newWindow.document.write('<td>'+ledname+'</td>');
+  
+  newWindow.document.write('</tr>');
+   }
+   }
+   if(selectindex==4){ 
+  newWindow.document.write('<th>Id</th>');
+  newWindow.document.write('<th>Name</th>');
+  newWindow.document.write('<th>address</th>');
+  newWindow.document.write('<th>Phone</th>');
+  newWindow.document.write('<th>Mobile</th>');
+
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+    let lid=document.getElementById(`lid${i}`).innerHTML;
+    let lname=document.getElementById(`lname${i}`).innerHTML;
+    let address=document.getElementById(`address${i}`).innerHTML;
+    let phone=document.getElementById(`phone${i}`).innerHTML;
+    let mobile=document.getElementById(`mobile${i}`).innerHTML;
+    
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  newWindow.document.write('<td>'+lid+'</td>');
+  newWindow.document.write('<td>'+lname+'</td>');
+  newWindow.document.write('<td>'+address+'</td>');
+  newWindow.document.write('<td>'+phone+'</td>');
+  newWindow.document.write('<td>'+mobile+'</td>');
+ 
+  newWindow.document.write('</tr>');
+   }
+   }
+   if(selectindex==5){ 
+  newWindow.document.write('<th>Slno</th>');
+  newWindow.document.write('<th>Name</th>');
+  newWindow.document.write('<th>address</th>');
+  newWindow.document.write('<th>Phone</th>');
+  newWindow.document.write('<th>Mobile</th>');
+  newWindow.document.write('<th>Taxregno</th>');
+  newWindow.document.write('<th>Area</th>');
+
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+   
+    let lname=document.getElementById(`lname${i}`).innerHTML;
+    let address=document.getElementById(`address${i}`).innerHTML;
+    let phone=document.getElementById(`phone${i}`).innerHTML;
+    let mobile=document.getElementById(`mobile${i}`).innerHTML;
+    let taxreg=document.getElementById(`taxreg${i}`).innerHTML;
+    let area=document.getElementById(`area${i}`).innerHTML;
+    
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  newWindow.document.write('<td>'+i+'</td>');
+  newWindow.document.write('<td>'+lname+'</td>');
+  newWindow.document.write('<td>'+address+'</td>');
+  newWindow.document.write('<td>'+phone+'</td>');
+  newWindow.document.write('<td>'+mobile+'</td>');
+  newWindow.document.write('<td>'+taxreg+'</td>');
+  newWindow.document.write('<td>'+area+'</td>');
+ 
+  newWindow.document.write('</tr>');
+   }
+   }
+   if(selectindex==6){ 
+  newWindow.document.write('<th>Slno</th>');
+  newWindow.document.write('<th>Id</th>');
+  newWindow.document.write('<th>Name</th>');
+  newWindow.document.write('<th>address</th>');
+  newWindow.document.write('<th>Phone</th>');
+  newWindow.document.write('<th>Mobile</th>');
+  newWindow.document.write('<th>Taxregno</th>');
+
+
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+    let lid=document.getElementById(`lid${i}`).innerHTML;
+    let lname=document.getElementById(`lname${i}`).innerHTML;
+    let address=document.getElementById(`address${i}`).innerHTML;
+    let phone=document.getElementById(`phone${i}`).innerHTML;
+    let mobile=document.getElementById(`mobile${i}`).innerHTML;
+    let taxreg=document.getElementById(`taxreg${i}`).innerHTML;
+
+    
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  newWindow.document.write('<td>'+i+'</td>');
+  newWindow.document.write('<td>'+lid+'</td>');
+  newWindow.document.write('<td>'+lname+'</td>');
+  newWindow.document.write('<td>'+address+'</td>');
+  newWindow.document.write('<td>'+phone+'</td>');
+  newWindow.document.write('<td>'+mobile+'</td>');
+  newWindow.document.write('<td>'+taxreg+'</td>');
+ 
+ 
+  newWindow.document.write('</tr>');
+   }
+   }
+   if(selectindex==7){ 
+  newWindow.document.write('<th>Dcode</th>');
+  newWindow.document.write('<th>Area</th>');
+  
+
+
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+    let dcode=document.getElementById(`dcode${i}`).innerHTML;
+    let darea=document.getElementById(`name${i}`).innerHTML;
+   
+
+    
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  newWindow.document.write('<td>'+dcode+'</td>');
+  newWindow.document.write('<td>'+darea+'</td>');
+  
+ 
+ 
+  newWindow.document.write('</tr>');
+   }}
+   if(selectindex==8){ 
+
+  newWindow.document.write('<th>Id</th>');
+  newWindow.document.write('<th>Name</th>');
+  newWindow.document.write('<th>Group</th>');
+  
+
+
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+    let uid=document.getElementById(`uid${i}`).innerHTML;
+    let uname=document.getElementById(`uname${i}`).innerHTML;
+    let ugroup=document.getElementById(`ugrp${i}`).innerHTML;
+    
+
+    
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  newWindow.document.write('<td>'+uid+'</td>');
+  newWindow.document.write('<td>'+uname+'</td>');
+  newWindow.document.write('<td>'+ugroup+'</td>');
+  
+ 
+ 
+  newWindow.document.write('</tr>');
+   }}
+   if(selectindex==9){ 
+  newWindow.document.write('<th>Id</th>');
+  
+  newWindow.document.write('<th>Name</th>');
+  newWindow.document.write('<th>Iqama No</th>');
+  newWindow.document.write('<th>Category</th>');
+  newWindow.document.write('<th>Country</th>');
+  newWindow.document.write('<th>Phone</th>');
+  newWindow.document.write('<th>Whatsapp No</th>');
+
+
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+    let jid=document.getElementById(`jid${i}`).innerHTML;
+    let jname=document.getElementById(`jname${i}`).innerHTML;
+    let iqama=document.getElementById(`iqama${i}`).innerHTML;
+    let category=document.getElementById(`categ${i}`).innerHTML;
+    let country=document.getElementById(`country${i}`).innerHTML;
+    let phone=document.getElementById(`phone${i}`).innerHTML;
+    let whatsapp=document.getElementById(`whatsapp${i}`).innerHTML;
+
+    
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  
+  newWindow.document.write('<td>'+jid+'</td>');
+  newWindow.document.write('<td>'+jname+'</td>');
+  newWindow.document.write('<td>'+iqama+'</td>');
+  newWindow.document.write('<td>'+category+'</td>');
+  newWindow.document.write('<td>'+country+'</td>');
+  newWindow.document.write('<td>'+phone+'</td>');
+  newWindow.document.write('<td>'+whatsapp+'</td>');
+ 
+ 
+  newWindow.document.write('</tr>');
+   }}
+   if(selectindex==10){ 
+  newWindow.document.write('<th>Id</th>');
+  
+  newWindow.document.write('<th>Category</th>');
+ 
+
+
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+    let wid=document.getElementById(`id${i}`).innerHTML;
+    let wcateg=document.getElementById(`categ${i}`).innerHTML;
+    
+
+    
+
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  
+  newWindow.document.write('<td>'+wid+'</td>');
+  newWindow.document.write('<td>'+wcateg+'</td>');
+  
+ 
+ 
+  newWindow.document.write('</tr>');
+   }}
+   if(selectindex==11 |selectindex==12 |selectindex==13 |selectindex==14 |selectindex==17){ 
+  newWindow.document.write('<th>Vno</th>');
+  
+  newWindow.document.write('<th>Vdate</th>');
+  newWindow.document.write('<th>Bill Amount</th>');
+  newWindow.document.write('<th>Party</th>');
+  
+
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+    let vno=document.getElementById(`vno${i}`).innerHTML;
+    let Vdate=document.getElementById(`date${i}`).innerHTML;
+    let amt=document.getElementById(`amount${i}`).innerHTML;
+    let party=document.getElementById(`party${i}`).innerHTML;
+    
+
+    
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  
+  newWindow.document.write('<td>'+vno+'</td>');
+  newWindow.document.write('<td>'+Vdate+'</td>');
+  newWindow.document.write('<td>'+amt+'</td>');
+  newWindow.document.write('<td>'+party+'</td>');
+  
+ 
+ 
+  newWindow.document.write('</tr>');
+   }}
+   if(selectindex==15 |selectindex==16){ 
+  newWindow.document.write('<th>Vno</th>');
+  
+  newWindow.document.write('<th>Vdate</th>');
+  newWindow.document.write('<th>Amount</th>');
+  newWindow.document.write('<th>Narration</th>');
+  
+
+  newWindow.document.write('</tr>');
+  for (i=1;i<=tbodyRowCount;i++){
+    let vno=document.getElementById(`vno${i}`).innerHTML;
+    let Vdate=document.getElementById(`date${i}`).innerHTML;
+    let amt=document.getElementById(`amount${i}`).innerHTML;
+    let party=document.getElementById(`narration${i}`).innerHTML;
+    
+
+    
+
+    newWindow.document.write('<tr style="text-align:center;">');
+  
+  newWindow.document.write('<td>'+vno+'</td>');
+  newWindow.document.write('<td>'+Vdate+'</td>');
+  newWindow.document.write('<td>'+amt+'</td>');
+  newWindow.document.write('<td>'+party+'</td>');
+  
+ 
+ 
+  newWindow.document.write('</tr>');
+   }}
+  newWindow.document.write('</table></body></html>');
+  
+  // Close the document stream
+  newWindow.onafterprint = newWindow.close;
+ 
+  newWindow.print()
+ 
+}
+ 
+  </script>
+
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode  Scanner</title>
+    <style>
+         .container {
+      display: flex;
+    }
+
+    .element {
+      flex: .01;
+   
+     
+    }
+    </style>
+</head>
+<body>
+
+<!-- Barcode Generation -->
+<div style="width: 130px;">
+<svg id="barcodeCanvas" ></svg>
+<div style="margin-top: 0px;font-size: 12px;">{{iname}}</div>
+<div style="margin-top: 0px;font-size: 12px;" id="bcode" hidden="true">{{bcode}}</div>
+
+<div class="container">
+    <div style="margin-top: 0px;font-size: 12px;">SR:<b>{{srate}}</b></div>
+    <div style="margin-left: 5px;font-size: 12px;">Mrp:<b>{{mrp}}</b></div>
+  </div>
+
+</div>
+
+
+<script>
+    
+    // Barcode Generation
+    function generateBarcode() {
+        var canvas = document.getElementById('barcodeCanvas');
+        const bcodev = document.getElementById('bcode').innerHTML;
+        // var ctx = canvas.getContext('2d');
+        var options = {
+      width: .9, // set the width in pixels
+      height: 25 ,
+      fontSize: 12,
+      textPosition: "bottom",// set the height in pixels
+    };
+   
+        var barcodeValue = bcodev;  // Replace with your desired barcode value
+        JsBarcode(canvas, barcodeValue,options, { format: 'CODE128' },width="40");
+    }
+
+    // Barcode Scanning
+    // function startBarcodeScanner() {
+    //     var video = document.getElementById('barcodeScanner');
+    //     var output = document.getElementById('output');
+
+    //     navigator.mediaDevices.getUserMedia({ video: true })
+    //         .then(function (stream) {
+    //             video.srcObject = stream;
+
+    //             var barcodeScanner = new Instascan.Scanner({ video: video });
+    //             barcodeScanner.addListener('scan', function (content) {
+                    
+    //                 stopBarcodeScanner();
+    //             });
+
+    //             Instascan.Camera.getCameras().then(function (cameras) {
+    //                 if (cameras.length > 0) {
+    //                     barcodeScanner.start(cameras[0]);
+    //                 } else {
+    //                     console.error('No cameras found.');
+    //                 }
+    //             });
+    //         })
+    //         .catch(function (error) {
+    //             console.error('Error accessing camera: ', error);
+    //         });
+    // }
+
+    // function stopBarcodeScanner() {
+    //     var video = document.getElementById('barcodeScanner');
+    //     video.srcObject.getTracks().forEach(track => track.stop());
+    // }
+
+    // Generate barcode and start scanner on page load
+    window.onload = function () {
+        generateBarcode();
+        // startBarcodeScanner();
+    };
+     window.onafterprint = window.close;
+print()
+</script>
+
+<script src="https://cdn.rawgit.com/lindell/JsBarcode/3.11.0/dist/JsBarcode.all.min.js"></script>
+<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+
+</body>
+</html>

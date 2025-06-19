@@ -1,0 +1,317 @@
+
+{% extends 'navbar.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+
+
+    <!-- Icons font CSS-->
+<!--    <link href="{% static 'mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">-->
+<link href="{% static 'css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+
+    <link href="{% static 'font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'css/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+<!-- <link href="{% static 'css/main.min.css' %}" rel="stylesheet" media="all">-->
+    <!-- Main CSS-->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all">
+</head>
+
+<body>
+
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5">
+                <div class="card-heading">
+                    <h2 class="title">Add Item</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="itemform">
+                        {% csrf_token %}
+<div class="form-row">
+                            <div class="name">itemid</div>
+                            <div class="value">
+                                <div class="col-3">
+
+                                    <input class="input--style-5" disabled="true" style="border: 0px;background-color: white;font-weight: bold;" value="{{itemidd}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Barcode</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" onkeydown='handleEnter(event)' id="barcode" type="text" name="barcode">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Itemname</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" onkeydown='handleEnter(event)'  id="itemname" onblur="printvalue()" name="itemname">
+                                </div>
+                            </div>
+                        </div>
+                          <div class="form-row">
+                            <div class="name">Itemcode</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" onkeydown='handleEnter(event)'  id="itemcode"  name="itemcode">
+                                </div>
+                            </div>
+                        </div>
+                              <div class="form-row">
+                            <div class="name">Using Mechine</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+
+                                        <select name="usingmechine">
+
+
+                                            <option value="">No</option>
+                                            <option value="">Yes</option>
+                                        </select>
+
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Second Language</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="secodlanguage">
+                                </div>
+                            </div>
+                        </div>
+                           <div class="form-row">
+                            <div class="name">Item Category</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+
+                                        <select name="itemcategory">
+                                            {% if categ != 'None' %}
+{% for i in categ %}
+                                            <option >{{i.categoryname}}</option>
+{% endfor %}
+                                            {% else %}
+                                            <option value >None</option>
+                                            {% endif %}
+                                        </select>
+
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Item manufacturer</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="manufacturer">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Itemclass</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name="itemclass">
+
+                                            <option>Stock Item</option>
+                                            <option>Services</option>
+                                            <option>Finished product</option>
+                                            <option>Finished product2</option>
+
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                          <div class="form-row">
+                            <div class="name">Vat</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" onkeydown='handleEnter(event)' type="number" step="any" id="vat" name="vat">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row m-b-55">
+                            <div class="name">Rate</div>
+                            <div class="value">
+                                <div class="row row-refine">
+
+                                    <div class="col-3">
+                                        <div class="input-group-desc">
+                                            <input class="input--style-5" onkeydown='handleEnter(event)'  value="0.0"  type="text" name="srate">
+                                            <label class="label--desc">srate</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-9">
+                                        <div class="input-group-desc">
+                                            <input class="input--style-5" onkeydown='handleEnter(event)'  value="0.0"  type="text" name="prate">
+                                            <label class="label--desc">prate</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                          <div class="form-row m-b-55">
+                            <div class="name">Tax inclusive</div>
+                            <div class="value">
+                                <div class="row row-refine">
+
+                                    <div class="col-3">
+                                        <div class="input-group">
+                                            <div class="name">saletax</div>
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select onkeydown='handleEnter(event)'  name="saletax">
+
+                                            <option>Yes</option>
+                                            <option>No</option>
+
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                                    </div>
+
+                                    <div class="col-9">
+                                        <div class="name">purchase tax</div>
+                                        <div class="input-group">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select onkeydown='handleEnter(event)'  name="ptax">
+
+                                            <option>No</option>
+                                            <option>Yes</option>
+
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!--                        <div class="form-row">-->
+<!--                            <div class="name">Subject</div>-->
+<!--                            <div class="value">-->
+<!--                                <div class="input-group">-->
+<!--                                    <div class="rs-select2 js-select-simple select&#45;&#45;no-search">-->
+<!--                                        <select name="subject">-->
+<!--                                            <option disabled="disabled" selected="selected">Choose option</option>-->
+<!--                                            <option>Subject 1</option>-->
+<!--                                            <option>Subject 2</option>-->
+<!--                                            <option>Subject 3</option>-->
+<!--                                        </select>-->
+<!--                                        <div class="select-dropdown"></div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+ <div class="form-row">
+                            <div class="name">Op.Qty</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" onkeydown='handleEnter(event)'  type="text"  name="opqty">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div>
+                            <button class="btn btn--radius-2 btn--red" type="submit">Register</button>
+                        </div>
+                        {% for i in messages %}
+      <a>{{i}}</a>
+<!--                        <div>-->
+<!--                            <button class="btn btn&#45;&#45;radius-2 btn&#45;&#45;red" type="submit"><a href="/home">sgggggggggg</a></button>-->
+<!--                        </div>-->
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+ {% endfor %}
+    <!-- Jquery JS-->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- Vendor JS-->
+    <script src="{% static 'js/select2.min.js' %}"></script>
+<!--    <script src="{% static 'vendor/datepicker/moment.min.js' %}"></script>-->
+<!--    <script src="{% static 'vendor/datepicker/daterangepicker.js' %}"></script>-->
+
+    <!-- Main JS-->
+    <script src="{% static 'js/global.js' %}"></script>
+<script>
+  
+const previd={{ preid|safe }};
+if(previd!=''){
+    alert(previd)
+}
+  
+   const bcode= document.getElementById('barcode')
+bcode.focus();
+document.getElementById('vat').value=15+'.0';
+document.addEventListener("keydown", keyDownTextField, false);
+function keyDownTextField(e) {
+   
+    
+  if(event.key === 'F5') {
+    event.preventDefault()
+    
+      document.getElementById("itemform").submit();
+    
+
+  }
+  if(event.key === 'Tab') {
+    // alert(document.activeElement.value)
+  }
+
+
+}
+function printvalue(){
+iname=document.getElementById('itemname').value;
+document.getElementById('itemcode').value=iname;
+}
+    function handleEnter(event) {
+   if (event.key==="Enter") {
+    event.preventDefault()
+      const form = document.getElementById('itemform')
+      const index = [...form].indexOf(event.target);
+      form.elements[index + 1].focus();
+      //event.preventDefault();
+    }
+}
+   
+</script>
+
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->
+{% endblock%}

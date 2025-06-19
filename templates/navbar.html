@@ -1,0 +1,376 @@
+{% load static %}
+
+
+
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Wisedecore solution</title>
+
+
+
+      
+
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/templatemo-kind-heart-charity.css' %}" rel="stylesheet">
+       <style>
+        .userlabel{
+        margin-left: 2rem;
+        color: #9e9191;
+        font-size: 18px;
+        display: block;
+    }
+    .userlabelmobile{
+        margin-left: 2rem;
+        color: #9e9191;
+        font-size: 16px;
+        display: none;
+    }
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.navbar2 {
+    position: relative;
+}
+
+.navbar-toggler2 {
+    background-color: #f0ffff00;
+    border: none;
+    display: none;
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    top: -3px;
+    left: 315px;
+}
+
+.navbar-menu2 {
+    overflow: auto;
+    display: none; /* Hide the menu by default */
+    position: fixed;
+    top: 0;
+    left: -1px; /* Initially off-screen to the left */
+    width: 250px;
+    height: 100%;
+    background-color: #ffffff;
+    color: white;
+    transform: translateX(-100%); /* Initially off-screen to the left */
+    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Smooth transition */
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+}
+
+.navbar-menu2.open {
+    transform: translateX(0); /* Slide in from the left */
+}
+
+.navbar-menu2 ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 50px;
+}
+
+.navbar-menu2 ul li {
+    padding: 15px;
+}
+
+.navbar-menu2 ul li a {
+    font-family: auto;
+    color: #4c4242;
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+}
+
+@media screen and (max-width: 600px) {
+    .userlabel{
+        margin-left: 2rem;
+        color: #9e9191;
+        font-size: 18px;
+        display: none;
+    }
+    .userlabelmobile{
+        margin-left: 2rem;
+        color: #9e9191;
+        font-size: 16px;
+        display: block;
+    }
+    .navbar-toggler2 {
+        display: block; /* Show the toggle button on mobile */
+    }
+
+    .navbar-menu2 {
+        z-index: 4;
+        display: block; /* Ensure it can be toggled on mobile */
+    }
+    .dropdown-item {
+        padding: 0px;
+    }
+    .navbar-nav .nav-link {
+    font-family: auto;
+    display: inline-block;
+    color: #353131;
+}
+}
+
+
+/* Show the tablet*/
+@media screen and (min-width: 601px) and (max-width:1000px) {
+    .userlabel{
+        margin-left: 2rem;
+        color: #9e9191;
+        font-size: 18px;
+        display: none;
+    }
+    .userlabelmobile{
+        margin-left: 2rem;
+        color: #9e9191;
+        font-size: 16px;
+        display: block;
+    }
+    .navbar-toggler2 {
+        display: block; /* Show the toggle button on mobile */
+    }
+
+    .navbar-menu2 {
+        z-index: 4;
+        display: block;
+        padding-bottom: 57px;
+        overflow: auto;
+    
+    width: 60%;
+    
+    }
+    .dropdown-menu{
+        max-width: 100%;
+    }
+    .navbar-menu2 ul li{
+        padding: 10px 29px;
+        text-align: left;
+    }
+    .navbar-menu2 ul li a{
+        font-family: Handvetica, Helvetica, sans-serif;
+    color: #575252;
+    text-decoration: none;
+    font-size: 22px;
+    display: block;
+    }
+    .dropdown-item {
+        padding: 0px;
+    }
+    .navbar-nav .nav-link {
+        font-size: 2rem;
+    font-family: auto;
+    display: inline-block;
+    color: #353131;
+}
+.title-navbar {
+    font-family: Handvetica, Helvetica, sans-serif;
+        /* height: 30px; */
+        border-top: 7px solid #aca5a59f;
+        padding-left: 30px;
+        font-weight: bold;
+        /* border: 2px solid gray; */
+        width: 100%;
+        font-weight: bold;
+        font-size: 24px;
+        color: #2d2929;
+        border-width: 100%;
+    }
+    .title-navbar a{
+        color:#2d2929; ;
+    }
+    .home-box{
+        height: 50px;
+        align-items: center;
+        align-content: center;
+    }
+    .container, .container-md, .container-sm {
+        max-width: 95%;
+    }
+}
+@media screen and (min-width: 1001px) and (max-width:1200px) {
+    .home{
+        visibility: hidden;
+    }
+}
+
+       </style>
+
+    </head>
+
+    <body >
+        
+    
+        <nav class="navbar2">
+         
+            <!-- <button class="navbar-toggler2" onclick="toggleNavbar()">☰</button> -->
+            <div class="navbar-menu2" id="navbar-menu2">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link click-scroll" href="/home">Home</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link click-scroll dropdown-toggle"  id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Create</a>
+
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                            <li><a class="dropdown-item" href="/itemad">Item create</a></li>
+
+                            <li><a class="dropdown-item" href="/itemcateg">Item Category</a></li>
+                             <li><a class="dropdown-item" href="/ledgergroup">Ledger Group</a></li>
+                            <li><a class="dropdown-item" href="/cus">Customer</a></li>
+                            <li><a class="dropdown-item" href="/sup">Supplier</a></li>
+                             <li><a class="dropdown-item" href="/ledgeradd">Ledger</a></li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link click-scroll dropdown-toggle" id="navbarLightDropdownMenuLink2" data-bs-target="#dropdown-menu" role="button" data-bs-toggle="dropdown" aria-expanded="false">Transactions</a>
+
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                            <li><a class="dropdown-item" href="/sale">Sales</a></li>
+                             <li><a class="dropdown-item" href="/salereturn">Sale Return</a></li>
+                                      
+                            <li><a class="dropdown-item" href="/receipt">Receipt</a></li>
+                            <li><a class="dropdown-item" href="/payment">Payment</a></li>
+              
+                        </ul>
+                    </li>
+                   
+                
+                </ul>
+            </div>
+        </nav>
+    
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <label class="userlabel">{{cuser}}</label>
+            <div class="container">
+                <a class="navbar-brand" href="/home/">
+                 <img  src="{% static 'images/12.png' %}" class="logo img-fluid" alt="Kind Heart Charity">
+                    <span>
+                        Zunico
+                        <small> &nbsp;&nbsp;Solutions</small>
+                    </span>
+                </a>
+                <label class="userlabelmobile">{{cuser}}</label>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" onclick="toggleNavbar()"  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/home">Home</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link click-scroll dropdown-toggle" href="#section_5" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Create</a>
+
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                <li><a class="dropdown-item" href="/itemad">Item create</a></li>
+
+                                <li><a class="dropdown-item" href="/itemcateg">Item Category</a></li>
+                                 <li><a class="dropdown-item" href="/ledgergroup">Ledger Group</a></li>
+                                <li><a class="dropdown-item" href="/cus">Customer</a></li>
+                                <li><a class="dropdown-item" href="/sup">Supplier</a></li>
+                                 <li><a class="dropdown-item" href="/ledgeradd">Ledger</a></li>
+                            </ul>
+                        </li>
+
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link click-scroll dropdown-toggle" href="/#section_5" id="navbarLightDropdownMenuLink2" role="button" data-bs-toggle="dropdown" aria-expanded="false">Transactions</a>
+
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                <li><a class="dropdown-item" href="/sale">Sales</a></li>
+
+                                           
+
+                                             <li><a class="dropdown-item" href="/salereturn">Sale Return</a></li>
+                                          
+                                <li><a class="dropdown-item" href="/receipt">Receipt</a></li>
+                                <li><a class="dropdown-item" href="/payment">Payment</a></li>
+                  
+                            </ul>
+                        </li>
+                       
+                        <!-- <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/#section_6">Contact</a>
+                        </li>
+ <li class="nav-item">
+                            <a class="nav-link click-scroll" href="#footer_about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/">Logout</a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </nav> 
+<script>
+    function toggleNavbar() {
+
+
+    const navbarMenu = document.querySelector('.navbar-menu2');
+    navbarMenu.classList.toggle('open');
+    if (navbarMenu.classList.contains('open')) {
+        history.pushState({ navbarOpen: true }, null);
+    } else {
+        history.pushState({ navbarOpen: false }, null);
+    }
+}
+window.addEventListener('click', function(event) {
+    const navbarMenu = document.querySelector('.navbar-menu2');
+    const toggleButton = document.querySelector('.navbar-toggler'); // Button that toggles the navbar
+    
+    const isClickInsideNavbarMenu = navbarMenu.contains(event.target);
+    const isClickOnToggleButton = toggleButton.contains(event.target);
+
+    // If the click is outside both the navbar menu and the toggle button, close the navbar
+    if (!isClickInsideNavbarMenu && !isClickOnToggleButton) {
+        navbarMenu.classList.remove('open'); // Close navbar by removing 'open' class
+    }
+});
+
+// Ensure the navbar behaves as expected with Bootstrap
+const collapseElement = document.querySelector('.navbar-collapse');
+collapseElement.addEventListener('show.bs.collapse', function () {
+    const navbarMenu = document.querySelector('.navbar-menu2');
+    navbarMenu.classList.add('open');
+});
+
+collapseElement.addEventListener('hide.bs.collapse', function () {
+    const navbarMenu = document.querySelector('.navbar-menu2');
+    navbarMenu.classList.remove('open');
+});
+window.addEventListener('popstate', function() {
+    const navbarMenu = document.querySelector('.navbar-menu2');
+    navbarMenu.classList.remove('open');
+});
+
+
+document.querySelectorAll('.dropdown-item').forEach(function(link) {
+  link.addEventListener('click', function() {
+    const navbarMenu = document.querySelector('.navbar-menu2');
+    navbarMenu.classList.remove('open');// Close the navbar after a link is clicked
+  });
+});
+</script>
+</body>
+</html>
+{% block content %}
+{% endblock%}

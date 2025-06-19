@@ -1,0 +1,718 @@
+
+{% block content%}
+{% load pwa %}
+{% load static %}
+
+<html>
+<html lang="en">
+<head>
+  {% progressive_web_app_meta %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Login</title>
+    <style>
+    /* @extend display-flex; */
+    display-flex, .display-flex, .display-flex-center {
+  display: flex;
+  display: -webkit-flex; }
+
+/* @extend list-type-ulli; */
+list-type-ulli {
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+
+/* Montserrat-300 - latin */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/montserrat/Montserrat-Light.ttf");
+  /* IE9 Compat Modes */ }
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/montserrat/Montserrat-Regular.ttf");
+  /* IE9 Compat Modes */ }
+@font-face {
+  font-family: 'Montserrat';
+  font-style: italic;
+  font-weight: 400;
+  src: url("../fonts/montserrat/Montserrat-Italic.ttf");
+  /* IE9 Compat Modes */ }
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  src: url("../fonts/montserrat/Montserrat-Medium.ttf");
+  /* IE9 Compat Modes */ }
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  src: url("../fonts/montserrat/Montserrat-SemiBold.ttf");
+  /* IE9 Compat Modes */ }
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/montserrat/Montserrat-Bold.ttf");
+  /* IE9 Compat Modes */ }
+@font-face {
+  font-family: 'Montserrat';
+  font-style: italic;
+  font-weight: 700;
+  src: url("../fonts/montserrat/Montserrat-BoldItalic.ttf");
+  /* IE9 Compat Modes */ }
+@font-face {
+  font-family: 'Montserrat';
+  font-style: italic;
+  font-weight: 900;
+  src: url("../fonts/montserrat/montserrat-v12-latin-900.ttf"), url("../fonts/montserrat/montserrat-v12-latin-900.eot") format("embedded-opentype"), url("../fonts/montserrat/montserrat-v12-latin-900.svg") format("woff2"), url("../fonts/montserrat/montserrat-v12-latin-900.woff") format("woff"), url("../fonts/montserrat/montserrat-v12-latin-900.woff2") format("truetype"); }
+a:focus, a:active {
+  text-decoration: none;
+  outline: none;
+  transition: all 300ms ease 0s;
+  -moz-transition: all 300ms ease 0s;
+  -webkit-transition: all 300ms ease 0s;
+  -o-transition: all 300ms ease 0s;
+  -ms-transition: all 300ms ease 0s; }
+
+input, select, textarea {
+  outline: none;
+  appearance: unset !important;
+  -moz-appearance: unset !important;
+  -webkit-appearance: unset !important;
+  -o-appearance: unset !important;
+  -ms-appearance: unset !important; }
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  appearance: none !important;
+  -moz-appearance: none !important;
+  -webkit-appearance: none !important;
+  -o-appearance: none !important;
+  -ms-appearance: none !important;
+  margin: 0; }
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  -ms-box-shadow: none !important; }
+
+input[type=checkbox] {
+  appearance: checkbox !important;
+  -moz-appearance: checkbox !important;
+  -webkit-appearance: checkbox !important;
+  -o-appearance: checkbox !important;
+  -ms-appearance: checkbox !important; }
+
+input[type=radio] {
+  appearance: radio !important;
+  -moz-appearance: radio !important;
+  -webkit-appearance: radio !important;
+  -o-appearance: radio !important;
+  -ms-appearance: radio !important; }
+
+img {
+  max-width: 100%;
+  height: auto; }
+
+figure {
+  margin: 0; }
+
+p {
+  margin-bottom: 0px;
+  font-size: 15px;
+  color: #777; }
+
+h2 {
+  line-height: 1.66;
+  margin: 0;
+  padding: 0;
+  font-weight: 900;
+  color: #222;
+  font-family: 'Montserrat';
+  font-size: 24px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 40px; }
+
+.clear {
+  clear: both; }
+
+
+
+.container {
+  width: 660px;
+  position: relative;
+  margin: 0 auto; }
+
+.display-flex {
+  justify-content: space-between;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -o-justify-content: space-between;
+  -ms-justify-content: space-between;
+  align-items: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -o-align-items: center;
+  -ms-align-items: center; }
+
+.display-flex-center {
+  justify-content: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  align-items: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -o-align-items: center;
+  -ms-align-items: center; }
+
+.position-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%); }
+
+.signup-content {
+  background: #fff;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -o-border-radius: 10px;
+  -ms-border-radius: 10px;
+  padding: 50px 85px; }
+
+.form-group {
+  overflow: hidden;
+  justify-content: center;
+    /* overflow: hidden; */
+    display: flex;
+  margin-bottom: 20px; }
+
+.form-input {
+  width: 100%;
+  border: 1px solid #ebebeb;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  padding: 17px 20px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 500;
+  color: #222; }
+  .form-input::-webkit-input-placeholder {
+    color: #999; }
+  .form-input::-moz-placeholder {
+    color: #999; }
+  .form-input:-ms-input-placeholder {
+    color: #999; }
+  .form-input:-moz-placeholder {
+    color: #999; }
+  .form-input::-webkit-input-placeholder {
+    font-weight: 500; }
+  .form-input::-moz-placeholder {
+    font-weight: 500; }
+  .form-input:-ms-input-placeholder {
+    font-weight: 500; }
+  .form-input:-moz-placeholder {
+    font-weight: 500; }
+  .form-input:focus {
+    border: 1px solid transparent;
+    -webkit-border-image-source: -webkit-linear-gradient(to right, #9face6, #74ebd5);
+    -moz-border-image-source: -moz-linear-gradient(to right, #9face6, #74ebd5);
+    -o-border-image-source: -o-linear-gradient(to right, #9face6, #74ebd5);
+    border-image-source: linear-gradient(to right, #9face6, #74ebd5);
+    -webkit-border-image-slice: 1;
+    border-image-slice: 1;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    -ms-border-radius: 5px;
+    background-origin: border-box;
+    background-clip: content-box, border-box; }
+    .form-input:focus::-webkit-input-placeholder {
+      color: #222; }
+    .form-input:focus::-moz-placeholder {
+      color: #222; }
+    .form-input:focus:-ms-input-placeholder {
+      color: #222; }
+    .form-input:focus:-moz-placeholder {
+      color: #222; }
+
+.form-submit ,.form-close{
+  width: 200px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  padding: 17px 20px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  border: none;
+  background-image: -moz-linear-gradient(to left, #4ea091, #9face6);
+  background-image: -ms-linear-gradient(to left, #4ea091, #9face6);
+  background-image: -o-linear-gradient(to left, #4ea091, #9face6);
+  background-image: -webkit-linear-gradient(to left, #4ea091, #9face6);
+  background-image: linear-gradient(to left, #4ea091, #9face6); }
+
+
+  .form-close{margin-left: 30px;}
+input[type=checkbox]:not(old) {
+  width: 2em;
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  display: none; }
+
+input[type=checkbox]:not(old) + label {
+  display: inline-block;
+  margin-top: 7px;
+  margin-bottom: 25px; }
+
+input[type=checkbox]:not(old) + label > span {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  margin-right: 15px;
+  margin-bottom: 3px;
+  border: 1px solid #ebebeb;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -o-border-radius: 2px;
+  -ms-border-radius: 2px;
+  background: white;
+  background-image: -moz-linear-gradient(white, white);
+  background-image: -ms-linear-gradient(white, white);
+  background-image: -o-linear-gradient(white, white);
+  background-image: -webkit-linear-gradient(white, white);
+  background-image: linear-gradient(white, white);
+  vertical-align: bottom; }
+
+input[type=checkbox]:not(old):checked + label > span {
+  background-image: -moz-linear-gradient(white, white);
+  background-image: -ms-linear-gradient(white, white);
+  background-image: -o-linear-gradient(white, white);
+  background-image: -webkit-linear-gradient(white, white);
+  background-image: linear-gradient(white, white); }
+
+input[type=checkbox]:not(old):checked + label > span:before {
+  content: '\f26b';
+  display: block;
+  color: #222;
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+  font-family: 'Material-Design-Iconic-Font';
+  font-weight: bold; }
+
+.label-agree-term {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555; }
+
+.term-service {
+  color: #555; }
+
+.loginhere {
+  color: #555;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 91px;
+  margin-bottom: 5px; }
+
+.loginhere-link {
+  font-weight: 700;
+  color: #222; }
+select {
+        
+        font-family: cursive, sans-serif;
+        outline: 0;
+       
+     
+        border: 1px solid crimson;
+        padding: 4px;
+       
+      }
+
+.field-icon {
+  float: right;
+  margin-right: 17px;
+  margin-top: -32px;
+  position: relative;
+  z-index: 2;
+  color: #555; }
+
+
+  
+  
+  
+
+    @media only screen and (max-width: 600px) {
+      .form-submit ,.form-close{
+  width: 100%;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  padding: 17px 20px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  border: none;
+  background-image: -moz-linear-gradient(to left, #74ebd5, #9face6);
+  background-image: -ms-linear-gradient(to left, #74ebd5, #9face6);
+  background-image: -o-linear-gradient(to left, #74ebd5, #9face6);
+  background-image: -webkit-linear-gradient(to left, #74ebd5, #9face6);
+  background-image: linear-gradient(to left, #74ebd5, #9face6); }
+  .form-close{margin-left: 30px;}
+  .container {
+    width: calc(100% - 40px);
+    max-width: 100%; } 
+  
+  .overlay2{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 370px;
+    height: 300px;
+    margin-left: 0px;
+    margin-top: 200px;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+  }}
+/*# sourceMappingURL=style.css.map */
+
+    </style> 
+    <link rel="stylesheet" href="{% static 'css/lo.css' %}">
+    <!-- <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"> -->
+
+
+</head>
+<body>
+<div style="text-align: right;">
+    <img onclick="openForm()" src="{% static 'images/icons/cus.png' %}" height="70" width="70" class="featured-block-image img-fluid" alt="">
+</div>
+<div class="user">
+    <header class="user__header">
+
+        <img width="100" height="100" src="{% static 'images/nesmaicontransparent.PNG' %}" alt="" />
+        <h1 class="user__title">Welcome to Zunico</h1>
+    </header>
+<section class="logpage">
+    <form class="form" action="" id="loginform" method="post">
+        {% csrf_token %}
+
+        <div class="form__group">
+          <input  placeholder="company Name"  name="company" onkeydown="next('company',event)" onblur="setcombo()" id="companyopt" class="form__input" required/>
+         
+      </div>
+      <div class="form__group">
+        <input type="password" placeholder="company Password" onkeydown="next('pass',event)"  name="pass" id="pass" class="form__input" required/>
+    </div>
+
+    <div class="dropdown-menu" >
+      <div >
+        <select name="area" id="area" onchange="getusers()"  class="form__input" required>
+            
+
+
+            <option  id="areaopt" ></option>
+           
+
+            
+        </select>
+      
+ 
+       
+    </div>
+  </div>
+
+
+        <div class="form__group">
+          <div class="">
+            <select name="user" id="user"  class="form__input" required>
+                
+
+
+                <option  id="useropt" >ADMIN</option>
+               
+
+
+            </select>
+            <div class="select-dropdown"></div>
+        </div>
+      </div>
+        
+
+       
+
+
+        <div class="form__group">
+            <input type="password" placeholder="User Password" onkeydown="next('upass',event)" name="upass" id="upass" class="form__input" required/>
+        </div>
+
+        <button class="btn" type="submit" style="background-color: cadetblue;">Login</button>
+    </form>
+  </section>
+    {% for i in messages %}
+      <a style="color: crimson;">{{i}}</a>
+      {% endfor %}
+
+        <div id="popupForm"  class="overlay">
+
+            <div class="popup">
+  <form action="adduser" method="post">
+    {% csrf_token %}
+    
+   
+        <h2 class="form-title">Create Company</h2>
+        <!-- <div class="form-group">
+            <input class="form-input" name="userid" style="border: 0px solid;" placeholder="Userid"/>
+        </div> -->
+        <div class="form-group">
+            <input type="text" class="form-input" name="name" id="name" placeholder="User Name" required/>
+        </div>
+        
+        <div class="form-group">
+            <input type="password" class="form-input"  name="password" id="password" placeholder="Password" required/>
+ 
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-input" name="re_password" id="re_password" placeholder="confirm password" required/>
+        </div>
+        {% for i in messages %}
+      <a>{{i}}</a>
+      {% endfor %}
+        <div class="form-group">
+            <button type="submit" name="submit" id="submit" type="button" class="form-submit" >Sign up</button>
+            <button name="submit" onclick="closeFormuser()" type="button"  class="form-close" >Close</button>
+        </div>
+       
+    </form>
+    <div style="justify-items: center;">
+      <button onclick="cleartransaction()" style="width:200px;background-color: rgb(250, 77, 77);color: white; border-radius: 10px;font-size: medium; height: 50px;">Clear all Transactions</button>
+    </div>
+   
+      
+    </div>
+    </div>
+   
+    <div id="popupForm2" class="overlay2">
+
+        <div class="popup2">
+<form action="" method="post">
+{% csrf_token %}
+
+
+    
+    <div class="form-group">
+        <input type="text" class="form-input" name="name" id="adminname" placeholder="admin Command id"/>
+    </div>
+    
+    <div class="form-group">
+        <input type="password" class="form-input" name="password" id="adminpass" placeholder="command pass"/>
+       
+    </div>
+    
+    
+    <div class="form-group" style="margin-top: 50px;">
+        <button onclick="admincheck()"  type="button" class="form-submit" >Verify</button>
+        <button onclick="closeForm()" type="button" class="form-close" >Close</button>
+    </div>
+  
+</form>
+
+
+  
+</div>
+</div> 
+<div id="popupopt" class="overlay2">
+
+  <div class="popup2">
+
+<button>Create user</button>
+<div>Clear Tables</div>
+    </div>
+    </div>
+
+</div>
+
+<script>
+window.onload = function() {
+  setcombo();
+};
+
+
+function setcombo(){
+
+  getarea();
+ 
+}
+
+function getusers(){
+ 
+  var query = document.getElementById('companyopt').value;
+  var area = document.getElementById('area').value;
+  if(area==''){
+    area='HEAD OFFICE'
+  }
+
+  var useroption = document.getElementById('useropt');
+  var usercombo = document.getElementById('user');
+ usercombo.textContent=''
+  fetch(`/getusers/?query=${query}&area=${area}`)
+         .then(response => response.json())
+         .then(data => setusercombo(data.data)
+           
+           );
+
+function setusercombo(users){
+  users.forEach(user => {
+    const option = document.createElement('option');
+                
+                option.text = user.name;
+                usercombo.add(option);
+  });
+    
+  
+
+}
+
+}
+function getarea(){
+  
+  var query = document.getElementById('companyopt').value;
+
+  var areaoption = document.getElementById('areaopt');
+  var areacombo = document.getElementById('area');
+ areacombo.textContent=''
+ 
+  fetch(`/getarea/?query=${query}`)
+         .then(response => response.json())
+         .then(data => setareacombo(data.data)
+           
+           );
+
+function setareacombo(users){
+  
+  users.forEach(user => {
+   
+    const option = document.createElement('option');
+                option.style.minHeight='50px';
+                option.text = user.name;
+                areacombo.add(option);
+  });
+    
+  
+
+}
+getusers();
+}
+
+  document.getElementById('user').focus();
+    function openForm() {
+        document.getElementById("popupForm2").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("popupForm2").style.display = "none";
+    }
+    function closeFormuser() {
+        document.getElementById("popupForm").style.display = "none";
+    }
+    function admincheck(){
+      aname=  document.getElementById('adminname').value;
+      apass=document.getElementById('adminpass').value;
+      if(aname=='nes321' && apass=='nes321'){
+        closeForm();
+        document.getElementById("popupForm").style.display = "flex";
+      }
+      else{
+        alert("invalid admin")
+      }
+    }
+function next(check,e){
+ 
+if(e.key=='Enter'){
+  e.preventDefault()
+  if(check=='company'){
+    document.getElementById('pass').focus()
+  }
+  if(check=='pass'){
+    document.getElementById('upass').focus()
+  }
+  if(check=='upass'){
+    if(document.getElementById('user').value=='' || document.getElementById('pass').value==''){
+    alert("please eneter values")
+
+  }
+  else{
+    document.getElementById("loginform").submit();
+  }
+  }
+
+}
+}
+
+document.addEventListener("keydown", keyDownTextField, false);
+function keyDownTextField(e) {
+
+if(event.key === 'F5') {
+  
+  event.preventDefault()
+  if(document.getElementById('user').value=='' || document.getElementById('pass').value==''){
+    alert("please eneter values")
+
+  }
+  else{
+    document.getElementById("loginform").submit();
+  }
+}
+
+
+
+
+}
+
+
+function cleartransaction(){
+const company='';
+
+  fetch(`/cleartrn/?company=${company}`)
+         .then(response => response.json())
+         .then(data => alert(data.msg)
+           
+           );
+         
+
+}
+  
+</script>
+</body>
+</html>
+{% endblock %}

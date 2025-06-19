@@ -1,0 +1,282 @@
+
+{% extends 'navbar.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Details</title>
+  {% block content %}
+  <style>
+    .search{margin-left: 300px;
+      margin-top: 10px;
+    border-radius: 10px;
+    border-bottom: 0px;
+    text-align: center;
+    width:250px;
+      height: 35px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 50%;
+      margin: 20px;
+    }
+    th{
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+      background-color: rgb(65, 211, 174);
+    }
+    td{
+      border: 1px solid black;
+      padding: 2px;
+      text-align: center;
+      /*  */
+    }
+    th {
+      /* background-color: #f2f2f2; */
+    }
+    tr{
+      background-color: rgb(166, 225, 210);
+    }
+    td{
+      height: 20px;
+    }
+
+
+    .body22 {
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      margin: 0;
+    }
+.overlaydiv{
+  overflow-y: scroll;margin-left: 200px;
+}
+    #sidebar {
+      width: 200px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      height: 100%;
+      overflow: auto;
+    }
+ 
+    #content {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    .category {
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .category:hover {
+      color: #007bff;
+    }
+   
+    .btn{
+      width:100px;
+      height: 35px;
+      border-radius: 10px;
+      margin-left: 30px;
+      border: 2px solid;
+      margin-top: 10px;
+    }
+    .active {
+            background-color: rgb(162, 230, 162);
+        }
+        .container2{
+          background-color: darkseagreen; height: 60px;width: 100%; padding-left: 50px;padding-right: 50px;
+        }
+        form{
+          width: 67rem;
+    background-color: antiquewhite;
+    height: 35rem;
+    border-radius: 1rem;
+    margin: 2rem;
+    padding: 1.5rem 5rem;
+        }
+        .btnclass{
+          display: flex;
+    margin-left: 0px;
+    margin-top: 289px;
+    padding: 20px;
+    justify-content: center;
+    gap: 20px;
+  }
+  .btnregister, .btnclose, .btnclear{
+    width:170px;
+    height: 50px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+  }
+  .btnclear{
+    background-color: rgb(57, 180, 214);
+    
+  }
+  .btnregister{
+    background-color: rgb(57, 214, 122);
+  }
+  .btnclose{
+    background-color: red;
+  }
+  #saleprevedit{
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-left: 1rem;
+
+  }
+ 
+  .prfield{
+    margin-left: 1rem;
+  }
+  .item-div{
+    margin: 1rem;
+  }
+        @media only screen and (max-width: 600px) {
+          form {
+    width: 97%;
+    background-color: antiquewhite;
+    height: 43rem;
+    border-radius: 1rem;
+    margin: 1rem 0rem;
+    padding: 1.5rem 1rem;
+}
+          .search{margin-left: 20px;
+      margin-top: 10px;
+    border-radius: 10px;
+    border-bottom: 0px;
+    text-align: center;
+    width:130px;
+      height: 25px;
+    }
+          .container2{
+          background-color: darkseagreen; height: 60px;width: 100%;padding-left: 0px ;padding-right: 0px;
+        }
+          .btn{
+      width:50px;
+      height: 30px;
+      font-size: 10px;
+      border-radius: 5px;
+      margin-left: 4px;
+      border: 2px solid;
+      margin-top: 0px;
+    }
+
+
+    #sidebar {
+      width: 120px;
+      background-color: #f2f2f2;
+      padding: 5px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      height: 100%;
+      overflow: auto;
+    }
+    .overlaydiv{
+  overflow-y: scroll;margin-left: 100px;
+}
+        }
+  </style>
+ 
+</head>
+<body onload="loadsettings();" >
+  <div >
+
+  
+  <div class="body22">
+  <div id="sidebar" style="   position: absolute;" >
+    
+    <div class="category" id="itemcateg" onclick="searchitemcateg();selectactive(this)">General</div>
+    <div class="category" id="item" onclick="searchitem();selectactive(this)">Sales</div>
+    
+
+
+    <!-- Add more categories as needed -->
+  </div>
+  
+
+  <div class="overlaydiv" style="">
+    <div class="overlay2">
+
+   
+    <form   method="post" enctype="multipart/form-data"  >
+      {% csrf_token %}
+      <div class="item-div">
+        <label>Previous sale edit</label>
+        <input type="checkbox" name="prevsaleedit"  onchange="itemchecked()"  id="saleprevedit" />
+      </div>
+      <div class="item-div">
+        <label>Print Header</label>
+        <input type="file" name="printimg" id="printimg" class="prfield" alt="header"  />
+      </div>
+      <div class="item-div">
+        <label>Print Footer</label>
+        <input type="file" name="printfootimg" id="printfootimg" class="prfield"   />
+      </div>
+      <div class="btnclass">
+       
+       
+        <button class="btnregister" type="submit"  >Save</button>
+        <button class="btnclose" onclick="closefn()" type="button" >Close</button>
+    </div>
+      <div>
+
+      </div>
+    </form>
+  </div>
+</div>
+
+
+</div>
+</div>
+
+
+<script src="{% static 'js/transactionedit.js' %}"> </script>
+  <script>
+function closefn(){
+ window.location.href='/home'
+}
+
+
+function itemchecked(){
+ const value= document.getElementById('saleprevedit')
+ if(value.checked==true){
+value.value=1
+ }
+ else{
+value.value=0
+ }
+
+}
+
+
+function loadsettings(){
+  console.log("clicked")
+    fetch('/getmnusettings')
+    .then(response=>response.json())
+    .then((value)=>{
+      console.log(value.mnudata.headerimg)
+      document.getElementById('printimg').alt=value.mnudata.headerimg;
+      if(value.mnudata.saleedit==1){
+        document.getElementById('saleprevedit').checked=true;
+        document.getElementById('saleprevedit').value=1;
+      }
+      else{
+        document.getElementById('saleprevedit').checked=false;   
+        document.getElementById('saleprevedit').value=0;
+      }
+     
+    })
+    .catch(error=>console.log(error))
+
+}
+///
+</script>
+</body>
+{% endblock %}
+</html>

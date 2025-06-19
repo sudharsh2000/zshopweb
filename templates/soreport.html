@@ -1,0 +1,464 @@
+
+{% extends 'navbar.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Summary Report</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+           
+        }
+
+        .containerrep {
+            width: 95%;
+            margin: 20px auto;
+            background-color: #85c7d6;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+		.containerhead {
+            width: 98%;
+            
+            background-color: #70e89c;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .date-range {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .report-table th, .report-table td {
+            border: 1px solid #ddd;
+			/* background-color: #f2f2f2; */
+            padding: 12px;
+            text-align: left;
+			font-weight: bold;
+        }
+        
+        .oprow{
+            background-color: #f2f2f2;
+        }
+        .purrow{
+            background-color: #7ecd9a;
+        }
+        .salerow{
+            background-color: #efa0a0;
+        }
+        .purretrow{
+            background-color: #f2f2f2;
+        }
+        .srrow{
+            background-color: #bae368; 
+        }
+        .grossrow{
+            background-color: #d993f5; 
+        }
+        .remainrow{
+            background-color: rgb(255, 253, 136);
+        }
+        .report-table th {
+			font-size: 22px;
+            background-color: #c1d1d6;
+        }
+		.refreshbtn{
+			width:100px ;
+			height: 40px;
+			margin-left: 30px;
+			border-radius: 10px;
+			border-color: #f2f2f2;
+			color: #ddd;
+			background-color: rgb(50, 146, 50);
+		}
+        .total {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #4CAF50;
+            /* color: #fff; */
+            text-align: right;
+            border-radius: 8px;
+        }
+
+        .frmdtlabel{
+            margin-left: 1.5rem;
+        }
+        .frmdtinput{
+            width: 151px;
+            height: 35px;
+            text-align: center;
+            border-radius: 5px;
+            margin-left: 20px;
+            padding: 10px;
+            background-color: #7fffd400;
+        }
+        .combo{
+            min-width: 120px;height: 30px;border-radius: 10px ;text-align: center;
+        }
+        .usrlabel{
+            margin-left: 1rem;
+        }
+      
+        @media print
+    {
+        
+       .reportwindow { display: block; }
+    }
+    .amountinp{
+        border: 0px solid;text-align: right; background-color: #f2f2f200;color: black; font-size: 18px;
+    }
+    @media (max-width:500px){
+      
+        .containerrep {
+            width: 100%;
+            padding: 0px;
+            background-color: #85c7d6;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            
+            border-radius: 8px;
+        }
+		.containerhead {
+            width: 100%;
+            
+            background-color: #cfeca9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 0px;
+            border-radius: 8px;
+        }
+        .report-table {
+            
+            border-collapse: collapse;
+           
+        }
+        .report-table th, .report-table td {
+            border: 1px so lid #ddd;
+			/* background-color: #f2f2f2; */
+           max-width: 100px;
+            text-align: right;
+			font-weight: bold;
+        }
+        .report-table tr{
+            
+            height: 30px;
+        }
+        .oprow{
+            background-color: #f2f2f2;
+            width: 150px;
+        }
+        .purrow{
+            background-color: #7ecd9a;
+            width: 150px;
+        }
+        .salerow{
+            background-color: #efa0a0;
+            width: 150px;
+        }
+        .purretrow{
+            background-color: #f2f2f2;
+            width: 150px;
+        }
+        .srrow{
+            background-color: #bae368; 
+            width: 150px;
+        }
+        .grossrow{
+            background-color: #d993f5; 
+            width: 150px;
+        }
+        .remainrow{
+            background-color: rgb(129, 230, 124);
+            width: 150px;
+        }
+        .amountinp{
+        border: 0px solid;text-align: left; background-color: #f2f2f200;color: black; font-size: 18px;
+    }
+    .frmdtlabel{
+            margin-left: 38px;
+            margin-top: 20px;
+        }
+        .frmdtinput{
+            width: 117px;
+            height: 30px;
+            text-align: center;
+            border-radius: 5px;
+            margin-left: 0px;
+            padding: 5px;
+        }
+       
+    .usrlabel{
+       margin-left: 3px;
+       font-size: 12px;
+       }
+    label{
+        margin-left: 5px;
+        font-size:  12px;
+        }
+       .refreshbtn{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 100px;
+    
+       }
+       .combo{
+        min-width: 40px;
+         width: 115px; 
+        height: 30px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 13px;
+       }
+       .form-check-input {
+    width: 15px;
+    height: 15px;
+    margin-left: 2px;
+    margin-top: 7px;
+}
+    }
+    </style>
+</head>
+<body onload="Summary()">
+    <div  class="containerrep">
+		
+		<div id="headerbox" class="containerhead">
+			<h3 style="padding: 10px;text-align: center;">Sales Order Report</h3>
+          
+        <div id="headerdiv" style="margin-left: 0px;padding: 0px;" >
+            
+            <label for="from-date">Area </label>
+                                        <select name="area" id="area" class="combo" onchange="getusers()" >
+           
+                                            {% if area == 'HEAD OFFICE' %}
+                {% for i in us %}
+                
+                                            <option value="{{i.dname}}">{{i.dname}}</option>
+                                            
+                                   {% endfor %}         
+
+                                    {% else %}
+                                    <option >{{area}}</option>
+                                    {% endif %}
+
+                                        </select>
+                                        {% if area == 'HEAD OFFICE' %}
+                                        <label>All</label><input  onchange="checkcombo()"  class="form-check-input" checked="true" name="printssave" type="checkbox" id="allarea">
+                                        {% else %}
+                                        <label>All</label><input    class="form-check-input"  name="printssave" type="checkbox" id="allarea" disabled="disabled">
+
+                                        {% endif %}
+                                        <label for="from-date" class="usrlabel" >User </label>
+                                        <select name="user" id="user" class="combo" >
+                                            
+                
+                
+                                            
+                                            
+
+
+                                        </select>  
+                                        <label>All</label><input  onchange="checkcombo2()"  class="form-check-input" checked="true" name="printssave" type="checkbox" id="alluser">
+
+                        <input id="cmp" hidden="hidden" value="{{company}}" />
+                        <input id="curarea" hidden="hidden" value="{{area}}" />
+                        <input id="curuser" hidden="hidden" value="{{users}}" />
+                        <input id="curvtype" hidden="hidden" value="SO" />
+            <label for="from-date" class="frmdtlabel">From </label>
+            <input type="date" class="frmdtinput" value="{{fromdate}}" id="from-date" name="from-date">
+
+            <label for="from-date" class="frmdtlabel">To </label>
+            <input type="date"  class="frmdtinput" value="{{todate}}" id="to-date" name="to-date">
+       <button class="refreshbtn" onclick="Summary()">Refresh</button>
+       <button  onclick="printwindow()" style="margin-left: 40px; border-radius: 10px;background-color: #f0dc8b;width: 80px;height: 35px;">Print</button>
+		</div>
+</div>
+<div class="table table-responsive">
+        <table id="reportwindow" class="report-table">
+            <thead>
+                <tr>
+                    <th>Vno</th>
+					<th>User</th>
+                    <th style="">Date</th>
+                    <th>Party</th>
+                    <th>Qty</th>
+                    <th>Taxamt</th> 
+                    <th>Amount</th>
+                    <th>Net Amount</th>
+
+                </tr>
+            </thead>
+            <tbody id="invoice-form-items-table-body">
+
+            </tbody>
+            
+            
+           
+        </table>
+    </div>
+        <!-- <div class="total">
+            Total: $505.00
+        </div> -->
+    </div>
+    <script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+    <script src="{% static 'js/salesreport.js' %}"> </script>
+    <script>
+    window.onload = function() {
+        
+  
+        getusers();
+       checkcombo();
+       checkcombo2();
+       Summary();
+};
+
+function checkcombo(){
+    let allarea=document.getElementById('allarea');
+let area=document.getElementById('area');
+let alluser=document.getElementById('alluser');
+let user=document.getElementById('user');
+    area.disabled = allarea.checked;
+    if(allarea.checked==true){
+        alluser.checked=true
+        alluser.disabled=true  
+        user.disabled=true 
+    }
+    else{
+      alluser.disabled=false  
+    }
+    
+    area.selectedIndex =0
+    user.selectedIndex=0
+}
+function checkcombo2(){
+    let allarea=document.getElementById('allarea');
+let area=document.getElementById('area');
+let alluser=document.getElementById('alluser');
+let user=document.getElementById('user');
+  if(allarea.checked==true){
+alluser.disabled=true
+user.disabled=true
+  }
+  else{
+    user.disabled=false
+    alluser.disabled=false
+    user.disabled = alluser.checked;
+    user.selectedIndex =0
+  }
+ 
+}
+function getusers(){
+ 
+    var query = document.getElementById('cmp').value;
+ 
+ var area = document.getElementById('area').value;
+ if(area==''){
+   area='HEAD OFFICE'
+ }
+
+ 
+ var usercombo = document.getElementById('user');
+usercombo.textContent=''
+ fetch(`/getusers/?query=${query}&area=${area}`)
+        .then(response => response.json())
+        .then(data => setusercombo(data.data)
+          
+          );
+
+function setusercombo(users){
+ users.forEach(user => {
+   const option = document.createElement('option');
+   
+   option.style.width='60px';
+               option.value=user.name;
+               option.text = user.name;
+               usercombo.add(option);
+ });
+   
+ 
+
+}
+
+}
+function printwindow(){
+    let tb=document.getElementById('reportwindow');
+    if(tb.tBodies[0].rows.length>1){
+        printwindowp();
+    }
+}
+function printwindowp(){
+    let area=document.getElementById('area').value;
+    let user=document.getElementById('user').value;
+    let company=document.getElementById('cmp').value;
+    let allarea=document.getElementById('allarea');
+    let alluser=document.getElementById('alluser');
+
+    let tb=document.getElementById('reportwindow');
+
+    
+
+if(allarea.checked==true){
+     area='';
+}
+if(alluser.checked==true){
+     user='';
+}
+   
+let finalqtyp=document.getElementById(`finalqty`)
+    let finaltaxamtp=document.getElementById(`finaltx`)
+    let finalamountp=document.getElementById(`finalamt`)
+    let finalnetamountp=document.getElementById(`finalnet`)
+
+    var printWindow = window.open('', '_blank');
+  printWindow.document.write('<html><head><title>Thermal Printout</title><style> tr{height:27px}td{width:150px;text-align:center;items-align:center} td{border-collapse: collapse;border: 1px solid black;}</style></head><body>');
+
+  // Add table with headers
+  printWindow.document.write('<div style="items-align:center;margin-left:250px;"><h2>Sales Order Report-'+company+'</h2>'+area+'  '+user+'</div>')          
+  printWindow.document.write('<table style="width:100%;min-height:90%;border-collapse: collapse;border:2px; ">');
+printWindow.document.write('<thead><tr style="border-collapse: collapse;border: 1px solid black;"><th style="border-collapse: collapse;border: 1px solid black;">Vno</th style="border-collapse: collapse;border: 1px solid black;"><th style="border-collapse: collapse;border: 1px solid black;">User</th><th style="border-collapse: collapse;border: 1px solid black;">Date</th><th style="border-collapse: collapse;border: 1px solid black;">Party</th><th style="border-collapse: collapse;border: 1px solid black;">Qty</th><th style="border-collapse: collapse;border: 1px solid black;">Taxamt</th><th style="border-collapse: collapse;border: 1px solid black;">Amount</th><th style="border-collapse: collapse;border: 1px solid black;">Net Amount</th></tr></thead>')
+printWindow.document.write('<tbody>')
+    for(i=2;i<tb.tBodies[0].rows.length+1;i++){
+
+    let vnop=document.getElementById(`vno${i}`)
+    let userp=document.getElementById(`user${i}`)
+    let datep=document.getElementById(`date${i}`)
+    let partyp=document.getElementById(`party${i}`)
+    let qtyp=document.getElementById(`qty${i}`)
+    let taxamtp=document.getElementById(`taxamt${i}`)
+    let amountp=document.getElementById(`amount${i}`)
+
+    let netamtp=document.getElementById(`netamount${i}`)
+        printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;">')
+        printWindow.document.write(' <td>'+vnop.innerHTML+'</td><td>'+userp.innerHTML+'</td><td>'+datep.innerHTML+'</td><td>'+partyp.innerHTML+'</td><td>'+qtyp.innerHTML+'</td><td>'+taxamtp.innerHTML+'</td><td>'+amountp.innerHTML+'</td><td>'+netamtp.innerHTML+'</td> </tr>')
+    }
+//   printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Opening Cash</th><th style="border: 1px solid black;">فتح النقدية</th><td style="border: 1px solid black;">'+oc+'</td></tr>');
+printWindow.document.write('<tr> <td></td><td></td><td>Total</td><td>:</td><td>'+finalqtyp.innerHTML+'</td><td>'+finaltaxamtp.innerHTML+'</td><td>'+finalamountp.innerHTML+'</td><td>'+finalnetamountp.innerHTML+'</td> </tr>')
+
+  
+  printWindow.document.write('</tbody>')
+  printWindow.document.write('</table>');
+  printWindow.document.write('</body></html>');
+ 
+  printWindow.print();
+  printWindow.close();
+}
+    </script>
+    {% endblock %}
+{% block includejs %}
+	{% endblock %}
+</body>
+</html>

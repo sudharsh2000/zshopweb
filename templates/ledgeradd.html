@@ -1,0 +1,807 @@
+
+{% extends 'navbar.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+
+
+    <!-- Icons font CSS-->
+<!--    <link href="{% static 'mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">-->
+<link href="{% static 'css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+
+    <link href="{% static 'font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'css/select2.min.css' %}" rel="stylesheet" media="all">
+
+ <link href="{% static 'css/main.min.css' %}" rel="stylesheet" media="all">
+    <!-- Main CSS-->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all">
+<!--     <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all">-->
+
+<style>
+    .comboclass{
+height: 50px;
+width:230px;
+border-radius: 5px;
+background-color: #eee;
+justify-content: center;
+text-align: center;
+font-size: 16px;
+
+
+}
+.select option{
+height: 50px;
+width:100%;
+
+
+
+}
+
+.btnclass{
+    display: flex;
+    margin-left: 0px;
+    margin-top: 40px;
+    padding: 20px;
+    justify-content: center;
+    gap: 20px;
+  }
+  .btnregister, .btnclose, .btnclear{
+    width:120px;
+    height: 45px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+  }
+  .btnclear{
+    background-color: rgb(57, 180, 214);
+    
+  }
+  .btnregister{
+    background-color: rgb(57, 214, 122);
+  }
+  .btnclose{
+    background-color: red;
+  }
+.dtfield{
+    margin-left: 4rem;background-color: #6a656521;
+    border-radius: 5px;
+    min-width:150px ;
+    min-height: 50px;
+    padding: 10px;
+}
+.obfield{
+    margin-left: 100px;background-color: #6a656521;
+    border-radius: 5px;
+    width: 250px;
+    height: 50px;
+    padding: 10px;
+}
+.input-group{
+    min-width: 22rem;
+}
+
+.taxmaindiv{
+    margin-left: 4.5rem;
+    width: 29rem;
+}
+@media only screen and (max-width: 600px) {
+    .taxmaindiv{
+    margin-left: 0px;
+    width: 22rem;
+}
+    .obfield{
+
+    padding: 10px;
+    width: 270px;
+}
+    .dtfield{
+        margin-left: -9px;
+        background-color: #6a656521;
+        border-radius: 10px;
+        min-height: 40px;
+        margin-bottom: 20px;
+        min-width: 144px;
+}
+.btnregister, .btnclose, .btnclear{
+    width:80px;
+    height: 35px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+  }
+  .btnclass{
+    display: flex;
+    margin-left: 0px;
+    margin-top: 40px;
+    padding: 20px;
+    justify-content: center;
+    gap: 20px;
+  }
+
+
+
+  .card {
+    width: 100%;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.card-5 {
+  background: #fff;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+.card-5 .card-heading {
+  padding: 10px;
+  background: #1a1a1a;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card-5 .card-body {
+  padding: 30px 30px;
+  padding-bottom: 73px;
+}
+.page-wrapper{
+    padding-top: 0px;
+    padding: 0px;
+}
+.title {
+  font-size: 17px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+.comboclass{
+  height: 40px;
+  width:130px;
+  border-radius: 5px;
+  background-color: #eee;
+  text-align: center;;
+}
+.input-group{
+    min-width: 300px;
+    
+}
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="page-wrapper bg-gra-03 " >
+        <div  class="wrapper " >
+            <div class="card card-5" >
+                <div class="card-heading">
+                    <h2 class="title">{{heading}}</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="ledgerform">
+                        <div class="row">
+                        {% csrf_token %}
+<div class="form-row">
+<!--                            <div class="name">itemid</div>-->
+                            <div class="value">
+                                <div class="col-3">
+
+                                    <input class="" id="lid" name="lid" style="border: 0px solid;font-size: 20px;background-color: white;font-weight: bold;" type="number" value="{{lid}}" readonly>
+                                    <input class="" id="lidmain" hidden="hidden" name="lidmain" style="border: 0px solid;font-size: 20px;background-color: white;font-weight: bold;" type="number" value="{{lidmain}}" readonly>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="name">Name</div>
+                            <div class="value">
+                                <div class="row ">
+                                    
+                                    <div class="col-sm-8 col-md-8 col-lg-6">
+                                        
+                                        <div class="value">
+                                            <div  class="input-group">
+                                                <input class="input--style-5" type="text" placeholder="{{accg.agroupname}} Name" id="lname" onblur="aliasnameset()" name="lname" required/>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                    {% if accg.agroupname == 'customer' or accg.agroupname == 'Supplier' %}
+                                    
+                                    <div class="col-sm-4 col-md-4 col-lg-6">
+                                        <div class="row">
+                                        <div class="name" style="margin-top: 10px;">Address</div>
+                                        <div class="value">
+                                        <div class="input-group" >
+                                            <input class="input--style-5" type="text" name="address" id="address" placeholder="Address">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                    </div>
+                                        
+                                    {% endif %}
+                                        
+                                   
+
+
+                                    </div>
+                                </div>
+                            </div>
+                       
+
+
+                            <div class="form-row m-b-55">
+                                <div class="name">Alias Name</div>
+                                <div class="value">
+                                    <div  class="row row-refine">
+                                        
+                                        <div class="col-sm-4 col-md-4 col-lg-6">
+                                            
+                                           
+                                            <div class="value">
+                                                <div class="input-group">
+                                                    <input class="input--style-5" type="text" id="alias" placeholder="Alias name" name="laliasname">
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        {% if accg.agroupname == 'customer' or accg.agroupname == 'Supplier' %}
+                                        <div  class="col-sm-4 col-md-4 col-lg-6">
+                                            <div class="row">
+                                                <div class="name" style="margin-top: 10px;">Phone no</div>
+                                                <div class="value">
+                                            <div class="input-group" >
+                                                <input class="input--style-5" type="text" name="phone" id="phone" placeholder="Phone number">
+    
+                                            </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        
+                                        {% endif %}
+    
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row m-b-55">
+                                    <div class="name">A/C Group</div>
+                                    <div class="value">
+                                        <div  class="row row-refine">
+                                            
+                                            <div class="col-sm-4 col-md-4 col-lg-6">
+                                                
+                                               
+                                                <div class="value">
+                                                    <div class="input-group">
+                                                       <div class="input--style-4">
+                                                        <select name="accgroup" class="comboclass" id="accgroup">
+                                                            {% if accg.agroupname == 'customer' %}
+                                                            <option value="18">{{accg}}</option>
+                
+                                                            {% elif accg.agroupname == 'Supplier' %}
+                                                            <option value="19">{{accg}}</option>
+                                                            {% else %}
+                                            {% for i in accg %}
+                
+                
+                                                            <option value="{{i.agroupid}}">{{i.agroupname}}</option>
+                
+                                            {% endfor %}
+                {% endif %}
+                
+                                                        </select>
+                
+                                                        <div class="select-dropdown"></div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            {% if accg.agroupname == 'customer' or accg.agroupname == 'Supplier' %}
+                                            <div  class="col-sm-4 col-md-4 col-lg-6">
+                                                <div class="row">
+                                                    <div class="name" style="margin-top: 10px;">Mobile no</div>
+                                                    <div class="value">
+                                                <div class="input-group" >
+                                                    <input class="input--style-5"  type="text" name="mobile" id="mobile" placeholder="Mobile number">        
+                                                </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            
+                                            {% endif %}
+        
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                               
+ <div class="form-row ">
+                
+                    <div class="value">
+                        <div class="row row-refine">
+    
+                            <div class="col-sm-12 col-md-12 col-lg-7">
+    
+                                <div class="form-row ">
+                                    <div   class="name">Opening Balance</div>
+    
+                                    <div class="value">
+                                        <div class="row row-refine">
+                
+                                            <div class="col-3">
+                                                <div class="input-group-desc">
+                                                    <select name="obtype" class="comboclass" id="obtype">
+
+                                                        <option value="0">Dr</option>
+                                                        <option value="1">Cr</option>
+                    
+                                                    </select>
+                                               
+                                                <div class="select-dropdown"></div>
+                                                 
+                                                </div>
+                                            </div>
+                                            <div class="col-9">
+                                                <div class="taxdiv">
+                                                <div class="input-group-desc">
+                                                    <input class="dtfield"value="0.0"  type="text" id="ob" name="ob">
+    
+                                                    
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+                     
+                   
+                            {% if accg.agroupname == 'customer' or accg.agroupname == 'Supplier' %}
+                                
+                    <div class="col-lg-5">
+                        <div class="taxmaindiv">
+                        <div class="row ">
+                            
+                            <div  class="name">Discount</div> 
+    
+                            <div class="value">
+                                
+                                <div class="row row-refine">
+        
+                                   
+                                  
+                                        <div class="taxdiv" >
+                                            <div class="input-group" >
+                                                <input class="input--style-5"   type="text" name="disc" id="disc" placeholder="Disc">
+                    
+                                            </div>
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        
+                            
+                       
+                            
+          
+                            
+                            </div>
+                          
+                            {% endif %}
+                        </div>
+                    </div>
+    
+    </div>
+
+
+ <div class="form-row ">
+                
+                <div class="value">
+                    <div class="row row-refine">
+
+                        <div class="col-sm-12 col-md-12 col-lg-7">
+
+                            <div class="form-row ">
+                                <div   class="name">Usecard</div>
+
+                                <div class="value">
+                                    <div class="row row-refine">
+            
+                                        <div class="col-3">
+                                            <div class="input-group-desc">
+                                                <select name="usecard" class="comboclass">
+
+                                                    <option value="0">Yes</option>
+                                                    <option value="1">No</option>
+        
+                                                </select>
+                                               
+                                                <div class="select-dropdown"></div> 
+                                             
+                                            </div>
+                                        </div>
+                                        <div class="col-9">
+                                            <div class="taxdiv">
+                                            <div class="input-group-desc">
+                                                <input class="dtfield" value="{{date}}"  id="datefield" type="datetime-local" name="date">
+
+                                                
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+                 
+               
+                        {% if accg.agroupname == 'customer' or accg.agroupname == 'Supplier' %}
+                            
+                <div class="col-lg-5">
+                    <div class="taxmaindiv">
+                    <div class="row ">
+                        
+                        <div  class="name">Tax No</div> 
+
+                        <div class="value">
+                            
+                            <div class="row row-refine">
+    
+                               
+                              
+                                    <div class="taxdiv" >
+                                        <div class="input-group" >
+                                            <input class="input--style-5"  type="text" name="taxno" id="taxno" placeholder="Taxno">
+                
+                                        </div>
+                                
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    
+                        
+                   
+                        
+      
+                        
+                        </div>
+                      
+                        {% endif %}
+                    </div>
+                </div>
+
+</div>
+
+
+
+                            {% if accg.agroupname == 'customer' or accg.agroupname == 'Supplier' %}
+                            <div class="form-row m-b-55">
+                                <div class="name">Area</div>
+                                <div class="value">
+                                    <div  class="row row-refine">
+                                        
+                                        <div class="col-sm-4 col-md-4 col-lg-6">
+                                            
+                                           
+                                            <div class="value">
+                                                <div class="input-group-desc" >
+                                                    <input class="input--style-5"  type="text" name="area" id="area" placeholder="Area">
+            
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                       
+                                        <div  class="col-sm-4 col-md-4 col-lg-6">
+                                            <div class="row">
+                                                <div class="name" style="margin-top: 10px;">Commision</div>
+                                                <div class="value">
+                                                    <div class="input-group-desc" >
+                                                        <input class="input--style-5"   step="0.01"  placeholder="0.0" type="number" name="commision" id="commision" placeholder="Commision">
+                
+                                                    </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        
+                                     
+    
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                    </div>
+                   
+
+<div class="w3-container">
+  <div class="w3-show-inline-block">
+  <div class="btnclass">
+    {% if type != 'edit' %}
+    <button class="btnclear" onclick="clearfn()" type="button" >Clear</button>
+    {% endif %}
+    <button class="btnregister" type="button" onclick="savefn()" >Save</button>
+    <button class="btnclose" onclick="closefn()" type="button" >Close</button>
+  </div>
+  <input name="edittype" id="edit" hidden="hidden"  value="{{type}}" >
+  <input name="cmp" id="cmp" hidden="hidden"  value="{{user}}" >
+  <input name="area" id="ar" value="{{area}}" hidden="hidden" />
+ <input name="use" id="user" value="{{cuser}}" hidden="hidden" />
+  {% for i in messages %}
+  <a>{{i}}</a>
+  </div>
+</div>
+
+
+ {% endfor %}
+
+
+
+</div>
+                    </form>
+                    
+                </div>
+
+                
+
+
+
+            </div>
+            
+        </div>
+       
+    </div>
+
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+  
+    <script src="{% static 'js/select2.min.js' %}"></script>
+
+    <script src="{% static 'js/global.js' %}"></script>
+
+    <script>
+function savefn(){
+    const etype= document.getElementById("edit").value;
+    const query= document.getElementById("lname").value;
+ 
+        if(etype!='edit'){
+       
+            if(query==''){
+                alert('Please enter name')
+            } 
+            else{
+        
+        fetch(`/validate/?query=${query}&type=${'ledger'}`)
+            .then(response => response.json())
+            .then(data => saveform(data.data)
+            );
+            }
+function saveform(barcodelen){
+    if(barcodelen==0){
+        
+        document.getElementById("ledgerform").submit();
+            }
+      else{
+       
+        alert("Ledger already exist")
+      }
+         
+}  
+}
+else{
+    document.getElementById("ledgerform").submit();
+}  
+
+}
+document.addEventListener("keydown", keyDownTextField, false);
+    function keyDownTextField(e) {
+       
+        if(event.key === 'F12') {
+            event.preventDefault();
+            document.getElementById('lname').focus()
+        }
+      if(event.key === 'F5') {
+        event.preventDefault()
+        const etype= document.getElementById("edit").value;
+        if(etype!='edit'){
+        const query= document.getElementById("lname").value;
+        const company=document.getElementById('cmp').value
+        
+        fetch(`/validate/?query=${query}&type=${'ledger'}&company=${company}`)
+            .then(response => response.json())
+            .then(data => saveform(data.data)
+            );
+function saveform(barcodelen){
+    if(barcodelen==0){
+        document.getElementById("ledgerform").submit();
+            }
+      else{
+       
+        alert("Ledger already exist")
+      }
+         
+}    }
+else{
+    document.getElementById("ledgerform").submit()
+}
+    
+      } 
+      if(event.key === 'Enter') {
+    
+        event.preventDefault()
+      }
+    
+    }
+const previd={{ preid}};
+ const typed=document.getElementById('edit').value
+ const company=document.getElementById('cmp').value
+
+if(typed=='edit'){
+
+    fetch(`/getcustomer/?query=${previd}&comp=${company}`)
+      .then(response => response.json())
+      .then(data => getcus(data.customers)    );
+      
+document.getElementById('lid').value=previd;
+
+
+}
+function getcus(itemdata){
+        itemdata.forEach((item,index) => {
+        
+      
+       
+        document.getElementById(`lname`).value=item.name;
+        document.getElementById(`alias`).value=item.laliasname;
+        if(previd>29){
+            var datetimeString = item.vdate;
+      var date = new Date(datetimeString);
+      
+      var year = date.getUTCFullYear();
+      var month = ('0' + (date.getUTCMonth() + 1)).slice(-2); // Adding 1 because months are zero-based
+      var day = ('0' + date.getUTCDate()).slice(-2);
+      var hours = ('0' + date.getUTCHours()).slice(-2);
+      var minutes = ('0' + date.getUTCMinutes()).slice(-2);
+      var seconds = ('0' + date.getUTCSeconds()).slice(-2);
+      
+      var formattedDatetime = year + "-" + month + "-" + day ;
+            document.getElementById(`datefield`).value=formattedDatetime;
+        }
+        else{
+            alert('b')
+            const date = new Date();
+
+let currentDay= String(date.getDate()).padStart(2, '0');
+
+let currentMonth = String(date.getMonth()+1).padStart(2,"0");
+
+let currentYear = date.getFullYear();
+
+// we will display the date as DD-MM-YYYY 
+
+let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+  
+        document.getElementById(`datefield`).value=currentDate;
+        }
+       
+        if(item.cramt>0 ||item.dbamt>0){
+        if(item.cramt>0){
+            document.getElementById(`ob`).value=item.cramt;
+        }
+        else{
+            document.getElementById(`ob`).value=item.dbamt; 
+        }
+    }
+        if(item.agroupid==18 | item.agroupid==19){
+        if (item.address=='undefined' ){
+            document.getElementById(`address`).value=''
+
+           
+        }
+        else{
+            document.getElementById(`address`).value=item.address;
+        }
+       if(item.phone=='undefined'){
+        document.getElementById(`phone`).value=''
+        
+       }
+       else{
+        document.getElementById(`phone`).value=item.phone;
+        }
+       if(item.mobile=='undefined' ){
+        document.getElementById(`mobile`).value=''  ;
+
+        
+       }
+       else{
+        document.getElementById(`mobile`).value=item.mobile;
+        }
+        
+      
+       
+     
+    }
+    
+    if(item.agroupid!=18 | item.agroupid!=19){
+       var accgroupcombo = document.getElementById("accgroup");
+
+       accgroupcombo.value=item.agroupid;
+
+    }
+    var obcombo = document.getElementById("obtype");
+    if(item.cramt>0)
+    {
+        obcombo.value="1"
+    }
+    else if(item.dbamt>0)
+    {
+        obcombo.value="0"
+    }
+        
+        });
+    }
+
+        function aliasnameset(){
+            const ledname=document.getElementById('lname').value;
+            document.getElementById('alias').value=ledname;
+        }
+ function clearfn(){
+
+    location.reload();
+ }     
+
+function closefn(){
+    const typed=document.getElementById('edit').value
+   
+if(typed=='edit'){
+    
+    window.close();
+}
+else{
+
+    window.location.href ='/home';
+}
+
+}
+
+    </script>
+</body>
+
+</html>
+
+{% endblock%}

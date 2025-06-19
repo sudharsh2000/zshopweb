@@ -1,0 +1,257 @@
+
+{% extends 'navbar.html' %}
+
+{% load static %}
+
+<!doctype html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{% block content %}
+	<style>
+	.select-container{
+        min-width: 15rem;
+    border-radius: .5rem;
+    height: 2.8rem;
+    padding-right: .5rem;
+    border: 1px solid rgb(182 175 175);
+    }
+    .select-container select{
+        width: 100%;
+    height: 100%;
+    border-radius: .5rem;
+    border: none;
+    padding: .5rem;
+    }
+    .select-container select option{
+        height: 2rem;
+    }
+	@media screen and (max-width:600px) {
+	.itemnameinput{
+		min-width: 10rem;
+	}
+	.fixed-column {
+        width: 1rem;
+	}
+	.select-container {
+    min-width: 8rem;
+    border-radius: .5rem;
+    height: 2.8rem;
+    padding-right: .5rem;
+    border: 1px solid rgb(182 175 175);
+	}
+	.cus_td .form-control {
+        border: var(--trans-border-color);
+        height: 40px;
+		max-width: 131px;
+        /* width: revert; */
+    }
+		
+	}
+		  </style>
+</head>
+
+
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+
+<link href="{% static 'css/popup.css' %}" rel="stylesheet" />
+<link href="{% static 'css/itempopup.css' %}" rel="stylesheet" />
+<link href="{% static 'css/transaction.css' %}" rel="stylesheet" />
+<body style=" height:100%;margin-left:00px;">
+<form  id="invoice-form"  method="post"   >
+
+	<table class="table table-bordered">
+		<thead>
+			<tr style="text-align:center;font-size: 20px;">
+				<th class="table-active" scope="col" colspan="4" style="color: rgb(7, 114, 68);">Set product</th>
+				
+
+			</tr>
+		</thead>
+
+		<tbody class="voucher-body">
+			<tr>
+				<th scope="row">Voucher Number</th>
+				<td class="vouchertd" >
+				
+
+					<input name="vno" id="vno"   type="number" class="vno-input" placeholder="Invoice Number" value="{{pid}}" >  
+					
+				
+					<a  onclick="previousdata()"  class="btnpre" ><</a>
+					 <a  onclick="nextdata()"  class="btnnxt" >></a>
+					<!-- <a  onclick="jumpdata()" class="btnjmp" >Jump</a> -->
+				</td>
+				
+		
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-bordered">
+		
+
+		<tbody class="custbl" class="two-col-form">
+			<tr>
+				<th scope="row">finishproduct</th>
+				<td class="paymenthead_td" >
+
+					<div class="select-container">
+
+                       <select name="fp" id="fp" >
+                        {% for i in itemlist %}
+                        <option  value="{{i.itemid}}">{{i.itemname}}</option>
+                       
+                        {% endfor %}
+                       </select>
+                      </div>
+					
+				</td>
+				<th scope="row" id="ltype">Labour Charge</th>
+				<td class="cus_td">
+					<div class="input-container">
+					  <input name="lc" type="number" min="0.01" class="form-control" id="searchInput"  placeholder="0.0">
+					 
+					</div>
+				  </td>
+				<input type="text" id="customerid" name="customerid" hidden="hidden" />
+    <div class="overlay" id="overlay">
+    <div class="popup">
+
+      <ul id="searchResults" onclick="closePopup()" style=" list-style-type: none; "></ul>
+    </div>
+  </div>
+			</tr>
+			
+		</tbody>
+	</table>
+
+
+
+
+	<div class="table-responsive">
+		<table class="table table-bordered" id="invoice-form-items-table">
+			<thead>
+				<!-- <tr>
+					<th class="table-active" scope="col" colspan="13">Items</th>
+				</tr> -->
+				<tr>
+					<th scope="col" class="fixed-column">Sl No.</th>
+					
+					<th scope="col">Item name</th>
+				
+					<th scope="col">Qty</th>
+					<th scope="col">Rate</th>
+					
+				</tr>
+			</thead>
+			<tbody id="invoice-form-items-table-body">
+				<tr>
+					<td class="fixed-column" >1</td>
+					<td class="form-input-td"><input name="itemname"  id="itemname1" class="form-control itemnameinput" type="text" onclick="getrow(1,event)" oninput="search(1);" onkeydown="handleKeyDown(event,1);" placeholder="Itemname" required></td>
+					<td class="form-input-td"><input type="number" name="qty" class="form-control" id="qty1" placeholder="0.00"  required></td>
+					<td class="form-input-td"><input type="number" name="srate" id="srate1"  placeholder="0.00" onkeydown="nextrowkey(event,1)" class="form-control" onclick="getrow(1,event)" onkeydown="nextrowkey(event,1)" required></td>
+						<input type="text" name="itemid" style="min-width:100px;" id="itemid1" hidden="true" class="form-control">
+				<input name="type" id="type" value="{{type}}" hidden="hidden"/>
+            	<input name="prevno" id="prevno" value="{{prevno}}" hidden="hidden"/>
+					</td>
+			
+				</tr>
+				
+				<!-- Other table rows here -->
+			</tbody>
+
+		</table>
+	</div>
+	
+
+	<div class="overlay2" id="overlay2">
+	<div class="popup2">
+		
+		<table class="table-item" >
+			<thead>
+				<tr>
+					<th>Itemname</th>
+					
+					<th>Rate</th>
+				
+				</tr>
+			</thead>
+			<tbody id="item-tbl-body">
+				
+
+			</tbody>
+		</table>
+		
+			</div>
+			</div>
+	{% csrf_token %}
+<!--	<a href="searchitem"><p class="btn btn-primary">+</p></a>-->
+<div class="container mb-5 mt-5">
+	<div class="row justify-content-center">
+		<div class="col-auto">
+			<button id="subtmit" onclick="SAvefn()" class="btn btn-primary" type="button" style="background-color: green;">Save (F5)</button>
+		</div>
+		<!-- <div class="col-auto">
+			<a onclick="deleterow()" class="btn btn-primary" type="button" style="background-color: rgb(206, 19, 19);">Delete</a>
+		</div> -->
+		<div class="col-auto">
+			<a onclick="closewindow()" class="btn btn-primary" type="button">Close</a>
+		</div>
+		<div class="col-auto">
+			<div class="btndesktop">
+				<a onclick="addRow()" class="btn btn-primary" style="border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+
+			</div>
+			<div class="btnmobile">
+				<a onclick="addRow()" class="btn btn-primary" style="border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- <button id="subtmit" type="button" onclick="SAvefn()" class="btn btn-primary" style="margin-left:50px;margin-bottom: 30px;background-color: green;">Save(F5)</button>
+
+<a  onclick="deleterow()"  class="btn btn-primary"  style="margin-left:40px;margin-bottom:30px;background-color: rgb(206, 19, 19);">Delete</a>
+<a  onclick="closewindow()"  class="btn btn-primary" style="margin-left:40px;margin-bottom:30px">Close</a>
+<a  onclick="additem()"  class="btn btn-primary" style="margin-left:40px;margin-bottom:30px;border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+ -->
+
+
+</form>
+
+
+</body>
+
+<script>
+
+
+</script>
+
+<!--   <input type="text" id="dataname" oninput="searchitem()" >-->
+
+<!--<script src="{% static 'js/fuse-3.4.6.min.js' %}"></script>-->
+
+
+<script src="{% static 'js/setproduct.js' %}"></script>
+
+
+{% endblock %}
+{% block includejs %}
+	{% endblock %}
+
+</div>
+
+<div id="customer_search_bar"></div>
+<div id="product_search_bar"></div>
+
+
+
+
+
+
+<!-- -->
+
+
+

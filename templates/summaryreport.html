@@ -1,0 +1,745 @@
+
+{% extends 'navbar.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Summary Report</title>
+    <style>
+        .print-btn{
+            margin-left: 12px;
+            border-radius: 10px;
+            background-color: #dbd4a400;
+            width: 4rem;
+            height: 35px;
+            }
+          .form-check-input {
+    
+            margin-left: 5px;
+            margin-top: 12px;
+            }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+           
+        }
+
+        .containerrep {
+            width: 95%;
+            margin: 20px auto;
+            background-color: #85c7d6;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+		.containerhead {
+            width: 98%;
+            
+            background-color: #cfeca9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .date-range {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .report-table th, .report-table td {
+            border: 1px solid #ddd;
+			/* background-color: #f2f2f2; */
+            padding: 12px;
+            text-align: left;
+			font-weight: bold;
+        }
+        
+        .oprow{
+            background-color: #f2f2f2;
+        }
+        .purrow{
+            background-color: #7ecd9a;
+        }
+        .salerow{
+            background-color: #efa0a0;
+        }
+        .purretrow{
+            background-color: #f2f2f2;
+        }
+        .srrow{
+            background-color: #bae368; 
+        }
+        .grossrow{
+            background-color: #d993f5; 
+        }
+        .remainrow{
+            background-color: rgb(255, 253, 136);
+        }
+        .report-table th {
+			font-size: 22px;
+            background-color: #c1d1d6;
+        }
+		.refreshbtn{
+            width: 5rem;
+            height: 40px;
+            margin-left: 30px;
+            border-radius: 10px;
+            border-color: #f2f2f2;
+            color: #040404;
+            background-color: rgb(50 146 50 / 0%);
+		}
+        .total {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #4CAF50;
+            /* color: #fff; */
+            text-align: right;
+            border-radius: 8px;
+        }
+
+        .frmdtlabel{
+            margin-left: 1.5rem;
+        }
+        .frmdtinput{
+            width: 151px;
+            height: 35px;
+            text-align: center;
+            border-radius: 5px;
+            margin-left: 20px;
+            padding: 10px;
+            background-color: #7fffd400;
+        }
+        .combo{
+            min-width: 120px;height: 30px;border-radius: 10px ;text-align: center;
+        }
+        .usrlabel{
+            margin-left: 1rem;
+        }
+      
+        @media print
+    {
+        
+       .reportwindow { display: block; }
+    }
+    .amountinp{
+        border: 0px solid;text-align: right; background-color: #f2f2f200;color: black; font-size: 18px;
+    }
+    @media (max-width:500px){
+      
+        .containerrep {
+            width: 100%;
+            padding: 0px;
+            background-color: #85c7d6;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            
+            border-radius: 8px;
+        }
+		.containerhead {
+            width: 100%;
+            
+            background-color: #c2cfc2;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 0px;
+            border-radius: 8px;
+        }
+        .report-table {
+            
+            border-collapse: collapse;
+           
+        }
+        .report-table th, .report-table td {
+            border: 1px so lid #ddd;
+			/* background-color: #f2f2f2; */
+           max-width: 100px;
+            text-align: right;
+			font-weight: bold;
+        }
+        .report-table tr{
+            
+            height: 30px;
+        }
+        .oprow{
+            background-color: #f2f2f2;
+            width: 150px;
+        }
+        .purrow{
+            background-color: #7ecd9a;
+            width: 150px;
+        }
+        .salerow{
+            background-color: #efa0a0;
+            width: 150px;
+        }
+        .purretrow{
+            background-color: #f2f2f2;
+            width: 150px;
+        }
+        .srrow{
+            background-color: #bae368; 
+            width: 150px;
+        }
+        .grossrow{
+            background-color: #d993f5; 
+            width: 150px;
+        }
+        .remainrow{
+            background-color: rgb(255, 253, 136);
+            width: 150px;
+        }
+        .amountinp{
+        border: 0px solid;text-align: left; background-color: #f2f2f200;color: black; font-size: 18px;
+    }
+    .frmdtlabel{
+            margin-left: 1rem;
+            margin-top: 20px;
+        }
+        .frmdtinput{
+            width: 9rem;
+            height: 30px;
+            text-align: center;
+            border-radius: 5px;
+            margin-left: 0px;
+            padding: 5px;
+        }
+       
+    .usrlabel{
+       margin-left: 3px;
+       font-size: 12px;
+       }
+    label{
+        margin-left: 5px;
+        font-size:  12px;
+        }
+       .refreshbtn{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 100px;
+    
+       }
+       .combo{
+        min-width: 40px;
+         width: 115px; 
+        height: 30px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 13px;
+       }
+       .form-check-input {
+    width: 15px;
+    height: 15px;
+    margin-left: 2px;
+    margin-top: 7px;
+}
+    }
+    </style>
+</head>
+<body onload="Summary()">
+    <div  class="containerrep">
+		
+		<div id="headerbox" class="containerhead">
+			<h3 style="padding: 10px;text-align: center;">Summary Report</h3>
+          
+        <div id="headerdiv" style="margin-left: 0px;padding: 0px;" >
+            
+            <label for="from-date">Area </label>
+            {% if area == 'HEAD OFFICE' %}
+            <label>All</label>
+            <input onchange="checkcombo()"  class="form-check-input" checked="true" name="printssave" type="checkbox" id="allarea">
+            {% else %}
+            <label>All</label><input    class="form-check-input"  name="printssave" type="checkbox" id="allarea" disabled="disabled">
+
+            {% endif %}
+                                        <select name="area" id="area" class="combo" onchange="getusers()" >
+           
+                                            {% if area == 'HEAD OFFICE' %}
+                {% for i in us %}
+                
+                                            <option value="{{i.dname}}">{{i.dname}}</option>
+                                            
+                                   {% endfor %}         
+
+                                    {% else %}
+                                    <option >{{area}}</option>
+                                    {% endif %}
+
+                                        </select>
+                          
+                                        <label for="from-date" class="usrlabel" >User </label>
+                                        <label>All</label><input  onchange="checkcombo2()"  class="form-check-input" checked="true" name="printssave" type="checkbox" id="alluser">
+
+                                        <select name="user" id="user" class="combo" >
+                                            
+                
+                
+                                            
+                                            
+
+
+                                        </select>  
+
+                        <input id="cmp" hidden="hidden" value="{{company}}" />
+                        <input id="curarea" hidden="hidden" value="{{area}}" />
+                        <input id="curuser" hidden="hidden" value="{{users}}" />
+            <label for="from-date" class="frmdtlabel">From </label>
+            <input type="datetime-local" class="frmdtinput" value="{{ fromdate}}" id="from-date" name="from-date">
+
+            <label for="from-date" class="frmdtlabel">To </label>
+            <input type="datetime-local"  class="frmdtinput" value="{{todate}}" id="to-date" name="to-date">
+       <button class="refreshbtn" onclick="Summary()">Refresh</button>
+       <button  onclick="printwindow()" class="print-btn">Print</button>
+		</div>
+</div>
+        <table id="reportwindow" class="report-table">
+            <thead>
+                <tr>
+                    <th>Details</th>
+					<th>تفاصيل</th>
+                    <th style="text-align: right;">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="oprow" >
+                    <td>Opening Cash</td>
+					<td>فتح النقدية</td>
+                    <td style="text-align: right;" ><input disabled="true" id="oc" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+                <tr class="oprow">
+                    <td>Opening Bank</td>
+					<td>افتتاح البنك</td>
+                    <td style="text-align: right;width: 200px;"><input disabled="true" id="ob" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+                <tr class="purrow">
+                    <td> Total Purchase</td>
+					<td >إجمالي الشراء</td>
+                    <td style="text-align: right;"><input id="totalpurchase" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+                <tr class="purrow">
+                    <td >Cash Purchase</td>
+					<td>شراء نقدا</td>
+                    <td style="text-align: right;"><input id="cashpurchase" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+                <tr class="purrow">
+                    <td>Credit</td>
+					<td>ائتمان</td>
+                    <td style="text-align: right;"><input id="creditpurchase" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+                <tr class="purretrow">
+                    <td>Purchase Return</td>
+					<td>عودة شراء</td>
+                    <td style="text-align: right;"><input id="purchasereturn" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+                <tr class="salerow">
+                    <td>Total sale</td>
+					<td>إجمالي البيع</td>
+                    <td style="text-align: right;"><input id="totalsale" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+                <tr class="salerow">
+                    <td>Total cardamt (by sale)</td>
+					<td>إجمالي الهيل (بالبيع) </td>
+                    <td style="text-align: right;"><input id="totalcardamtbysale" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr class="salerow">
+                <tr class="salerow">
+                    <td>Total Cashamt (by sale)</td>
+					<td>إجمالي الكشامت (بالبيع)</td>
+                    <td style="text-align: right;"><input id="totalcashamtbysale" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+                
+				<tr class="salerow">
+                    <td>Total Card</td>
+					<td>إجمالي البطاقة</td>
+                    <td style="text-align: right;"><input id="totalcard" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="salerow">
+                    <td>Total visa/master .mada</td>
+					<td>إجمالي التأشيرة/الماجستير.مدى</td>
+                    <td style="text-align: right;"><input id="totalvisa" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="salerow">
+                    <td>Total Cash Sale</td>
+					<td>إجمالي البيع النقدي</td>
+                    <td style="text-align: right;"><input id="totalcashsale" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="salerow">
+                    <td>Sales Credit</td>
+					<td>ائتمان المبيعات</td>
+                    <td style="text-align: right;"><input id="salescredit" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+
+				<tr class="srrow">
+                    <td>Sales Return</td>
+					<td>عائد المبيعات</td>
+                    <td style="text-align: right;"><input id="salesreturn" disabled="true" class="amountinp"placeholder="0.00" /></td>
+                </tr>
+				<tr  class="srrow">
+                    <td>Sales Return(Cash)</td>
+					<td>عائد المبيعات (نقداً)</td>
+                    <td style="text-align: right;"><input id="salesreturncash" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr  class="srrow">
+                    <td>Sales Return(Credit)</td>
+					<td>عائد المبيعات (الائتمان)</td>
+                    <td style="text-align: right;"><input id="salesreturncredit" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="oprow">
+                    <td>Payment Tax</td>
+					<td>ضريبة الدفع</td>
+                    <td style="text-align: right;"><input id="Paymenttx" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="oprow">
+                    <td> Total Sale Tax</td>
+					<td>إجمالي ضريبة المبيعات</td>
+                    <td style="text-align: right;"><input id="saletx" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="oprow">
+                    <td>Total SaleReturn Tax</td>
+					<td>إجمالي ضريبة المبيعات والعائدات</td>
+                    <td style="text-align: right;"><input id="srtx" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="oprow">
+                    <td>Total Purchase Tax</td>
+					<td>إجمالي ضريبة الشراء</td>
+                    <td style="text-align: right;"><input id="purchasetx" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="oprow">
+                    <td>Total PurchaseReturn Tax</td>
+					<td>إجمالي ضريبة إرجاع المشتريات</td>
+                    <td style="text-align: right;"><input id="prtx" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="oprow">
+                    <td>Sale Tax-Purchase Tax</td>
+					<td>ضريبة المبيعات-ضريبة الشراء</td>
+                    <td style="text-align: right;"><input id="s-ptax" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="grossrow">
+                    <td>Total Gross Sale</td>
+					<td> إجمالي إجمالي البيع</td>
+                    <td style="text-align: right;"><input id="salegross" disabled="true" class="amountinp"placeholder="0.00" /></td>
+                </tr>
+				<tr class="grossrow">
+                    <td>Total Grosss Purchase</td>
+					<td> إجمالي إجمالي الشراء</td>
+                    <td style="text-align: right;"><input id="purchasegross" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="grossrow">
+                    <td>Total Gross purchase-sales</td>
+					<td>إجمالي إجمالي مبيعات الشراء </td>
+                    <td style="text-align: right;"><input id="totalgross" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="salerow">
+                    <td>Payment </td>
+					<td>قسط</td>
+                    <td style="text-align: right;"><input id="payment" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="salerow">
+                    <td>Receipt</td>
+					<td>إيصال </td>
+                    <td style="text-align: right;"><input id="receipt" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="oprow">
+                    <td>Bank Balance</td>
+					<td>رصيد البنك </td>
+                    <td style="text-align: right;"><input id="totalbank" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="oprow">
+                    <td>Total Cash Balance</td>
+					<td>إجمالي الرصيد النقدي </td>
+                    <td style="text-align: right;"><input id="totalcash" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr class="oprow">
+                    <td>Transaction Balance</td>
+					<td> رصيد المعاملات</td>
+                    <td style="text-align: right;"><input id="trnbalance" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+				<tr hidden="hidden" >
+                    <td>Bank to Cash</td>
+					<td> البنك إلى النقد</td>
+                    <td style="text-align: right;"><input disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+
+
+
+                <tr hidden="hidden" >
+                    <td>Cash to Bank</td>
+					<td>النقدية إلى البنك</td>
+                    <td style="text-align: right;"><input disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+                <tr class="remainrow">
+                    <td>Customer Remaining Account</td>
+					<td> الحساب المتبقي للعميل</td>
+                    <td style="text-align: right;"><input id="c-remain" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+                <tr class="remainrow">
+                    <td>Supplier Remaining Account</td>
+					<td> الحساب المتبقي للمورد</td>
+                    <td style="text-align: right;"><input id="s-remain" disabled="true" class="amountinp"placeholder="0.00" /></td>
+                </tr>
+                <tr class="oprow">
+                    <td>Cash + Bank</td>
+					<td> نقدا + بنك</td>
+                    <td style="text-align: right;"><input id="cashbank" disabled="true" class="amountinp" placeholder="0.00" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- <div class="total">
+            Total: $505.00
+        </div> -->
+    </div>
+    <script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+    <script src="{% static 'js/summaryreport.js' %}"> </script>
+    <script>
+    window.onload = function() {
+        
+  
+        
+        getusers();
+       checkcombo();
+       checkcombo2();
+       Summary();
+};
+
+function checkcombo(){
+    let allarea=document.getElementById('allarea');
+let area=document.getElementById('area');
+let alluser=document.getElementById('alluser');
+let user=document.getElementById('user');
+    area.disabled = allarea.checked;
+    if(allarea.checked==true){
+        alluser.checked=true
+        alluser.disabled=true  
+        user.disabled=true 
+    }
+    else{
+      alluser.disabled=false  
+    }
+    
+    area.selectedIndex =0
+    user.selectedIndex=0
+}
+function checkcombo2(){
+    let allarea=document.getElementById('allarea');
+let area=document.getElementById('area');
+let alluser=document.getElementById('alluser');
+let user=document.getElementById('user');
+  if(allarea.checked==true){
+alluser.disabled=true
+user.disabled=true
+  }
+  else{
+    user.disabled=false
+    alluser.disabled=false
+    user.disabled = alluser.checked;
+    user.selectedIndex =0
+  }
+ 
+}
+function getusers(){
+ 
+    var query = document.getElementById('cmp').value;
+ 
+ var area = document.getElementById('area').value;
+ if(area==''){
+   area='HEAD OFFICE'
+ }
+
+ 
+ var usercombo = document.getElementById('user');
+usercombo.textContent=''
+ fetch(`/getusers/?query=${query}&area=${area}`)
+        .then(response => response.json())
+        .then(data => setusercombo(data.data)
+          
+          );
+
+function setusercombo(users){
+ users.forEach(user => {
+   const option = document.createElement('option');
+   
+   option.style.width='60px';
+               option.value=user.name;
+               option.text = user.name;
+               usercombo.add(option);
+ });
+   
+ 
+
+}
+
+}
+
+function printwindow(){
+    let area=document.getElementById('area').value;
+    let user=document.getElementById('user').value;
+    let company=document.getElementById('cmp').value;
+    let allarea=document.getElementById('allarea');
+    let alluser=document.getElementById('alluser');
+if(allarea.checked==true){
+     area='';
+}
+if(alluser.checked==true){
+     user='';
+}
+    let oc=document.getElementById('oc').value;
+    let ob=document.getElementById('ob').value;
+    let totalpurch=document.getElementById('totalpurchase').value;
+    let cashpurch=document.getElementById('cashpurchase').value;
+    let creditpurch=document.getElementById('creditpurchase').value;
+    let purchasereturn=document.getElementById('purchasereturn').value;
+    let totalsale=document.getElementById('totalsale').value;
+    let totcardsale=document.getElementById('totalcardamtbysale').value;
+    let totcashsale=document.getElementById('totalcashamtbysale').value;
+    let totcreditsale=document.getElementById('salescredit').value;
+    let salereturn=document.getElementById('salesreturn').value;
+    let srcash=document.getElementById('salesreturncash').value;
+    let srcredit=document.getElementById('salesreturncredit').value;
+    let paytax=document.getElementById('Paymenttx').value;
+    let saletax=document.getElementById('saletx').value;
+    let srtax=document.getElementById('srtx').value;
+    let purchasetax=document.getElementById('purchasetx').value;
+    let prtax=document.getElementById('prtx').value;
+    let sptax=document.getElementById('s-ptax').value;
+    let salegross=document.getElementById('salegross').value;
+    let purchasegross=document.getElementById('purchasegross').value;
+    let totalgross=document.getElementById('totalgross').value;
+
+    let payment=document.getElementById('payment').value;
+
+    let receipt=document.getElementById('receipt').value;
+
+    let totalbank=document.getElementById('totalbank').value;
+
+    let totalcash=document.getElementById('totalcash').value;
+
+    let trnbal=document.getElementById('trnbalance').value;
+
+    let cusremain=document.getElementById('c-remain').value;
+
+    let supremain=document.getElementById('s-remain').value;
+    let cashbank=document.getElementById('cashbank').value;
+
+    if(ob==''){
+        ob='0.00'
+    }
+    if(oc==''){
+        oc='0.00'
+    }
+
+    var printWindow = window.open('', '_blank');
+  printWindow.document.write('<html><head><title>summary Report Print</title><style> tr{height:27px}td{width:150px;text-align:center;items-align:center}</style></head><body>');
+
+  // Add table with headers
+  printWindow.document.write('<div style="items-align:center;margin-left:250px;"><h2>Summary Report-'+company+'</h2>'+area+'  '+user+'</div>')          
+  printWindow.document.write('<table style="width:100%;border-collapse: collapse; ">');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Opening Cash</th><th style="border: 1px solid black;">فتح النقدية</th><td style="border: 1px solid black;">'+oc+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Opening Bank</th><th style="border: 1px solid black;">افتتاح البنك</th><td style="border: 1px solid black;">'+ob+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;">   <th style="border: 1px solid black;">Total Purchase</th><th style="border: 1px solid black;">إجمالي الشراء</th><td style="border: 1px solid black;">'+totalpurch+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Cash Purchase</th><th style="border: 1px solid black;">شراء نقدا<</th><td style="border: 1px solid black;">'+cashpurch+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Credit Purchase</th><th style="border: 1px solid black;">ائتمان</th><td style="border: 1px solid black;">'+creditpurch+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Purchase Return</th><th style="border: 1px solid black;">عودة شراء</th><td style="border: 1px solid black;">'+purchasereturn+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Total Sale</th><th style="border: 1px solid black;">إجمالي البيع</th><td style="border: 1px solid black;">'+totalsale+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Total Cardamnt(by sale)</th><th style="border: 1px solid black;">إجمالي الهيل (بالبيع)</th><td style="border: 1px solid black;">'+totcardsale+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Total Cashamt(by sale)</th><th style="border: 1px solid black;">إجمالي الكشامت (بالبيع)</th><td style="border: 1px solid black;">'+totcashsale+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Total Card</th><th style="border: 1px solid black;">إجمالي البطاقة</th><td style="border: 1px solid black;">'+totcardsale+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Total visa/master card</th><th style="border: 1px solid black;">إجمالي التأشيرة/الماجستير.مدى</th><td style="border: 1px solid black;">00.00</td></tr>');
+
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Total cash sale</th><th style="border: 1px solid black;">إجمالي البيع النقدي</th><td style="border: 1px solid black;">'+totcashsale+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Sales Credit</th><th style="border: 1px solid black;">ائتمان المبيعات</th><td style="border: 1px solid black;">'+totcreditsale+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Sale Return</th><th style="border: 1px solid black;">عائد المبيعات</th><td style="border: 1px solid black;">'+salereturn+'</td></tr>');
+ 
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Sales Return(Cash)</th><th style="border: 1px solid black;">عائد المبيعات (نقداً)</th><td style="border: 1px solid black;">'+srcash+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Sales Return(Credit)</th><th style="border: 1px solid black;"> عائد المبيعات (الائتمان)</th><td style="border: 1px solid black;">'+srcredit+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Payment Tax</th><th style="border: 1px solid black;">ضريبة الدفع </th><td style="border: 1px solid black;">'+paytax+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Total Sale Tax</th><th style="border: 1px solid black;">إجمالي ضريبة المبيعات </th><td style="border: 1px solid black;">'+saletax+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Total SaleReturn Tax</th><th style="border: 1px solid black;">إجمالي ضريبة المبيعات والعائدات </th><td style="border: 1px solid black;">'+srtax+'</td></tr>');
+
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Total Purchase Tax</th><th style="border: 1px solid black;"> إجمالي ضريبة الشراء</th><td style="border: 1px solid black;">'+purchasetax+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Total PurchaseReturn Tax</th><th style="border: 1px solid black;">إجمالي ضريبة إرجاع المشتريات </th><td style="border: 1px solid black;">'+prtax+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Sale Tax-Purchase Tax</th><th style="border: 1px solid black;">ضريبة المبيعات-ضريبة الشراء </th><td style="border: 1px solid black;">'+sptax+'</td></tr>');
+ 
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Total Gross Sale</th><th style="border: 1px solid black;">إجمالي إجمالي البيع </th><td style="border: 1px solid black;">'+salegross+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Total Gross Purchase</th><th style="border: 1px solid black;">إجمالي إجمالي الشراء </th><td style="border: 1px solid black;">'+purchasegross+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Total Gross Purchase-sales </th><th style="border: 1px solid black;">إجمالي إجمالي مبيعات الشراء  </th><td style="border: 1px solid black;">'+totalgross+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Payment</th><th style="border: 1px solid black;">قسط </th><td style="border: 1px solid black;">'+payment+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Receipt</th><th style="border: 1px solid black;">إيصال </th><td style="border: 1px solid black;">'+receipt+'</td></tr>');
+
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Bank Balance</th><th style="border: 1px solid black;">رصيد البنك  </th><td style="border: 1px solid black;">'+totalbank+'</td></tr>');
+
+  printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Total Cash Balance</th><th style="border: 1px solid black;">إجمالي الرصيد النقدي </th><td style="border: 1px solid black;">'+totalcash+'</td></tr>');
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Transaction Balance</th><th style="border: 1px solid black;">رصيد المعاملات </th><td style="border: 1px solid black;">'+trnbal+'</td></tr>');
+
+//   printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Bank to Cash</th><th style="border: 1px solid black;"> البنك إلى النقد</th><td style="border: 1px solid black;">Rate</td></tr>');
+
+// printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Cash to Bank</th><th style="border: 1px solid black;"> النقدية إلى البنك</th><td style="border: 1px solid black;">Rate</td></tr>');
+
+
+  printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Customer Remaining Account</th><th style="border: 1px solid black;">الحساب المتبقي للعميل </th><td style="border: 1px solid black;">'+cusremain+'</td></tr>');
+
+printWindow.document.write('<tr style="border-collapse: collapse;border: 1px solid black;"><th style="border: 1px solid black;">Supplier Remaining Account</th><th style="border: 1px solid black;">الحساب المتبقي للمورد </th><td style="border: 1px solid black;">'+supremain+'</td></tr>');
+
+printWindow.document.write('<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Cash+Bank</th><th style="border: 1px solid black;"> نقدا + بنك</th><td style="border: 1px solid black;">'+cashbank+'</td></tr>');
+
+
+
+  printWindow.document.write('</table>');
+  printWindow.document.write('</body></html>');
+  if ('serviceWorker' in navigator) {
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+          printWindow.print()
+        } else if (window.navigator.standalone) {
+            printWindow.print();
+           
+        } else {
+            printWindow.onafterprint = function() {
+        printWindow.close();  // Close the window after print
+      };
+      printWindow.print()
+        }
+    } else {
+        alert('This is a website, not a PWA.');
+    }
+}
+    </script>
+    {% endblock %}
+{% block includejs %}
+	{% endblock %}
+</body>
+</html>

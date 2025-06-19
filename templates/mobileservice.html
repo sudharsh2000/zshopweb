@@ -1,0 +1,439 @@
+
+{% extends 'navbar.html' %}
+
+{% load static %}
+
+<!doctype html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{% block content %}
+	<style>
+		.cusaddbtn{
+			width: 30px;
+			height: 30px;
+			border-radius: 5px;
+			background-color: rgb(50, 137, 50);
+			box-shadow: 2px 2px rgb(59, 190, 59);
+			color: rgb(246, 235, 235);
+			outline: none;
+			border: none;
+		}
+        .chkall{
+			min-width: 30px;height:25px;
+			
+		}
+		.payment-td{
+			width:180px;height:30px;border-radius:5px;  text-align: center;
+			
+		}
+.btnsav{
+	margin-left:550px;margin-bottom: 30px;background-color: green;
+	text-align: center;color: white;height: 35px;border-radius: 10px;
+}
+		.form-check-input{
+			margin-top: 30px;
+			margin-left: 10px;
+			
+		}
+		.btnmobile{
+			display: none;
+		}
+	@media only screen and (max-width: 600px) {
+		.btndesktop{
+			display: none;
+		}
+		.btnmobile{
+			display: block;
+		}
+		.btnsav{
+	margin-left:50px;margin-bottom: 60px;background-color: green;
+	text-align: center;color: white;height: 35px;border-radius: 10px;
+}
+		.form-check-input{
+			margin-left: 40px;margin-top: 10px;
+		}
+		.form-input-td{
+			width: 10px;
+		}
+		.payment-td{
+			width:60px;height:30px;border-radius:5px;  text-align: center;
+		}
+		.form-control{
+			height: 25px;
+			font-size: 14px;
+			padding: 0px;
+			max-width: 110px;
+			
+		}
+		.btn{
+			height: 35px;
+			
+		}
+	
+		}
+		  </style>
+</head>
+
+
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+<!--<link rel="stylesheet" href="{% static 'js/main.css' %}">-->
+<!-- <link href="{% static 'css/searchcss.css' %}" rel="stylesheet" />-->
+<!-- <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" /> -->
+<link href="{% static 'css/popup.css' %}" rel="stylesheet" />
+<link href="{% static 'css/itempopup.css' %}" rel="stylesheet" />
+<body style=" height:100%;margin-left:00px;" onload="Loaddata()">
+<form  id="invoice-form"  method="post"   >
+
+	<table class="table table-bordered">
+		<thead>
+			<tr style="text-align:center;font-size: 20px;">
+				<th class="table-active" scope="col" colspan="4" style="color: rgb(103, 24, 45);">Service</th>
+				<input id="hvtype" value="SS" hidden="hidden"/>
+			</tr>
+		</thead>
+
+		<tbody class="two-col-form">
+			<tr>
+				<th scope="row">Voucher Number</th>
+				<td  >
+				
+
+					<input name="invoice-number" style="width:80px;" id="vno"   type="number" class="form-control" placeholder="Invoice Number" value="{{vno}}" >  
+					
+				
+					<a  onclick="previousdata()" style="margin-top:10px;" class="btn btn-primary" ><</a> <a  onclick="nextdata()" style="margin-top:10px;" class="btn btn-primary" >></a>
+					<a  onclick="jumpdata()" style="margin-left:20px;margin-top:10px;" class="btn btn-primary" >Jump</a>
+				</td>
+				<th scope="row">Date</th>
+				<td class="form-input-td"><input name="date" id="sdate" value="{{date}}" min="2023-01-01" type="datetime-local"  class="form-control"  >
+				<label style="margin-left: 0px;margin-top: 25px;font-weight: bold;" > Print</label>	<input  class="form-check-input"   type="checkbox" id="printssave" onclick="thermalprintchange('printssave')">
+
+				</td>
+		
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-bordered">
+	
+
+		<tbody class="two-col-form">
+			<tr>
+				<td scope="row">Battery</td>
+				<td class="form-input-td" style="">
+
+					<input  class="chkall"   type="checkbox" name="battery" id="btry" >
+				</td>
+                <td >Face Cover</td>
+				<td class="form-input-td" >
+
+					<input  class="chkall"   type="checkbox" name="facecover" value="" id="fcid" >
+				</td>
+				<td scope="row" id="ltype">Customer Name</td>
+				<td class="form-input-td"><input  name="customer" type="text" class="form-control" style="min-width: 120px;"  id="searchInput" oninput="searchCustomer()"placeholder="Customer " >
+					<button type="button" onclick="addcustomer()" class="cusaddbtn">+</button>
+				</td>
+				<input type="text" id="customerid" name="customerid" hidden="hidden" />
+    <div class="overlay" id="overlay">
+    <div class="popup">
+
+      <ul id="searchResults" onclick="closePopup()" style=" list-style-type: none; "></ul>
+    </div>
+  </div>
+			</tr>
+			<tr>
+				<td scope="row">Back Cover </td>
+				<td class="form-input-td">
+					<input  class="chkall" id="bcid"   type="checkbox" name="backcover" onclick="">
+				</td>
+                <td scope="row">Memory Card </td>
+				<td class="form-input-td">
+                    <input  class="chkall" id="mmcid" name="mmc"  type="checkbox"  onclick="">
+				</td>
+				<td scope="row">Contact</td>
+				<td class="form-input-td"><input autocomplete="off"  name="mobile" type="text" class="form-control" id="mobile" placeholder="mobile number" maxlength="10"></td>
+				<td ><input  name="previous" type="text" class="form-control" id="previous" value="no" hidden="hidden"></td>
+
+			</tr>
+            <tr>
+				<td scope="row">Simcard </td>
+				<td class="form-input-td">
+					<input  class="chkall"   type="checkbox" name="sim" id="sim" onclick="">
+				</td>
+                <td scope="row">charger </td>
+				<td class="form-input-td">
+					<input  class="chkall"   type="checkbox" name="charger" id="charger" onclick="">
+				</td>
+				<td scope="row">Approximate delivary date </td>
+				
+                    <td class="form-input-td"><input name="apdate" id="apdate"  value="{{date}}" min="2023-01-01" type="date"  class="form-control"  >
+
+				
+			</tr>
+
+		</tbody>
+	</table>
+
+
+
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th class="table-active" scope="col" colspan="6">Problems to be solve</th>
+			</tr>
+		</thead>
+
+		<tbody class="two-col-form">
+			<tr>
+				<td scope="row">No Signal</td>
+				<td class="form-input-td" style="">
+
+					<input  class="chkall"   type="checkbox" id="ns" name="nsignal" onclick="">
+				</td>
+                <td >Memory Not Working</td>
+				<td class="form-input-td" style="">
+
+					<input  class="chkall"   type="checkbox" id="mnw" name="mnwork" onclick="">
+				</td>
+				<td >Sim card Not Working</td>
+				<td class="form-input-td" style="">
+
+					<input  class="chkall"   type="checkbox" id="snw" name="snwork" onclick="">
+				</td>
+				</input>
+			</td>
+				
+  
+			</tr>
+			<tr>
+				<td scope="row">No Charging</td>
+				<td class="form-input-td">
+					<input  class="chkall"   type="checkbox" id="nc" name="ncharg" onclick="">
+				</td>
+                <td scope="row">Camer Not Working</td>
+				<td class="form-input-td">
+                    <input  class="chkall"   type="checkbox" id="cnw" name="cnwork" onclick="">
+				</td>
+				<td >Keypad Not Working</td>
+				<td class="form-input-td" style="">
+
+					<input  class="chkall"   type="checkbox" id="knw" name="knwork" onclick="">
+				</td>
+			</tr>
+            <tr>
+				<td scope="row">No Power</td>
+				<td class="form-input-td">
+					<input  class="chkall"   type="checkbox" id="np" name="npower" onclick="">
+				</td>
+                <td scope="row">Flash Not Working </td>
+				<td class="form-input-td">
+					<input  class="chkall"   type="checkbox" id="fnw" name="fnwork" onclick="">
+				</td>
+				<td >LCD Problem</td>
+				<td class="form-input-td" style="">
+
+					<input  class="chkall"   type="checkbox" id="lcd" name="lcd" onclick="">
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+
+
+
+
+	<div class="table-responsive">
+		<table class="table table-bordered" id="invoice-form-items-table">
+			<thead>
+				<tr>
+					<th class="table-active" scope="col" colspan="13">Items</th>
+				</tr>
+				<tr>
+					<th scope="col">Sl No.</th>
+					<th scope="col">Barcode</th>
+					<th scope="col">Itemcode</th>
+					<th scope="col">Item name</th>
+					<th scope="col">Second Language</th>
+					<th scope="col">Qty</th>
+					<th scope="col">Srate</th>
+					<th scope="col">Amount</th>
+					<th scope="col">Tax</th>
+					<th scope="col">Total amount</th>
+				</tr>
+			</thead>
+			<tbody id="invoice-form-items-table-body">
+				<tr>
+					<td class="">1</td>
+					<td class="form-input-td"><input name="barcode" style="width:150px;" id="barcode1" type="text" class="form-control" onblur="getbarcodeitem(1)" onclick="getrow(1,event)" oninput="search(1);getrow(1,event)" onkeydown="handleKeyDown(event,1);getrow(1,event)" placeholder="Barcode"></td>
+					<td class="form-input-td"><input name="itemcode" style="width:150px;" id="itemcode1" type="text" class="form-control" onclick="getrow(1,event)" placeholder="Itemcode" readonly></td>
+					<td class="form-input-td"><input name="itemname" style="width:350px;" id="itemname1" class="form-control" type="text" onclick="getrow(1,event)" placeholder="Itemname" readonly></td>
+					<td class="form-input-td"><input name="ilang" id="ilang1" style="width:150px;" type="text" class="form-control" onclick="getrow(1,event)" placeholder="Second lang" readonly></td>
+					<td class="form-input-td"><input type="number" name="qty" style="width:100px;" class="form-control" id="qty1" placeholder="0.00" oninput="calculateTotal(1)" onclick="getrow(1,event)" onkeydown="qtykeydown(event,1)" required></td>
+					<td class="form-input-td"><input type="number" name="srate" id="srate1" style="width:100px;" placeholder="0.00" oninput="calculateTotal(1)" class="form-control" onclick="getrow(1,event)" onkeydown="nextrowkey(event,1)" required></td>
+					<td class="form-input-td"><input type="text" name="amt" style="width:100px;" class="form-control" placeholder="0.00" id="total1" onclick="getrow(1,event)" readonly></td>
+					<td class="form-input-td"><input type="text" name="tax" style="width:100px;" id="tax1" placeholder="0.00" class="form-control" oninput="calculateTotal(1)" onclick="getrow(1,event)" required></td>
+					<td><input type="text" name="netamt" style="width:100px;" id="net-amt1" class="form-control" placeholder="0.00" readonly></td>
+					<td><input type="text" name="itemid" style="width:100px;" id="itemid1" hidden="true" class="form-control"></td>
+					<td><input type="text" name="vat" style="width:100px;" id="vat1" hidden="true" class="form-control"></td>
+					<td><input type="text" name="validate" style="width:100px;" id="validate1" hidden="true" class="form-control"></td>
+			
+				</tr>
+				<input id="cmp" hidden="hidden" value="{{user}}"/>
+				<input name="cmp" id="area" value="{{area}}" hidden="hidden"/>
+                <input name="cmp" id="user" value="{{cuser}}" hidden="hidden"/>
+				<input name="type" id="type" value="{{type}}" hidden="hidden"/>
+            <input name="prevno" id="prevno" value="{{prevno}}" hidden="hidden"/>
+				<!-- Other table rows here -->
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="13" style="text-align: right;">
+						<tr>
+                            <td >Password</td>
+                            <td class=""><input  name="pass" id="pass" type="text" class="form-control" style="min-width: 120px;" placeholder="password " >
+                            </td>
+							<td  colspan="8" class="" style="text-align:right; border: 0px solid;  vertical-align: middle;"><strong>Gross Amount</strong> <input placeholder="0.00"  style="font-size: 22px;color: rgb(44, 158, 162); border: 0px solid;  margin-left:30px;width:150px;border-radius:10px;height:35px;text-align:center" name="totalgross"  id="amttotal" readonly/></td>
+                           
+            
+				</tr>
+                <td scope="row" id="ltype">IMEI No</td>
+				<td class="form-input-td"><input  name="imei" id="imei" type="text" class="form-control" style="min-width: 120px;"  placeholder="IMEI number " >
+				
+
+					<td  colspan="8" class="" style="text-align:right;  vertical-align: middle;"><strong>Net Amount</strong> <input placeholder="0.00"  name="totalnet" style="font-size: 22px;color: rgb(44, 158, 162);border: 0px solid; margin-left:50px;width:150px;border-radius:10px;height:35px;text-align:center" id="nettotal" readonly/>
+						<strong style="margin-left:30px;">Tax</strong><input placeholder="0.00"  style="border: 0px solid; margin-left:50px;width:150px;border-radius:10px;height:35px;text-align:center;font-size: 22px;color: rgb(44, 158, 162);" name="totaltax"  id="taxamt" readonly/></td>
+		
+		
+				</tr>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	
+
+	<div class="overlay2" id="overlay2">
+	<div class="popup2">
+		<div class="row" style=" clear: both; display: table;width:1120px;background-color:#ffffcc;margin-bottom:20px; ">
+				<div class="column" style="width: 20%;  float: left;">Itemname</div>
+		  <div class="column" style="width: 10%;  float: left;">Barcode</div>
+			 <div class="column" style="width: 15%;  float: left;">Itemcode</div>
+		  <div class="column" style="width: 20%;  float: left;">Second language</div>
+		  <div class="column" style="width: 15%;  float: left;">Prate</div>
+			  <div class="column" style="width: 15%;  float: left;">Srate</div>
+			</div>
+		
+			<ul id="itemresults"  style="height: 100%; list-style-type: none;"></ul>
+		
+		
+			</div>
+			</div>
+	{% csrf_token %}
+<!--	<a href="searchitem"><p class="btn btn-primary">+</p></a>-->
+<div class="container mb-5 mt-5">
+	<div class="row justify-content-center">
+		<div class="col-auto">
+			<button id="subtmit" onclick="SAvefn()" class="btn btn-primary" type="button" style="background-color: green;">Save (F5)</button>
+		</div>
+		<div class="col-auto">
+			<a onclick="deleterow()" class="btn btn-primary" type="button" style="background-color: rgb(206, 19, 19);">Delete</a>
+		</div>
+		<div class="col-auto">
+			<a onclick="closewindow()" class="btn btn-primary" type="button">Close</a>
+		</div>
+		<div class="col-auto">
+			<div class="btndesktop">
+				<a onclick="additem()" class="btn btn-primary" style="border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+
+			</div>
+			<div class="btnmobile">
+				<a onclick="addRow()" class="btn btn-primary" style="border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- <button id="subtmit" type="button" onclick="SAvefn()" class="btn btn-primary" style="margin-left:50px;margin-bottom: 30px;background-color: green;">Save(F5)</button>
+
+<a  onclick="deleterow()"  class="btn btn-primary"  style="margin-left:40px;margin-bottom:30px;background-color: rgb(206, 19, 19);">Delete</a>
+<a  onclick="closewindow()"  class="btn btn-primary" style="margin-left:40px;margin-bottom:30px">Close</a>
+<a  onclick="additem()"  class="btn btn-primary" style="margin-left:40px;margin-bottom:30px;border-radius: 15px; background-color: rgb(25, 125, 115);">+</a>
+ -->
+
+
+</form>
+
+
+</body>
+
+<script>
+	function addcustomer(){
+window.open('/cus/?comp={{user}}&user={{cuser}}&area={{area}}')
+}
+function thermalprintchange(printval){
+
+
+
+}
+function additem(){
+	
+	
+	let company=document.getElementById('cmp').value;
+	const area=document.getElementById('area').value
+    const user=document.getElementById('user').value
+	window.location.href ='/service/?comp='+company+'&area='+area+'&user='+user+'';
+}
+function addcus(){
+	let company=document.getElementById('cmp').value;
+	const area=document.getElementById('area').value
+    const user=document.getElementById('user').value
+	window.location.href ='/cus/?comp='+company+'&area='+area+'&user='+user+'';
+}
+function closewindow(){
+	let company=document.getElementById('cmp').value;
+	const area=document.getElementById('area').value
+    const user=document.getElementById('user').value
+	if(type=='report'){
+window.close();
+	}else{
+		window.location.href ='/home/?comp='+company+'&area='+area+'&user='+user+'';
+
+	}
+	
+}
+// 	 var qrcode = new QRCode(document.getElementById("qrcode"), {
+//       text: "https://www.example.com",
+//       width: 128,
+//       height: 128
+//   });
+</script>
+<!--   <input type="text" id="dataname" oninput="searchitem()" >-->
+
+<!--<script src="{% static 'js/fuse-3.4.6.min.js' %}"></script>-->
+<script src="{% static 'js/customersearchservice.js' %}"></script>
+
+<script src="{% static 'js/additemrowservice.js' %}"></script>
+
+<script src="{% static 'js/main.js' %}"></script>
+
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{% endblock %}
+{% block includejs %}
+	{% endblock %}
+
+</div>
+
+<div id="customer_search_bar"></div>
+<div id="product_search_bar"></div>
+
+
+
+
+
+
+<!-- -->
+
+
+

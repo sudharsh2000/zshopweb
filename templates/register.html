@@ -1,0 +1,35 @@
+{% load static %}
+<html>
+<head>
+
+
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/reg.css' %}">
+</head>
+<body>
+<div class="testbox">
+  <h1>Registration</h1>
+
+  <form action="itemadd" method="post">
+{% csrf_token %}
+
+  <hr>
+  <label id="icon" for="name"><i class="icon-envelope "></i></label>
+  <input type="text" id="name" name="mail" placeholder="Email" required/>
+  <label id="icon" for="name"><i class="icon-user"></i></label>
+  <input type="text" id="name" name="name" placeholder="Name" required/>
+  <label id="icon" for="name"><i class="icon-shield"></i></label>
+  <input type="password"  id="name" name="password" placeholder="Password" required/>
+ <label id="icon" for="name"><i class="icon-shield"></i></label>
+  <input type="text"  id="name" name="cpassword" placeholder="Re-enter Password" required/>
+   <p>By clicking Register, you agree on our <a href="#">terms and condition</a>.</p>
+    <br>
+   <input type="submit" value="itemadd" class="abc" />
+{% for i in messages %}
+      <a>{{i}}</a>
+      {% endfor %}
+  </form>
+</div>
+</body>
+</html>
