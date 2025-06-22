@@ -5,7 +5,8 @@ set -o errexit
 pip install -r requirements.txt
 
 # Collect static files
-python manage.py collectstatic --no-input --clear
+python manage.py collectstatic --no-input --dry-run
+
 
 # Apply database migrations
 python manage.py migrate
