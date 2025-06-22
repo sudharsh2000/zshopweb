@@ -7,6 +7,8 @@ django-countries==7.6.1
 django-pwa==2.0.1
 django-requests==0.0.2
 googletrans==4.0.2
+whitenoise==6.6.0
+
 gunicorn==23.0.0
 h11==0.16.0
 h2==4.2.0
