@@ -27,6 +27,16 @@ from django.db.models import Max, IntegerField, F
 from django.core.paginator import Paginator,EmptyPage,InvalidPage
 from zshopapp.views import deletesales
 
+def apifetch(request):
+     return JsonResponse([{
+          'name':"sudharsh",
+          'age':24,
+          'job':"computer Engineer"
+     },{
+       'name':"anagha",
+          'age':22,
+          'job':"Psc Coaching"   
+     }],safe=False)
 
 @login_required(login_url='login')  
 def summaryreport(request):

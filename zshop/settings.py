@@ -88,13 +88,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'zshop',
-        'USER': 'postgreszshop',
-        'PASSWORD': 'fOiHxgc33rWYAVleHoYPjS03LDWRGGGp',
-        'HOST': 'dpg-d1bt1995pdvs73e7am30-a',
-        'PORT': '5432',
+        'USER': 'postgres',
+        'PASSWORD': '123',
+        'HOST': 'localhost',
+        'PORT': '5432'
+      
     }
 }
-
 
 
 # Password validation
@@ -126,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]
-STATIC_ROOT=os.path.join(BASE_DIR,'staticfiles')
+STATIC_ROOT=os.path.join(BASE_DIR,'assets')
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 # Default primary key field type

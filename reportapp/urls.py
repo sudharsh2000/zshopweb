@@ -20,7 +20,7 @@ from django.urls import path
 from reportapp import views
 
 urlpatterns = [
-
+path('apifetch',views.apifetch, name='apifetch'),
 path('summaryrep',views.summaryreport, name='summaryreport'),
 path('salerep',views.salereport, name='salerep'),
 path('purchaserep',views.purchasereport, name='purchaserep'),
